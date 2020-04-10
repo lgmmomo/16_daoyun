@@ -1,0 +1,192 @@
+
+<div style="margin-top:30px;">
+    <nz-row>
+        <nz-col nzSpan="8">
+            <div style="margin-left:10px">
+                <button nz-button nzType = "primary" (click)="showModal()">
+                    <i class="fa fa-plus"></i>     
+                    创建
+                 </button>
+                 <nz-modal [(nzVisible)]="isVisible" nzTitle="创建角色" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+                      <!-- <p>Content one</p>
+                      <p>Content two</p>
+                      <p>Content three</p> -->
+                      <form nz-form (ngSubmit)="submitForm()">
+                          <nz-form-item>
+                              <!--角色名称-->
+                              <nz-form-label nzRequired [nzSpan]="6">角色名称</nz-form-label>
+                              <nz-form-control [nzSpan]="14">
+                                  <input type="text" nz-input  [(ngModel)]="Role_name" placeholder="请输入角色名称" name = "name">
+                              </nz-form-control>
+                          </nz-form-item>
+                          <nz-form-item>
+                              <!--描述-->
+                              <nz-form-label  [nzSpan]="6" >描述</nz-form-label>
+                              <nz-form-control [nzSpan]="14">
+                                  <input type="text" nz-input  [(ngModel)]="Role_description" placeholder="请输入角色描述" name = "description">
+                              </nz-form-control>
+                          </nz-form-item>
+                          <nz-form-item>
+                              <!--状态-->
+                              <nz-form-label nzRequired [nzSpan]="6">状态</nz-form-label>
+                              <nz-form-control [nzSpan]="14">                   
+                                  <nz-radio-group [(ngModel)]="Role_statue" nzName="radiogroup" name = "statue">
+                                          <label nz-radio nzValue="1">启用</label>
+                                          <label nz-radio nzValue="0">禁用</label>
+                                  </nz-radio-group>
+                              </nz-form-control>
+                              <!--https://www.jianshu.com/p/b1d69c3fc530
+                              https://www.2cto.com/kf/201802/722022.html-->
+                          </nz-form-item>
+                          <nz-form-item>
+                              <nz-form-label nzRequired [nzSpan]="6"> 用户权限
+                                    <div  nz-checkbox [(ngModel)]="allChecked" (ngModelChange)="updateAllChecked()" [nzIndeterminate]="indeterminate" name = "allChecked"></div>
+                              </nz-form-label>
+                              <nz-form-control [nzSpan]="16">    
+                                  <nz-checkbox-group [(ngModel)]="checkOptionsOne" name="auth"></nz-checkbox-group>
+                              </nz-form-control>
+
+                        </nz-form-item>
+                      </form>
+                  </nz-modal>
+            </div>
+            <!-- <div style="float: right">
+                <nz-upload>
+                    <button nz-button nzType = "primary"><i nz-icon type="upload"></i>
+                        导入名单
+                    </button>
+                </nz-upload>
+            </div> -->
+        </nz-col>
+        <nz-col nzSpan="8" nzOffset="8">
+            <div style="width:60%;margin-left: 40%">
+                    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                            <input type="text" nz-input placeholder="输入角色名称" name="seach" [(ngModel)] = "searchRolebyNumber"/>
+                    </nz-input-group>  
+                    <ng-template #suffixIconButton>
+                            <button nz-button nzType="primary" nzSearch (click)="SearchRole()"><i nz-icon type="search" ></i></button>
+                    </ng-template>
+            </div>
+        </nz-col>
+    </nz-row><!-- [nzData]="dataSet"  -->、
+    <nz-divider></nz-divider>
+    <div style="margin-top:20px">
+            <nz-table
+                #basicTable
+                [nzShowQuickJumper] = true
+                [nzTotal] = "total"
+                [nzData]="listOfAllData"
+                (nzCurrentPageDataChange)="currentPageDataChange($event)"
+            > 
+                    <thead > 
+                        <tr>
+                            <th
+                                nzShowCheckbox
+                                [(nzChecked)]="isAllDisplayDataChecked"
+                                [nzIndeterminate]="isIndeterminate"
+                                (nzCheckedChange)="checkAll($event)"
+                            ></th>
+                            <!-- <th nzShowSort nzSortKey="name" style="text-align:center"><strong>id</strong></th> -->
+                            <!-- <th nzShowCheckbox [(nzChecked)]="isAllDisplayDataChecked" [nzIndeterminate]="isIndeterminate" (nzCheckedChange)="checkAll($event)"></th> -->
+                            <th style="text-align:center"><strong>角色名称</strong></th>
+                            <th style="text-align:center"><strong>角色描述</strong></th>
+                            <!-- <th style="text-align:center"><strong>密码</strong></th> -->
+                            <th style="text-align:center"><strong>角色权限</strong></th>
+                            <th style="text-align:center"><strong>状态</strong></th>
+                            <!-- <th style="text-align:center"><strong>角色</strong></th> -->
+                            <th style="text-align:center"><strong>操作</strong></th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of basicTable.data">
+                            <!-- <td>{{data.id}}</td> -->
+                            <!-- <td nzShowCheckbox [(nzChecked)]="mapOfCheckedId[data.id]" [nzDisabled]="data.disabled" (nzCheckedChange)="refreshStatus()" ></td> -->
+                            <td
+                                nzShowCheckbox
+                                [(nzChecked)]="mapOfCheckedId[data.Roleid]"
+                                [nzDisabled]="data.disabled"
+                                (nzCheckedChange)="refreshStatus()"
+                            ></td>
+                            <td style="text-align:center">{{data.Rolename}}</td>
+                            <td style="text-align:center">{{data.Roledescribe}}</td>
+                            <td style="text-align:center">{{data.rights}}</td>
+                            <td style="text-align:center">{{data.statue}}</td>
+                            <td style="text-align:center">
+                              <!-- <a>Action 一 {{data.name}}</a>
+                              <nz-divider nzType="vertical"></nz-divider>
+                              <a>Delete</a> -->
+                              <a>
+                                  <button nz-button nzType = "primary" nzGhost nzType = "primary" (click)="EditRoleDetail(data)"><i class="fa fa-edit"></i></button>
+                                  <!--https://www.jianshu.com/p/49e6c56e0c85-->
+                              </a>
+                              <nz-divider nzType="vertical"></nz-divider>
+                              <a>
+                                  <button nz-button nzType = "danger" nzGhost  (click) = "deleteRole(data)"><i class="fa fa-close"></i></button>
+                              </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+    </div>
+    <!-- <div style="margin-top:20px;text-align: center" >
+        <nz-pagination [nzPageIndex]="1" [nzTotal]="100"></nz-pagination>
+    </div> -->
+    <nz-drawer
+      [nzClosable]="false"
+      [nzWidth]="360"
+      [nzVisible]="edit_visible"
+      nzTitle="编辑角色信息"
+      (nzOnClose)="EditRoleclose()"
+    >
+    <form nz-form>
+        <nz-form-item>
+            <!--角色名称-->
+            <nz-form-label nzRequired [nzSpan]="6">角色名称</nz-form-label>
+            <nz-form-control [nzSpan]="14">
+                <input type="text" nz-input  [(ngModel)]="edit_name" name = "name" disabled="disabled"/>
+            </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+            <!--描述-->
+            <nz-form-label  [nzSpan]="6" >描述</nz-form-label>
+            <nz-form-control [nzSpan]="14">
+                <input type="text" nz-input  [(ngModel)]="edit_description"  name = "description"/>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <!--状态-->
+            <nz-form-label nzRequired [nzSpan]="6">状态</nz-form-label>
+            <nz-form-control [nzSpan]="14">                   
+                <nz-radio-group [(ngModel)]="edit_statue" nzName="radiogroup" name = "statue">
+                        <label nz-radio nzValue="1">启用</label>
+                        <label nz-radio nzValue="0">禁用</label>
+                </nz-radio-group>
+            </nz-form-control>
+            <!--https://www.jianshu.com/p/b1d69c3fc530
+            https://www.2cto.com/kf/201802/722022.html-->
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label nzRequired [nzSpan]="6">用户权限
+                <div  nz-checkbox [(ngModel)]="allChecked" (ngModelChange)="updateAllChecked()" [nzIndeterminate]="indeterminate" name = "allChecked"></div>
+            </nz-form-label>
+            <nz-form-control [nzSpan]="18"> 
+                <nz-checkbox-group [(ngModel)]="checkOptionsTwo" name="auth"></nz-checkbox-group>   
+            </nz-form-control>
+        </nz-form-item>
+    </form>
+    <div class="footer">
+      <button type="button" (click)="EditRoleclose()" class="ant-btn" style="margin-right: 8px;"><span>Cancel</span></button>
+      <button type="button" (click)="Role_updata()" [disabled]="" class="ant-btn ant-btn-primary"><span>Submit</span></button>
+      </div>
+  
+    </nz-drawer>
+   
+          
+  </div>
+
+
+
+
+
+
+
