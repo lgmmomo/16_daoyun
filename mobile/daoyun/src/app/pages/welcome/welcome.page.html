@@ -1,0 +1,36 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button color="primary" [hidden]="!showSkip" (click)="onSkip()">跳过</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content style="background-color: white;">
+  <ion-slides #slides pager="true" (ionSlideWillChange)="onSlideWillChange($event)">
+    <ion-slide>
+      <img src="/assets/img/welcome/s1.png" alt="">
+    </ion-slide>
+    <ion-slide>
+      <img src="/assets/img/welcome/s2.png" alt="">
+    </ion-slide>
+    <ion-slide>
+       <ion-grid>
+          <ion-row>
+            <ion-col>
+              <img src="/assets/img/welcome/s3.png">
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-button color="primary" fill="outline" expand="block" href="login-in">登录</ion-button>
+            </ion-col>
+            <ion-col>
+              <ion-button color="primary" fill="outline" expand="block" href="sign-up">注册</ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+    </ion-slide>
+  </ion-slides>
+</ion-content>
+
