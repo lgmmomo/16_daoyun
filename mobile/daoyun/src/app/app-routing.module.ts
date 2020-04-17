@@ -6,7 +6,7 @@ import { StartAppGuard } from './core/start-app.guard';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login-in',
+    redirectTo: 'welcome',
     pathMatch: 'full'
   },
   {
@@ -65,7 +65,16 @@ const routes: Routes = [
   {
     path: 'forget-password',
     loadChildren: () => import('./pages/login/forget-password/forget-password.module').then( m => m.ForgetPasswordPageModule)
+  },
+  {
+    path: 'about-us',
+    loadChildren: () => import('./pages/me/about-us/about-us.module').then( m => m.AboutUsPageModule)
+  },
+  {
+    path: 'edit-information',
+    loadChildren: () => import('./pages/me/edit-information/edit-information.module').then( m => m.EditInformationPageModule)
   }
+
 ];
 @NgModule({
   imports: [

@@ -1,17 +1,47 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Tab 3
+      我的
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 3</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content no-padding style="background-color: gainsboro">
+  <ion-list>
+    <ion-item style="margin-top: 20px;"  no-lines="">
+      <ion-avatar item-start="">
+        <img src="assets/img/me/u1.png">
+      </ion-avatar>
+      <ion-label>
+        <h3>{{name}}</h3>
+        <p>{{id}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
 
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+  <ion-list inset="true">
+    <ion-item detail href="/set-information">
+      <ion-label>个人信息编辑</ion-label>
+    </ion-item>
+    <ion-item detail href="/forget-password">
+      <ion-label>修改密码</ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-list inset="true">
+    <ion-item detail href="/about-us">
+      <ion-label>关于我们</ion-label>
+    </ion-item>
+    <ion-item detail (click)="checkUpdate()">
+      <ion-label>版本号: {{version}}</ion-label>
+      <ion-note slot="end">检测更新</ion-note>
+    </ion-item>
+  </ion-list>
+
+  <ion-list inset="true">
+    <ion-item detail (click)="onLogout()">
+      <ion-label>安全退出</ion-label>
+    </ion-item>
+  </ion-list>
+
 </ion-content>

@@ -6,6 +6,7 @@ export class Register {
     email: string;
     code: string;
     school: string;
+    major: string;
     class: string;
     identity: string;
     userNo: string;

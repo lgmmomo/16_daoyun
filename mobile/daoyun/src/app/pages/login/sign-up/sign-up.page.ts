@@ -32,6 +32,7 @@ export class SignUpPage implements OnInit {
     email: '',
     name:'',//真实姓名
     school: '',//学校
+    major:'',//专业
     class: '', //班级(先手动输入，后面有需求再改成下拉框)
     identity:'',//学生、老师
     userNo: '', //学号、工号
@@ -135,6 +136,7 @@ export class SignUpPage implements OnInit {
     userInfo['email'] = this.signup.email
     userInfo['name'] = this.signup.name
     userInfo['school'] = this.signup.school
+    userInfo['major'] = this.signup.major
     userInfo['class'] = this.signup.class
     userInfo['identity'] = this.signup.identity
     userInfo['userNo'] = this.signup.userNo

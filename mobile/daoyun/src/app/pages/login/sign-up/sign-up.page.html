@@ -209,23 +209,44 @@
         </ion-text>
 
           <ion-input
-            name="userID" 
+            name="userNo" 
             slot="start"
             placeholder="请输入学号或工号"
             required
             maxlength="20"
-            [(ngModel)]="signup.userID"
-            #userID="ngModel"
+            [(ngModel)]="signup.userNo"
+            #userNo="ngModel"
             class="margintop fillet-boder"
           ></ion-input>
           <ion-text
             class="ion-text-left"
             color="danger"
-            *ngIf="(userID.invalid && userID.touched) || signup.submited">
+            *ngIf="(userNo.invalid && userNo.touched) || signup.submited">
             <p
               class="tips ion-padding-start"
-              [hidden]="!userID.errors?.required">
+              [hidden]="!userNo.errors?.required">
               请输入学号或工号
+            </p>
+          </ion-text>
+
+          <ion-input
+            name="major" 
+            slot="start"
+            placeholder="请输入专业(计算机技术)"
+            required
+            maxlength="20"
+            [(ngModel)]="signup.major"
+            #major="ngModel"
+            class="margintop fillet-boder"
+          ></ion-input>
+          <ion-text
+            class="ion-text-left"
+            color="danger"
+            *ngIf="(major.invalid && major.touched) || signup.submited">
+            <p
+              class="tips ion-padding-start"
+              [hidden]="!major.errors?.required">
+              请输入专业
             </p>
           </ion-text>
           

@@ -21,6 +21,7 @@ export class UserService {
       phone: register.phone,
       email: register.email,
       school: register.school,
+      major: register.major,
       class: register.class,
       identity: register.identity,
       userNo: register.userNo,
@@ -45,13 +46,16 @@ export class UserService {
           for (let u of user) { //扫描user表
             if (u.accounts.phone == username && u.accounts.passwordToken == password) {
                 let loginUser = {
-                  shopName: u.shopName,
-                  registerDate: u.registerDate,
+                  name: u.name,
                   phone: u.phone,
                   email: u.email,
-                  shortName: u.shortName,
-                  shopPhone: u.shopPhone,
-                  businessType: u.businessType,
+                  school: u.school,
+                  major: u.major,
+                  class: u.class,
+                  identity: u.identity, //身份
+                  userNo: u.userNo, //学号 工号
+                  sex: u.sex,
+                  passward: u.password, //传入的密码已经是MD5值
                   accounts: {phone: u.accounts.phone, passwordToken: u.accounts.passwordToken},
                   loginTime: new Date().toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, ''),
                 };

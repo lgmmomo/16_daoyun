@@ -41,7 +41,7 @@ export class LoginInPage implements OnInit {
               alert.present();
           } 
           else {
-              this.router.navigateByUrl('student');
+              this.router.navigateByUrl('tabs');
           }
       }
   }
