@@ -6,7 +6,7 @@ import { StartAppGuard } from './core/start-app.guard';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'welcome',
+    redirectTo: 'new-class',
     pathMatch: 'full'
   },
   {
@@ -57,10 +57,6 @@ const routes: Routes = [
   {
     path: 'set-information',
     loadChildren: () => import('./pages/me/set-information/set-information.module').then( m => m.SetInformationPageModule)
-  },
-  {
-    path: 'set-up',
-    loadChildren: () => import('./pages/me/set-up/set-up.module').then( m => m.SetUpPageModule)
   },
   {
     path: 'forget-password',

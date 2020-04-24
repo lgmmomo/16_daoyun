@@ -167,27 +167,6 @@
           </ion-text>
 
           <ion-input
-            name="school" 
-            slot="start"
-            placeholder="请输入学校"
-            required
-            maxlength="20"
-            [(ngModel)]="signup.school"
-            #school="ngModel"
-            class="margintop fillet-boder"
-          ></ion-input>
-          <ion-text
-            class="ion-text-left"
-            color="danger"
-            *ngIf="(school.invalid && school.touched) || signup.submited">
-            <p
-              class="tips ion-padding-start"
-              [hidden]="!school.errors?.required">
-              请输入学校
-            </p>
-          </ion-text>
-
-          <ion-input
           name="identity" 
           slot="start"
           placeholder="请输入身份（学生/教师）"
@@ -208,38 +187,59 @@
           </p>
         </ion-text>
 
+        <ion-input
+        name="userNo" 
+        slot="start"
+        placeholder="请输入学号或工号"
+        required
+        maxlength="20"
+        [(ngModel)]="signup.userNo"
+        #userNo="ngModel"
+        class="margintop fillet-boder"
+      ></ion-input>
+      <ion-text
+        class="ion-text-left"
+        color="danger"
+        *ngIf="(userNo.invalid && userNo.touched) || signup.submited">
+        <p
+          class="tips ion-padding-start"
+          [hidden]="!userNo.errors?.required">
+          请输入学号或工号
+        </p>
+      </ion-text>
+
+      
+
           <ion-input
-            name="userNo" 
+            name="school" 
             slot="start"
-            placeholder="请输入学号或工号"
-            required
-            maxlength="20"
-            [(ngModel)]="signup.userNo"
-            #userNo="ngModel"
+            placeholder="请输入学校"
+            [(ngModel)]="signup.school"
+            #school="ngModel"
             class="margintop fillet-boder"
           ></ion-input>
-          <ion-text
+          <!-- <ion-text
             class="ion-text-left"
             color="danger"
-            *ngIf="(userNo.invalid && userNo.touched) || signup.submited">
+            *ngIf="(school.invalid && school.touched) || signup.submited">
             <p
               class="tips ion-padding-start"
-              [hidden]="!userNo.errors?.required">
-              请输入学号或工号
+              [hidden]="!school.errors?.required">
+              请输入学校
             </p>
-          </ion-text>
+          </ion-text> -->
+
+         
 
           <ion-input
             name="major" 
             slot="start"
             placeholder="请输入专业(计算机技术)"
-            required
-            maxlength="20"
             [(ngModel)]="signup.major"
             #major="ngModel"
             class="margintop fillet-boder"
           ></ion-input>
-          <ion-text
+          <!-- <ion-text
             class="ion-text-left"
             color="danger"
             *ngIf="(major.invalid && major.touched) || signup.submited">
@@ -248,19 +248,17 @@
               [hidden]="!major.errors?.required">
               请输入专业
             </p>
-          </ion-text>
+          </ion-text> -->
           
           <ion-input
             name="class" 
             slot="start"
             placeholder="请输入班级(2019级计算机技术2班)"
-            required
-            maxlength="20"
             [(ngModel)]="signup.class"
             #class="ngModel"
             class="margintop fillet-boder"
           ></ion-input>
-          <ion-text
+          <!-- <ion-text
             class="ion-text-left"
             color="danger"
             *ngIf="(class.invalid && class.touched) || signup.submited">
@@ -269,20 +267,17 @@
               [hidden]="!class.errors?.required">
               请输入班级
             </p>
-          </ion-text>
+          </ion-text> -->
 
         <ion-input
           name="sex" 
           slot="start"
           placeholder="请输入性别（男/女）"
-          required
-          pattern="^[男女]$"
-          maxlength="1"
           [(ngModel)]="signup.sex"
           #sex="ngModel"
           class="margintop fillet-boder"
         ></ion-input>
-        <ion-text
+        <!-- <ion-text
           class="ion-text-left"
           color="danger"
           *ngIf="(sex.invalid && sex.touched) || signup.submited">
@@ -294,20 +289,18 @@
           <p class="tips ion-padding-start" [hidden]="!sex.errors?.pattern">
             您输入的性别格式不正确
           </p>
-        </ion-text>
+        </ion-text> -->
 
           <ion-input
             name="email"
             type="email"
             slot="start"
             placeholder="请输入电子邮箱"
-            required
-            pattern="^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$"
             [(ngModel)]="signup.email"
             #email="ngModel"
             class="margintop-input fillet-boder"
           ></ion-input>
-          <ion-text
+          <!-- <ion-text
             class="ion-text-left"
             color="danger"
             *ngIf="(email.invalid && email.touched) || signup.submited">
@@ -319,73 +312,7 @@
             <p class="tips ion-padding-start" [hidden]="!email.errors?.pattern">
               您输入的电子邮箱格式不正确
             </p>
-          </ion-text>
-          <ion-input
-            name="password"
-            type="password"
-            slot="start"
-            placeholder="请输入登入密码"
-            required
-            pattern="^(?!^[0-9]+$)(?!^[A-z]+$)(?!^[^A-z0-9]+$)^.{6,16}$"
-            minlength="6"
-            maxlength="16"
-            [(ngModel)]="signup.password"
-            #password="ngModel"
-            class="margintop-input fillet-boder"
-          ></ion-input>
-          <ion-text
-            class="ion-text-left"
-            color="danger"
-            *ngIf="(password.invalid && password.touched) || signup.submited">
-            <p
-              class="tips ion-padding-start"
-              [hidden]="!password.errors?.required">
-              请输入登入密码
-            </p>
-            <p
-              class="tips ion-padding-start"
-              [hidden]="!password.errors?.pattern">
-              长度6至16位，由数字、英文、符号三种字符类型构成，至少包含两种类型字符
-            </p>
-            <p 
-              class="tips ion-padding-start" [hidden]="passwdCheck">
-              两次输入的密码不一致
-            </p>
-          </ion-text>
-
-          <ion-input
-            name="confirmPassword"
-            type="password"
-            slot="start"
-            placeholder="请输入确认密码"
-            required
-            pattern="^(?!^[0-9]+$)(?!^[A-z]+$)(?!^[^A-z0-9]+$)^.{6,16}$"
-            minlength="6"
-            maxlength="16"
-            [(ngModel)]="signup.confirmPassword"
-            #confirmPassword="ngModel"
-            class="margintop-input fillet-boder"
-          ></ion-input>
-          <ion-text
-            class="ion-text-left"
-            color="danger"
-            *ngIf="
-              (confirmPassword.invalid && confirmPassword.touched) ||
-              signup.submited">
-            <p
-              class="tips ion-padding-start"
-              [hidden]="!confirmPassword.errors?.required">
-              请输入确认密码
-            </p>
-            <!-- <p
-              class="tips ion-padding-start"
-              [hidden]="!confirmPassword.errors?.pattern">
-              长度6至16位，由数字、英文、符号三种字符类型构成，至少包含两种类型字符
-            </p> -->
-            <p class="tips ion-padding-start" [hidden]="passwdCheck">
-              两次输入的密码不一致
-            </p>
-          </ion-text>
+          </ion-text> -->
 
           <ion-button
             type="submit"
