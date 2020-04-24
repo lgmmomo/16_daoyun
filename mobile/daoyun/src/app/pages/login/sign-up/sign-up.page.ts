@@ -17,8 +17,8 @@ export class SignUpPage implements OnInit {
   constructor(
     private authenticationCode: AuthenticationCodeService,
     private localStorageService: LocalStorageService,
-    private userService: UserService,
     private router: Router,
+    private userService: UserService,
     private menuController: MenuController,
     private alertController: AlertController
   ) {}
