@@ -1,3 +1,4 @@
+import { CommonService } from './shared/services/common.service';
 import { LocalStorageService } from './shared/services/local-storage.service';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -20,7 +21,8 @@ import { SharedModule } from './shared/shared.module';
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    LocalStorageService
+    LocalStorageService,
+    CommonService
   ],
   bootstrap: [AppComponent]
 })

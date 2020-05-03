@@ -14,41 +14,14 @@ export class ForgetPasswordPage implements OnInit {
   @ViewChild('forgotPasswordSlides', { static: true }) forgotPasswordSlides: IonSlides;
   user = {
     forgotPhone: '',
-    code: '',
     pwd: '',
     cpwd: ''
   };
-  codeIsRight = true;
   pwdIsSame = true;
-  constructor(private authenticationCodeService: AuthenticationCodeService, private router: Router,
+  constructor(private router: Router,
               private userService: UserService,
-              private alertController: AlertController, private menuController: MenuController) { }
+              private alertController: AlertController) { }
   ngOnInit() {
-      this.forgotPasswordSlides.lockSwipeToNext(true);
-  }
-  ionViewDidEnter() {
-      this.menuController.enable(false);
-  }
-  ionViewDidLeave() {
-      this.menuController.enable(true)
-  }
-  next() {
-      this.forgotPasswordSlides.lockSwipeToNext(false);
-      this.forgotPasswordSlides.slideNext();
-      this.forgotPasswordSlides.lockSwipeToNext(true);
-  }
-  previous() {
-      this.forgotPasswordSlides.lockSwipeToNext(false);
-      this.forgotPasswordSlides.slidePrev();
-      this.forgotPasswordSlides.lockSwipeToNext(true);
-  }
-  onSendCode() {
-    if (this.authenticationCodeService.validate(this.user.code)) {
-      this.next();
-    } else {
-      // 验证码错误
-        this.codeIsRight = false;
-    }
   }
   /**
    *修改密码
@@ -66,28 +39,12 @@ export class ForgetPasswordPage implements OnInit {
             alert.present();
             this.router.navigateByUrl('login-in');
         }
+        else{
+          console.log('修改失败，手机号无效或者网路连接失败!')
+        }
     } else {
         this.pwdIsSame = false;
     }
   }
-  async onSendPhone() {
-    if (this.userService.check(this.user.forgotPhone)) {
-        let newcode = this.authenticationCodeService.createCode(4);//发送4位验证码
-        let alert =await this.alertController.create({
-          header: '短信验证码',
-          message: newcode,
-          buttons: ['确定']
-        });
-        alert.present();
-        this.next();
-    } else {
-        let alert =await this.alertController.create({
-          header: '警告',
-          message: '当前手机号未注册！',
-          buttons: ['确定']
-        });
-        alert.present();
-    }
-  }
-
+ 
 }

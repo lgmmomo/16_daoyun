@@ -1,3 +1,4 @@
+import { CommonService } from './common.service';
 import { SubjectInfo } from './../class/subject-info';
 import { Injectable } from '@angular/core';
 import { LocalStorageService } from './local-storage.service';
@@ -11,7 +12,8 @@ import { AlertController } from '@ionic/angular';
 })
 export class UserService {
   constructor(private localStorageService: LocalStorageService,
-              private alertController: AlertController) { }
+              private alertController: AlertController,
+              private commonService: CommonService) { }
 
   signup(register: Register): Promise<AjaxResult> {
     return new Promise(((resolve, reject) => {
