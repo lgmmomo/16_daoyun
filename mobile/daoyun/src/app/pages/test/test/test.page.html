@@ -7,7 +7,13 @@
 <ion-content>
 
   <ion-button (click)="onClick()" mode='ios' expand="block" fill="clear" shape="round">
-    Click me
+    请求数据
   </ion-button>
+  <ion-list *ngIf="result_length && submit">
+    <ion-item *ngFor="let item of list">
+      <ion-label>{{item.title}}</ion-label>
+    </ion-item>
+  </ion-list>
+  <ion-label *ngIf="!result_length && submit">{{error.status}}</ion-label>
 
 </ion-content>

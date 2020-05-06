@@ -61,7 +61,7 @@ export class LoginInPage implements OnInit {
         password: password
     }
     let jsonData = JSON.stringify(data)//封装成json
-    this.commonService.postData(url, jsonData).then((response)=>{
+    this.commonService.postData(url, jsonData).then((response:any)=>{//any代表任意类型
         console.log(response);//接收状态码（登入成功、失败、网络连接错误、无用户名和密码）
     })
   }

@@ -1,3 +1,4 @@
+import { CommonService } from './../../../shared/services/common.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,21 +8,30 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TestPage implements OnInit {
 
-  constructor() { }
+  constructor(private commonService: CommonService) { }
+
+  public list:any[] = [];
+  public result_length = 0;
+  public submit = 0;
+  public error:any;
 
   ngOnInit() {
   }
 
   onClick() {
-    let userName = '张三';
-    let password = 'abc123';
-    let data = {
-      userName: userName,
-      password: password
-    }
-    console.log('转为json前：',data);
-    let jsonData = JSON.stringify(data)//封装成json
-    console.log('转为json后：',jsonData);
+    //获取数据
+    let url='productlis';
+    this.submit = 1;
+    this.commonService.getData(url).then((response:any)=>{
+      console.log('页面返回结果', response);
+      console.log('result', response.result);
+      this.list = response.result;
+      this.result_length = this.list.length;
+      console.log(this.list[1].title);
+    },(error:any)=>{
+      console.log('error', error);
+      this.error=error;
+    })
   }
   
 }

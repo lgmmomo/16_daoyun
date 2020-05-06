@@ -7,7 +7,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class CommonService {
   
   public config:any={
-    domain:'http://192.168.22.XX:XXXX/'//接口公共部分
+    domain:'http://a.itying.com/api/'//接口公共部分
   }
 
   constructor(public http:HttpClient) {}
@@ -15,12 +15,13 @@ export class CommonService {
   //从对应的api获取数据
   getData(url){
     var api=this.config.domain + url;
-    //回调函数
+    //回调函数 subscribe返回api的结果，promise回调函数（异步的 ）返回对应的信息
     return new Promise ((reslove,reject) =>{
       this.http.get(api).subscribe((response)=>{ //异步方法，需要用promise返回数据
         reslove(response);
       },(error)=>{
-        reject(error);
+        console.log('错误',error)
+        reject(error); 
       })
     })
   }
