@@ -8,5 +8,12 @@ import { Component } from '@angular/core';
 export class Tab1Page {
 
   constructor() {}
+  course={
+    subject: '工程实践',
+    school: '福州大学',
+    teacherName:'池芝标',
+    object: '2019级专硕'
+  }
+  course_length=1;
 
 }

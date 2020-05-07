@@ -6,7 +6,7 @@ import { StartAppGuard } from './core/start-app.guard';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'welcome',
+    redirectTo: 'new-class',
     pathMatch: 'full'
   },
   {
@@ -59,10 +59,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/me/set-information/set-information.module').then( m => m.SetInformationPageModule)
   },
   {
-    path: 'set-up',
-    loadChildren: () => import('./pages/me/set-up/set-up.module').then( m => m.SetUpPageModule)
-  },
-  {
     path: 'forget-password',
     loadChildren: () => import('./pages/login/forget-password/forget-password.module').then( m => m.ForgetPasswordPageModule)
   },
@@ -73,7 +69,19 @@ const routes: Routes = [
   {
     path: 'edit-information',
     loadChildren: () => import('./pages/me/edit-information/edit-information.module').then( m => m.EditInformationPageModule)
+  },  {
+    path: 'test',
+    loadChildren: () => import('./pages/test/test/test.module').then( m => m.TestPageModule)
+  },
+  {
+    path: 'map',
+    loadChildren: () => import('./pages/test/map/map.module').then( m => m.MapPageModule)
+  },
+  {
+    path: 'qrious-test',
+    loadChildren: () => import('./pages/test/qrious-test/qrious-test.module').then( m => m.QriousTestPageModule)
   }
+
 
 ];
 @NgModule({

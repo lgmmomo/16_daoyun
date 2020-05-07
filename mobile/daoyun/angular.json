@@ -37,9 +37,15 @@
               },
               {
                 "input": "src/global.scss"
+              },
+              {
+                "input": "node_modules/patternlock/dist/patternlock.min.css"
               }
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/qrious/dist/qrious.min.js",
+              "node_modules/patternlock/dist/patternlock.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -98,8 +104,15 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
-            "styles": [],
-            "scripts": [],
+            "styles": [
+              {
+                "input": "node_modules/patternlock/dist/patternlock.min.css"
+              }
+            ],
+            "scripts": [
+              "node_modules/qrious/dist/qrious.min.js",
+              "node_modules/patternlock/dist/patternlock.min.js"
+            ],
             "assets": [
               {
                 "glob": "favicon.ico",
