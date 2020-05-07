@@ -87,6 +87,8 @@ export class SignUpPage implements OnInit {
     console.log('发送的注册信息为:', jsonData);
     this.commonService.postData(url, jsonData).then((response) => {
       console.log(response);//接收状态码（注册成功、失败、网络连接错误、已经有此用户名）
+    },(error)=>{
+      console.log('出现错误', error);
     })
   }
 

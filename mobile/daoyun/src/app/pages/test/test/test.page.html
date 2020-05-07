@@ -6,14 +6,17 @@
 
 <ion-content>
 
+  <div id='patternHolder' class="pattern-holder"></div>
+
   <ion-button (click)="onClick()" mode='ios' expand="block" fill="clear" shape="round">
     请求数据
   </ion-button>
+  <ion-label *ngIf="!result_length && submit">{{error.status}}</ion-label>
   <ion-list *ngIf="result_length && submit">
     <ion-item *ngFor="let item of list">
       <ion-label>{{item.title}}</ion-label>
     </ion-item>
   </ion-list>
-  <ion-label *ngIf="!result_length && submit">{{error.status}}</ion-label>
+  
 
 </ion-content>

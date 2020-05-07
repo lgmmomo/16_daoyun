@@ -72,6 +72,14 @@ const routes: Routes = [
   },  {
     path: 'test',
     loadChildren: () => import('./pages/test/test/test.module').then( m => m.TestPageModule)
+  },
+  {
+    path: 'map',
+    loadChildren: () => import('./pages/test/map/map.module').then( m => m.MapPageModule)
+  },
+  {
+    path: 'qrious-test',
+    loadChildren: () => import('./pages/test/qrious-test/qrious-test.module').then( m => m.QriousTestPageModule)
   }
 
 
