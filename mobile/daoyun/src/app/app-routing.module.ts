@@ -6,7 +6,7 @@ import { StartAppGuard } from './core/start-app.guard';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'new-class',
+    redirectTo: 'make-gesture',
     pathMatch: 'full'
   },
   {
@@ -69,7 +69,8 @@ const routes: Routes = [
   {
     path: 'edit-information',
     loadChildren: () => import('./pages/me/edit-information/edit-information.module').then( m => m.EditInformationPageModule)
-  },  {
+  },
+  {
     path: 'test',
     loadChildren: () => import('./pages/test/test/test.module').then( m => m.TestPageModule)
   },
