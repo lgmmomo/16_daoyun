@@ -1,9 +1,28 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>make-gesture</ion-title>
+<ion-header class="ion-no-border">
+  <ion-toolbar mode='ios' color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/exam-class" text="返回"></ion-back-button>
+    </ion-buttons>
+    <ion-title>创建签到</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-
+<ion-content color="primary">
+  <div class="div3">
+    <form #postForm="ngForm" (ngSubmit)="onSubmit()">
+      <ion-item color="primary" class="div4">
+          <ion-label>输入签到限制时间(min)<ion-text color="danger">*</ion-text>:&nbsp;&nbsp;</ion-label>
+          <ion-input mode='ios' name='time' required type="number" [(ngModel)]="limitTime"></ion-input>      
+      </ion-item>
+      <ion-item color="primary">
+        <div class="div1">
+          <div id='patternHolder' class="div2"></div>
+        </div>
+      </ion-item>
+      <ion-button class="mybutton" expand="block" shape="round" mode='ios' color="warning" type="submit" [disabled]="postForm.invalid">
+        Login
+      </ion-button>
+    </form>
+  </div>
+  
 </ion-content>

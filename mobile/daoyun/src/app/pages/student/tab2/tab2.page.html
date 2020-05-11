@@ -10,16 +10,16 @@
 </ion-header>
 
 <ion-content>
- <ion-list>
-   <ion-item>
+ <ion-list lines='full'>
+   <ion-item *ngFor="let item of course" routerLink="/view-class" [queryParams]="{course_id:item.id}">
     <ion-avatar slot="end">
-      <ion-button (click)="onClick()" fill='clear'>
+      <ion-button fill='clear'>
         <ion-icon slot="icon-only" name="arrow-forward-outline"></ion-icon>
       </ion-button>
     </ion-avatar>
     <ion-label>
-      <h2>{{course.subject}}</h2>
-      <p>{{course.teacherName}}&nbsp;&nbsp;&nbsp;{{course.object}}</p>
+      <h2>{{item.subject}}</h2>
+      <p>{{item.teacherName}}&nbsp;&nbsp;&nbsp;{{item.object}}</p>
     </ion-label>
    </ion-item>
  </ion-list>
