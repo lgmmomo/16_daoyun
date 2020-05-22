@@ -18,7 +18,8 @@ export class QriousTestPage implements OnInit {
   ionViewDidEnter(){
     var a = new QRious({
       element:this.qr.nativeElement, 
-      value: "www.baidu.com"
+      value: "hello world",
+      size: 255
     });
     console.log('1');
   }

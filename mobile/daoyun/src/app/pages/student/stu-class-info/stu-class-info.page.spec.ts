@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { FindClassPage } from './find-class.page';
+import { StuClassInfoPage } from './stu-class-info.page';
 
-describe('FindClassPage', () => {
-  let component: FindClassPage;
-  let fixture: ComponentFixture<FindClassPage>;
+describe('StuClassInfoPage', () => {
+  let component: StuClassInfoPage;
+  let fixture: ComponentFixture<StuClassInfoPage>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FindClassPage ],
+      declarations: [ StuClassInfoPage ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(FindClassPage);
+    fixture = TestBed.createComponent(StuClassInfoPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

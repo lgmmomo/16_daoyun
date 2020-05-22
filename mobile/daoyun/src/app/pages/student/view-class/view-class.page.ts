@@ -13,7 +13,7 @@ export class ViewClassPage implements OnInit {
 
   constructor(private router: Router,
               private activatedRoute: ActivatedRoute,
-              private nav:NavController) { }
+              private nav:NavController,) { }
 
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe((result)=>{

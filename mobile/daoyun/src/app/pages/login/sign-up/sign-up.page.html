@@ -71,6 +71,37 @@
             </p>
           </ion-text>
 
+          <ion-input name="password" type="password" slot="start" placeholder="请输入登入密码" required
+            pattern="^(?!^[0-9]+$)(?!^[A-z]+$)(?!^[^A-z0-9]+$)^.{6,16}$" minlength="6" maxlength="16"
+            [(ngModel)]="signup.password" #password="ngModel" class="margintop-input fillet-boder"></ion-input>
+          <ion-text class="ion-text-left" color="danger"
+            *ngIf="(password.invalid && password.touched) || signup.submited">
+            <p class="tips ion-padding-start" [hidden]="!password.errors?.required">
+              请输入登入密码
+            </p>
+            <p class="tips ion-padding-start" [hidden]="!password.errors?.pattern">
+              长度6至16位，由数字、英文、符号三种字符类型构成，至少包含两种类型字符
+            </p>
+            <p class="tips ion-padding-start" [hidden]="passwdCheck">
+              两次输入的密码不一致
+            </p>
+          </ion-text>
+
+          <ion-input name="confirmPassword" type="password" slot="start" placeholder="请输入确认密码" required
+            pattern="^(?!^[0-9]+$)(?!^[A-z]+$)(?!^[^A-z0-9]+$)^.{6,16}$" minlength="6" maxlength="16"
+            [(ngModel)]="signup.confirmPassword" #confirmPassword="ngModel" class="margintop-input fillet-boder">
+          </ion-input>
+          <ion-text class="ion-text-left" color="danger" *ngIf="
+              (confirmPassword.invalid && confirmPassword.touched) ||
+              signup.submited">
+            <p class="tips ion-padding-start" [hidden]="!confirmPassword.errors?.required">
+              请输入确认密码
+            </p>
+            <p class="tips ion-padding-start" [hidden]="passwdCheck">
+              两次输入的密码不一致
+            </p>
+          </ion-text>
+
 
           <ion-input name="email" type="email" slot="start" placeholder="电子邮箱" [(ngModel)]="signup.email"
             #email="ngModel" class="margintop-input fillet-boder"></ion-input>

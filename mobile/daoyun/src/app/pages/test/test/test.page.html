@@ -1,6 +1,9 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>test</ion-title>
+  <ion-toolbar mode='ios'>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs" (click)="onBack()" text="返回"></ion-back-button>
+    </ion-buttons>
+    <ion-title>test</ion-title> 
   </ion-toolbar>
 </ion-header>
 
@@ -17,6 +20,11 @@
       <ion-label>{{item.title}}</ion-label>
     </ion-item>
   </ion-list>
-  
+  <ion-button (click)="onTest()" expand="block" fill="clear" shape="round">
+    测试API
+  </ion-button>
+  <ion-button (click)="presentAlertPrompt()" expand="block" fill="clear" shape="round">
+    测试alert
+  </ion-button>
 
 </ion-content>

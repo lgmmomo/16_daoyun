@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { FindClassPageRoutingModule } from './find-class-routing.module';
+import { QrtestPageRoutingModule } from './qrtest-routing.module';
 
-import { FindClassPage } from './find-class.page';
+import { QrtestPage } from './qrtest.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    FindClassPageRoutingModule
+    QrtestPageRoutingModule
   ],
-  declarations: [FindClassPage]
+  declarations: [QrtestPage]
 })
-export class FindClassPageModule {}
+export class QrtestPageModule {}

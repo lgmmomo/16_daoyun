@@ -1,9 +1,61 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>exam-sign-in</ion-title>
+<ion-header class="ion-no-border">
+  <ion-toolbar mode='ios'>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/exam-class" text="返回"></ion-back-button>
+    </ion-buttons>
+    <ion-title>今日签到详情</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <ion-list>
+    <ion-list-header>
+      已签到&nbsp;&nbsp;&nbsp;1人
+    </ion-list-header>
+    <ion-item>
+      <ion-avatar slot='start'>
+        <img src="../../../../assets/img/person-circle-outline.svg">
+      </ion-avatar>
+      <ion-label>
+        <h2>张三</h2>
+        <p>190327011</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+  <ion-list>
+    <ion-list-header>
+      迟到&nbsp;&nbsp;&nbsp;1人
+    </ion-list-header>
+    <ion-item>
+      <ion-avatar slot='start'>
+        <img src="../../../../assets/img/person-circle-outline.svg">
+      </ion-avatar>
+      <ion-label>
+        <h2>李四</h2>
+        <p>190327012</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+  <ion-list>
+    <ion-list-header>
+      旷课&nbsp;&nbsp;&nbsp;1人
+    </ion-list-header>
+    <ion-item>
+      <ion-avatar slot='start'>
+        <img src="../../../../assets/img/person-circle-outline.svg">
+      </ion-avatar>
+      <ion-label>
+        <h2>王五</h2>
+        <p>190327013</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>
+
+<ion-footer style="height: 60px;">
+  <ion-toolbar>
+    <ion-button (click)="onClick()" expand="block" shape='round' style="height: 50px;">
+      刷新
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

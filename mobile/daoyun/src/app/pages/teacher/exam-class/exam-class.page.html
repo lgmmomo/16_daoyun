@@ -1,9 +1,37 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>exam-class</ion-title>
+<ion-header class="ion-no-border">
+  <ion-toolbar mode='ios'>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs" (click)="onBack()" text="返回"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button (click)="showMenu()">
+        <ion-icon slot="icon-only" name="ellipsis-horizontal"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{course_name}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <div style="height: 15px;">
+    <h5 slot="end" class="ion-no-margin font1">共100人</h5>
+  </div>
+  <hr class="line" />
+  <ion-list>
+    <ion-item *ngFor="let item of student; let i=index" >
+      <ion-note class="ion-no-margin ion-margin-vertical" slot="start" >
+        {{i+1}}
+      </ion-note>
+      <ion-thumbnail>
+        <img src="../../../../assets/img/person_icon.png" />
+      </ion-thumbnail>
+      <ion-label class="label1">
+        <h2>{{item.name}}</h2>
+        <p>{{item.id}}</p>
+        <p>签到&nbsp;2&nbsp;&nbsp;迟到&nbsp;1&nbsp;&nbsp;旷课&nbsp;1</p>
+      </ion-label>
+      <h2>{{item.experience}}</h2>
+      <p class="p1">经验值</p>
+    </ion-item>
+  </ion-list>
 </ion-content>

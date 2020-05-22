@@ -1,192 +1,90 @@
 <ion-header>
   <ion-toolbar mode='ios'>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="tabs" text="返回"></ion-back-button>
+      <ion-back-button defaultHref="/tabs" (click)="onBack()" text="返回"></ion-back-button>
     </ion-buttons>
     <ion-title>创建班课</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <form
-  (ngSubmit)="onSignupIformation(imformationForm)"
-  #imformationForm="ngForm"
-  validating
-  >
-      <ion-input
-        name="subject" 
-        slot="start"
-        placeholder="请输入课程名称"
-        required
-        maxlength="15"
-        [(ngModel)]="signup.subject"
-        #subject="ngModel"
-        class="margintop fillet-boder"
-      ></ion-input>
-      <ion-text
-        class="ion-text-left"
-        color="danger"
-        *ngIf="(subject.invalid && subject.touched) || signup.submited">
-        <p
-          class="tips ion-padding-start"
-          [hidden]="!subject.errors?.required">
-          请输入课程名称
-        </p>
-      </ion-text>
+  <form (ngSubmit)="onSignupIformation(imformationForm)" #imformationForm="ngForm" validating>
+    <ion-input name="subject" slot="start" placeholder="请输入课程名称" required maxlength="15" [(ngModel)]="signup.subject"
+      #subject="ngModel" class="margintop fillet-boder"></ion-input>
+    <ion-text class="ion-text-left" color="danger" *ngIf="(subject.invalid && subject.touched) || signup.submited">
+      <p class="tips ion-padding-start" [hidden]="!subject.errors?.required">
+        请输入课程名称
+      </p>
+    </ion-text>
 
-      <ion-input
-        name="school" 
-        slot="start"
-        placeholder="请输入学校"
-        required
-        maxlength="20"
-        [(ngModel)]="signup.school"
-        #school="ngModel"
-        class="margintop fillet-boder"
-      ></ion-input>
-      <ion-text
-        class="ion-text-left"
-        color="danger"
-        *ngIf="(school.invalid && school.touched) || signup.submited">
-        <p
-          class="tips ion-padding-start"
-          [hidden]="!school.errors?.required">
-          请输入学校
-        </p>
-      </ion-text>
+    <ion-input name="school" slot="start" placeholder="请输入学校" required maxlength="20" [(ngModel)]="signup.school"
+      #school="ngModel" class="margintop fillet-boder"></ion-input>
+    <ion-text class="ion-text-left" color="danger" *ngIf="(school.invalid && school.touched) || signup.submited">
+      <p class="tips ion-padding-start" [hidden]="!school.errors?.required">
+        请输入学校
+      </p>
+    </ion-text>
 
-      <ion-input
-      name="term" 
-      slot="start"
-      placeholder="上课学期"
-      required
-      [(ngModel)]="signup.term"
-      #term="ngModel"
-      class="margintop fillet-boder"
-    ></ion-input>
-    <ion-text
-      class="ion-text-left"
-      color="danger"
-      *ngIf="(term.invalid && term.touched) || signup.submited">
-      <p
-        class="tips ion-padding-start"
-        [hidden]="!term.errors?.required">
+    <ion-input name="term" slot="start" placeholder="上课学期" required [(ngModel)]="signup.term" #term="ngModel"
+      class="margintop fillet-boder"></ion-input>
+    <ion-text class="ion-text-left" color="danger" *ngIf="(term.invalid && term.touched) || signup.submited">
+      <p class="tips ion-padding-start" [hidden]="!term.errors?.required">
         请输入上课学期
       </p>
     </ion-text>
 
-      <ion-input
-        name="classroom" 
-        slot="start"
-        placeholder="上课教室"
-        required
-        maxlength="20"
-        [(ngModel)]="signup.classroom"
-        #classroom="ngModel"
-        class="margintop fillet-boder"
-      ></ion-input>
-      <ion-text
-        class="ion-text-left"
-        color="danger"
-        *ngIf="(classroom.invalid && classroom.touched) || signup.submited">
-        <p
-          class="tips ion-padding-start"
-          [hidden]="!classroom.errors?.required">
-          请输入上课教室
-        </p>
-      </ion-text>
+    <ion-input name="classroom" slot="start" placeholder="上课教室" required maxlength="20" [(ngModel)]="signup.classroom"
+      #classroom="ngModel" class="margintop fillet-boder"></ion-input>
+    <ion-text class="ion-text-left" color="danger" *ngIf="(classroom.invalid && classroom.touched) || signup.submited">
+      <p class="tips ion-padding-start" [hidden]="!classroom.errors?.required">
+        请输入上课教室
+      </p>
+    </ion-text>
 
-      <ion-input
-        name="time" 
-        slot="start"
-        placeholder="上课时间"
-        required
-        [(ngModel)]="signup.time"
-        #time="ngModel"
-        class="margintop fillet-boder"
-      ></ion-input>
-      <ion-text
-        class="ion-text-left"
-        color="danger"
-        *ngIf="(time.invalid && time.touched) || signup.submited">
-        <p
-          class="tips ion-padding-start"
-          [hidden]="!time.errors?.required">
-          请输入上课时间
-        </p>
-      </ion-text>
-      
-      <ion-input
-        name="object" 
-        slot="start"
-        placeholder="上课对象(2015级计算机类)"
-        required
-        maxlength="20"
-        [(ngModel)]="signup.object"
-        #object="ngModel"
-        class="margintop fillet-boder"
-      ></ion-input>
-      <ion-text
-        class="ion-text-left"
-        color="danger"
-        *ngIf="(object.invalid && object.touched) || signup.submited">
-        <p
-          class="tips ion-padding-start"
-          [hidden]="!object.errors?.required">
-          请输入班级
-        </p>
-      </ion-text>
+    <ion-input name="start_time" slot="start" placeholder="上课时间" required [(ngModel)]="signup.start_time" #start_time="ngModel"
+      class="margintop fillet-boder"></ion-input>
+    <ion-text class="ion-text-left" color="danger" *ngIf="(start_time.invalid && start_time.touched) || signup.submited">
+      <p class="tips ion-padding-start" [hidden]="!start_time.errors?.required">
+        请输入上课时间
+      </p>
+    </ion-text>
 
-    <ion-input
-      name="start_week" 
-      slot="start"
-      placeholder="开始周"
-      required
-      maxlength="5"
-      [(ngModel)]="signup.start_week"
-      #start_week="ngModel"
-      class="margintop fillet-boder"
-    ></ion-input>
-    <ion-text
-      class="ion-text-left"
-      color="danger"
+    <ion-input name="end_time" slot="start" placeholder="下课时间" required [(ngModel)]="signup.end_time" #start_time="ngModel"
+      class="margintop fillet-boder"></ion-input>
+    <ion-text class="ion-text-left" color="danger" *ngIf="(end_time.invalid && end_time.touched) || signup.submited">
+      <p class="tips ion-padding-start" [hidden]="!end_time.errors?.required">
+        请输入下课时间
+      </p>
+    </ion-text>
+
+    <ion-input name="end_time" slot="start" placeholder="上课对象(2015级计算机类)" required maxlength="20"
+      [(ngModel)]="signup.object" #object="ngModel" class="margintop fillet-boder"></ion-input>
+    <ion-text class="ion-text-left" color="danger" *ngIf="(object.invalid && object.touched) || signup.submited">
+      <p class="tips ion-padding-start" [hidden]="!object.errors?.required">
+        请输入上课对象
+      </p>
+    </ion-text>
+
+    <ion-input name="start_week" slot="start" placeholder="开始周" required maxlength="5" [(ngModel)]="signup.start_week"
+      #start_week="ngModel" class="margintop fillet-boder"></ion-input>
+    <ion-text class="ion-text-left" color="danger"
       *ngIf="(start_week.invalid && start_week.touched) || signup.submited">
-      <p
-        class="tips ion-padding-start"
-        [hidden]="!start_week.errors?.required">
+      <p class="tips ion-padding-start" [hidden]="!start_week.errors?.required">
         请输入开始周
       </p>
     </ion-text>
 
-    <ion-input
-      name="end_week" 
-      slot="start"
-      placeholder="结束周"
-      required
-      maxlength="5"
-      [(ngModel)]="signup.end_week"
-      #end_week="ngModel"
-      class="margintop fillet-boder"
-      ></ion-input>
-      <ion-text
-      class="ion-text-left"
-      color="danger"
-      *ngIf="(end_week.invalid && end_week.touched) || signup.submited">
-      <p
-        class="tips ion-padding-start"
-        [hidden]="!end_week.errors?.required">
+    <ion-input name="end_week" slot="start" placeholder="结束周" required maxlength="5" [(ngModel)]="signup.end_week"
+      #end_week="ngModel" class="margintop fillet-boder"></ion-input>
+    <ion-text class="ion-text-left" color="danger" *ngIf="(end_week.invalid && end_week.touched) || signup.submited">
+      <p class="tips ion-padding-start" [hidden]="!end_week.errors?.required">
         请输入结束周
       </p>
     </ion-text>
 
-      <ion-button
-        type="submit"
-        expand="full"
-        color="primary"
-        class="margintop fillet-boder"
-        >提交
-      </ion-button>
+    <ion-button type="submit" expand="full" color="primary" class="margintop fillet-boder">提交
+    </ion-button>
 
-</form>
+  </form>
 
 </ion-content>

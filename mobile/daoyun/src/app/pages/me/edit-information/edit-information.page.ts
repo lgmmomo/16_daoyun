@@ -46,6 +46,7 @@ export class EditInformationPage implements OnInit {
       }
       this.value = '';
       let alert =await this.alertController.create({
+        animated: true,
         header: '',
         message: '修改成功！',
         buttons: ['确定']

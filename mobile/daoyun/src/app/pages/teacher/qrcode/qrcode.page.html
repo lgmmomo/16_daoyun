@@ -1,0 +1,15 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar mode='ios'>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/tabs/tab1" (onClick)='onBack()' text="返回"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{course_name}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="qrdiv">
+    <canvas #qr id="qr"></canvas>
+    <h3 class="ion-padding-top">班课号:&nbsp;{{course_id}}</h3>
+  </div>
+</ion-content>

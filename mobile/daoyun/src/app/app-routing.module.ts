@@ -6,7 +6,7 @@ import { StartAppGuard } from './core/start-app.guard';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'make-gesture',
+    redirectTo: 'tabs',
     pathMatch: 'full'
   },
   {
@@ -43,10 +43,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/teacher/make-gesture/make-gesture.module').then( m => m.MakeGesturePageModule)
   },
   {
-    path: 'find-class',
-    loadChildren: () => import('./pages/student/find-class/find-class.module').then( m => m.FindClassPageModule)
-  },
-  {
     path: 'view-class',
     loadChildren: () => import('./pages/student/view-class/view-class.module').then( m => m.ViewClassPageModule)
   },
@@ -81,7 +77,25 @@ const routes: Routes = [
   {
     path: 'qrious-test',
     loadChildren: () => import('./pages/test/qrious-test/qrious-test.module').then( m => m.QriousTestPageModule)
+  },
+  {
+    path: 'class-info',
+    loadChildren: () => import('./pages/teacher/class-info/class-info.module').then( m => m.ClassInfoPageModule)
+  },
+  {
+    path: 'qrtest',
+    loadChildren: () => import('./pages/test/qrtest/qrtest.module').then( m => m.QrtestPageModule)
+  },
+  {
+    path: 'stu-class-info',
+    loadChildren: () => import('./pages/student/stu-class-info/stu-class-info.module').then( m => m.StuClassInfoPageModule)
+  },  {
+    path: 'qrcode',
+    loadChildren: () => import('./pages/teacher/qrcode/qrcode.module').then( m => m.QrcodePageModule)
   }
+
+
+
 
 
 ];

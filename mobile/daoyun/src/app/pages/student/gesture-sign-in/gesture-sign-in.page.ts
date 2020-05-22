@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonService } from 'src/app/shared/services/common.service';
+import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
 declare var PatternLock: any;
 declare var BMap;
 // declare var BMapLib;
@@ -11,15 +12,21 @@ declare var BMap;
 })
 export class GestureSignInPage implements OnInit {
 
-  constructor(private commonService: CommonService) { }
+  constructor(private commonService: CommonService,
+    private localStorageService: LocalStorageService) { }
 
   public gesture_sign = '';
   public EARTH_RADIUS = 6371.0;//km 地球半径 平均值，千米
   public MAX_DISTANCE = 1; //最大学生老师距离 km
   public get_teacher_location_url = '';//获取老师位置信息的api
   public post_sign_in_number_url = '';//获取签到图案的api
+  public stuId='';
+  public courseId='';
 
   ngOnInit() {
+    this.stuId=this.localStorageService.get('Studentid', null);
+    console.log('学号',this.stuId);
+    this.courseId='';
   }
 
   ionViewDidEnter() {
@@ -40,6 +47,7 @@ export class GestureSignInPage implements OnInit {
             console.log('老师位置：', r.point.lat, r.point.lng);
             let distance = that.Distance(response.point.lat, response.point.lng, r.point.lat, r.point.lng);
             if(distance<that.MAX_DISTANCE){
+              that.commonService.updateSignIn(that.stuId, that.gesture_sign, that.courseId)
               that.commonService.postData(that.post_sign_in_number_url, sign_in_number_json).then((sign_in_result)=>{
                 console.log('签到返回的结果', sign_in_result);
               })
