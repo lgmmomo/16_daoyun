@@ -3,11 +3,14 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/view-class" text="返回"></ion-back-button>
     </ion-buttons>
-    <ion-title>签到</ion-title>
+    <ion-title>{{courseName}}签到</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content color="primary">
+
+  <ion-progress-bar type="indeterminate" color="light" *ngIf="hasPost"></ion-progress-bar>
+
   <div class="div1">
     <div id='patternHolder' class="div2"></div>
   </div>

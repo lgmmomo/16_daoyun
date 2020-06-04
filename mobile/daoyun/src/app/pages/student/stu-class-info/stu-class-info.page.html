@@ -35,7 +35,7 @@
       </ion-grid>
     </ion-card-content>
   </ion-card>
-  <ion-button (click)="addcourse()" expand="block" shape='round' class="ion-margin" style="height: 50px;">
+  <ion-button [hidden]='hasTakenIn' (click)="addcourse()" expand="block" shape='round' class="ion-margin" style="height: 50px;">
     加入班课
   </ion-button>
 </ion-content>

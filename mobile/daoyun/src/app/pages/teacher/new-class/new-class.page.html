@@ -25,13 +25,13 @@
       </p>
     </ion-text>
 
-    <ion-input name="term" slot="start" placeholder="上课学期" required [(ngModel)]="signup.term" #term="ngModel"
+    <!-- <ion-input name="term" slot="start" placeholder="上课学期" required [(ngModel)]="signup.term" #term="ngModel"
       class="margintop fillet-boder"></ion-input>
     <ion-text class="ion-text-left" color="danger" *ngIf="(term.invalid && term.touched) || signup.submited">
       <p class="tips ion-padding-start" [hidden]="!term.errors?.required">
         请输入上课学期
       </p>
-    </ion-text>
+    </ion-text> -->
 
     <ion-input name="classroom" slot="start" placeholder="上课教室" required maxlength="20" [(ngModel)]="signup.classroom"
       #classroom="ngModel" class="margintop fillet-boder"></ion-input>
@@ -41,19 +41,19 @@
       </p>
     </ion-text>
 
-    <ion-input name="start_time" slot="start" placeholder="上课时间" required [(ngModel)]="signup.start_time" #start_time="ngModel"
+    <ion-input name="start_time" slot="start" placeholder="开始上课节数" required [(ngModel)]="signup.start_time" #start_time="ngModel"
       class="margintop fillet-boder"></ion-input>
     <ion-text class="ion-text-left" color="danger" *ngIf="(start_time.invalid && start_time.touched) || signup.submited">
       <p class="tips ion-padding-start" [hidden]="!start_time.errors?.required">
-        请输入上课时间
+        请输入开始上课节数
       </p>
     </ion-text>
 
-    <ion-input name="end_time" slot="start" placeholder="下课时间" required [(ngModel)]="signup.end_time" #start_time="ngModel"
+    <ion-input name="end_time" slot="start" placeholder="结束上课节数" required [(ngModel)]="signup.end_time" #start_time="ngModel"
       class="margintop fillet-boder"></ion-input>
     <ion-text class="ion-text-left" color="danger" *ngIf="(end_time.invalid && end_time.touched) || signup.submited">
       <p class="tips ion-padding-start" [hidden]="!end_time.errors?.required">
-        请输入下课时间
+        请输入结束上课节数
       </p>
     </ion-text>
 

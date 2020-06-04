@@ -20,6 +20,7 @@ export class MapPage implements OnInit {
     let geolocation = new BMap.Geolocation();
     geolocation.getCurrentPosition(r => {
       console.log(r.point.lat, r.point.lng);
+      console.log(parseFloat(r.point.lat))
     });
     this.map = new BMap.Map(this.allmap.nativeElement, {enableMapClick: true});    // 创建Map实例
     // this.map.centerAndZoom(new BMap.Point(116.404, 39.915), 11);  // 初始化地图,设置中心点坐标和地图级别

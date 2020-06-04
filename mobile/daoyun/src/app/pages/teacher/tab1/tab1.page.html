@@ -13,7 +13,7 @@
 
 <ion-content>
   <ion-list lines='full'>
-    <ion-item *ngFor="let item of course; let i=index" routerLink="/exam-class" [queryParams]="{course_name:item.subject}">
+    <ion-item *ngFor="let item of courses; let i=index" routerLink="/exam-class" [queryParams]="{course_id:item.courseID,course_name:item.courseName}">
       <ion-note class="ion-no-margin ion-margin-vertical" slot="start" >
         {{i+1}}
       </ion-note>
@@ -26,10 +26,11 @@
         </ion-button>
       </ion-avatar>
       <ion-label>
-        <h2>{{item.subject}}</h2>
-        <p>{{item.teacherName}}&nbsp;&nbsp;&nbsp;{{item.object}}</p>
+        <h2>{{item.courseName}}</h2>
+        <p>{{item.classLocation}}</p>
+        <p>{{item.classDate}}&nbsp;&nbsp;&nbsp;&nbsp;{{item.classOrder}}&nbsp;节</p>
       </ion-label>
     </ion-item>
   </ion-list>
-  <app-explore-container *ngIf="!course_length"></app-explore-container>
+  <app-explore-container *ngIf="!courses_length"></app-explore-container>
 </ion-content>

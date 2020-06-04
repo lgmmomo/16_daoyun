@@ -1,8 +1,8 @@
-import { async } from '@angular/core/testing';
 import { Component, OnInit } from '@angular/core';
 import { CommonService } from 'src/app/shared/services/common.service';
-import { Router } from '@angular/router';
-import { ToastController } from '@ionic/angular';
+import { Router, ActivatedRoute } from '@angular/router';
+import { ToastController, AlertController } from '@ionic/angular';
+import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
 declare var PatternLock: any;
 declare var BMap;
 
@@ -14,41 +14,82 @@ declare var BMap;
 export class MakeGesturePage implements OnInit {
 
   constructor(private commonService: CommonService,
-              private router: Router,
-              public toastController: ToastController) { }
+    private router: Router,
+    public toastController: ToastController,
+    private localStorageService: LocalStorageService,
+    private activatedRoute: ActivatedRoute) {
+    console.log('跳入make-gesture页面！')
+  }
 
-  public post_geature_url='';
-  public sign_in_number:any;
+  public post_geature_url = '';
+  public sign_in_number: any;
+  public course_id: any;
+  public course_name:any;
+  public teacher_id: any;
+  public hasPost=0;
 
   ngOnInit() {
-    var that=this;
+    this.activatedRoute.queryParams.subscribe((result) => {
+      console.log('传入的参数：', result);
+      this.course_id = result.course_id;
+      this.course_name = result.course_name;
+    })
+    this.teacher_id = this.localStorageService.get('userID', null);
+    console.log('教师编号：', this.teacher_id);
+    var that = this;
     var lock = new PatternLock("#patternHolder", {
       onDraw: function (pattern) {
         //do something with pattern
-        that.sign_in_number=lock.getPattern();
+        that.sign_in_number = lock.getPattern();
       }
     });
 
   }
 
-  async onSubmit(){
-    console.log('min 密码：',this.sign_in_number);
-    let sign_in={
-      sign_in_number:this.sign_in_number
-    }
-    let sign_in_json=JSON.stringify(sign_in);
-    this,this.commonService.postData(this.post_geature_url, sign_in_json).then(async (response)=>{
-      console.log('教师设置签到信息成功！');
-      const toast = await this.toastController.create({
-        color: 'green',
-        duration: 2000,
-        message: '签到设置成功!',
-      });
-      toast.present();
-      this.router.navigateByUrl('/exam-class');
-    }).catch((error)=>{
-      console.log('教师设置签到信息失败:', error);
+  async onSubmit() {
+    this.hasPost=1; //准备发送数据，显示进度条
+    this.getLocation().then((response: any) => {
+      console.log('教师位置：', response.point.lat, response.point.lng);
+      this.commonService.startSignIn(this.course_id, response.point.lng, response.point.lat, this.sign_in_number).then(async (result) => {
+        this.hasPost=0;//不显示进度条
+        console.log('返回信息：', result);
+        const toast = await this.toastController.create({
+          color: 'light',
+          duration: 2000,
+          mode:'ios',
+          translucent: true,
+          message: '签到设置成功!',
+        });
+        await toast.present();
+        this.router.navigate(['/exam-sign-in'], {
+          queryParams: {
+            course_id: this.course_id,
+            course_name: this.course_name
+          }
+        })
+      }).catch((error) => {
+        this.hasPost=0;
+        console.log('创建签到失败', error);
+      })
+    }).catch((error) => {
+      console.log('定位失败', error);
     })
   }
 
+  getLocation() {
+    let geolocation = new BMap.Geolocation(); //新建地图对象
+    return new Promise((reslove, reject) => {
+      geolocation.getCurrentPosition(function (r) {
+        console.log(this.getStatus())
+        if (this.getStatus() == 0) {
+          console.log('获取位置成功：', r.point.lat, r.point.lng);
+          reslove(r);
+        }
+        else {
+          console.log('获取位置失败:', this.getStatus());
+          reject(this.getStatus());
+        }
+      });
+    })
+  }
 }

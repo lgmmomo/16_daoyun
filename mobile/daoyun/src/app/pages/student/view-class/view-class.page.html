@@ -1,39 +1,37 @@
 <ion-header>
   <ion-toolbar mode='ios'>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="tabs" text="返回"></ion-back-button>
+      <ion-back-button defaultHref="/tabs" (click)="onBack()" text="返回"></ion-back-button>
     </ion-buttons>
-    <ion-title>{{title}}</ion-title>
+    <ion-buttons slot="primary">
+      <ion-button (click)="showMenu()">
+        <ion-icon slot="icon-only" name="ellipsis-horizontal"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{course_name}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-content>
-    <div style="height: 20px;">
-      <h5 slot="end" class="ion-no-margin">共100人</h5>
-    </div>
-    <ion-list>
-      <ion-item *ngFor="let item of student; let i=index" >
-        <ion-note class="ion-no-margin ion-margin-vertical" slot="start" >
-          {{i+1}}
-        </ion-note>
-        <ion-thumbnail>
-          <img src="../../../../assets/img/person_icon.png" />
-        </ion-thumbnail>
-        <ion-avatar slot="end">
-          <ion-button (click)="onClick()" fill='clear'>
-            <ion-icon slot="icon-only" name="arrow-forward-outline"></ion-icon>
-          </ion-button>
-        </ion-avatar>
-        <ion-label class='label2'>
-          <h2>{{item.name}}</h2>
-          <p>{{item.id}}</p>
-          <p>签到迟到旷课</p>
-        </ion-label>
-        <h2>{{item.experience}}</h2>
-        <p class="p1">经验值</p>
-      </ion-item>
-    </ion-list>
-  </ion-content>
-  
+  <div style="height: 15px;">
+    <h5 class="font1">成员总数&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;共{{students.length}}人</h5>
+  </div>
+  <hr class="line1"/>
+  <ion-list class='no-margin-top'>
+    <ion-item *ngFor="let item of students; let i=index" >
+      <ion-note class="ion-no-margin ion-margin-vertical" slot="start" >
+        {{i+1}}
+      </ion-note>
+      <ion-thumbnail>
+        <img src="../../../../assets/img/person_icon.png" />
+      </ion-thumbnail>
+      <ion-label class="label1">
+        <h2>{{item.Studentname}}</h2>
+        <p>{{item.StudentNumber}}</p>
+        <p>签到&nbsp;{{item.ok}}&nbsp;&nbsp;迟到&nbsp;{{item.later}}&nbsp;&nbsp;缺勤&nbsp;{{item.no}}</p>
+      </ion-label>
+      <h2 class="experience_h" style="color: rgb(253, 169, 67);">{{item.experience}}</h2>
+      <p class="p1" style="color: rgb(253, 169, 67);">经验值</p>
+    </ion-item>
+  </ion-list>
 </ion-content>

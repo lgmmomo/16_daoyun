@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { ActionSheetController } from '@ionic/angular';
+import { ActionSheetController, AlertController } from '@ionic/angular';
+import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
+import { CommonService } from 'src/app/shared/services/common.service';
 
 @Component({
   selector: 'app-tab1',
@@ -8,30 +10,32 @@ import { ActionSheetController } from '@ionic/angular';
   styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page {
-  course=[
-    {
-      id:0,
-      subject: '工程实践',
-      school: '福州大学',
-      teacherName:'池芝标',
-      object: '2019级专硕'
-    },
-    {
-      id:1,
-      subject: '软件工程',
-      school: '福州大学',
-      teacherName:'zhangdong',
-      object: '2019级专硕'
-    },
-  ];
-  course_length=0;
-
+  courses: any;
+  courses_length = 0;
+  userID = '';
+  identity = '';
   constructor(public actionSheetController: ActionSheetController,
-              private router: Router) {
-    this.course_length=this.course.length;
-    console.log(this.course_length);
+              private router: Router,
+              private localStorageService: LocalStorageService,
+              private commonService: CommonService,
+              private alertController: AlertController) {
+    this.identity = this.localStorageService.get('identity', 'teacher');
+    if (this.identity == 'teacher') {
+      this.userID = this.localStorageService.get('userID', null);
+      this.commonService.getCourseByIDHql(this.userID).then((result: any) => {
+        console.log('获取教师创建的课程信息成功！', result);
+        this.courses = result.courses;
+        this.courses_length = this.courses.length;
+        console.log('courses', this.courses, 'length', this.courses_length);
+      }).then((error) => {
+        console.log('获取教师创建的课程信息失败！', error);
+      })
+    }
+    else {
+      this.courses_length = 0
+    }
   }
-  
+
   async showMenu() {
     const actionSheet = await this.actionSheetController.create({
       mode: 'ios',
@@ -39,7 +43,12 @@ export class Tab1Page {
         text: '创建班课',
         handler: () => {
           console.log('创建班课');
-          this.router.navigateByUrl('/make-gesture');
+          if (this.identity == 'teacher'){
+            this.router.navigateByUrl('/new-class');
+          }
+          else{//学生无权限
+            this.presentAlert();
+          }
         }
       }, {
         text: '取消',
@@ -52,5 +61,15 @@ export class Tab1Page {
     await actionSheet.present();
   }
 
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      header: 'Warning!',
+      animated: true,
+      mode: 'ios',
+      message: '您没有此权限',
+      buttons: ['OK']
+    });
+    await alert.present();
+  }
 
 }

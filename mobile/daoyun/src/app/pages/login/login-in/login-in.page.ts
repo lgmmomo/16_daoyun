@@ -7,7 +7,6 @@ import { UserService } from 'src/app/shared/services/user.service';
 import { NgForm } from '@angular/forms';
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
 
-
 @Component({
     selector: 'app-login-in',
     templateUrl: './login-in.page.html',
@@ -16,6 +15,7 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage.servi
 export class LoginInPage implements OnInit {
     username: string; // 视图模型的属性账号，双向绑定
     password: string; // 视图模型的属性密码，双向绑定
+    identity = 'teacher'; //登录身份
     isPass = '';
     constructor(private toastController: ToastController, private alertController: AlertController,
         private router: Router, private userService: UserService, private menuController: MenuController,
@@ -41,12 +41,13 @@ export class LoginInPage implements OnInit {
             await alert.present();
         }
         else {//有输入
-            this.commonService.postLogin(this.username, this.password).then(async (result: any) => {
+            this.commonService.postLogin(this.username, this.password, this.identity).then(async (result: any) => {
                 console.log('返回的登入信息:', result);
                 this.isPass = result.state;
                 if (this.isPass == '1') {
                     //将登录信息存在本地数据库
                     this.localStorageService.set('userID', this.username);
+                    this.localStorageService.set('identity', this.identity);
                     let app = this.localStorageService.get('APP', []);
                     app.isLogin = true;
                     app.version = '1.0.0';
@@ -54,23 +55,25 @@ export class LoginInPage implements OnInit {
                     // app.identity = loginUser.identity
                     this.localStorageService.set('APP', app);
                     let toast = await this.toastController.create({
+                        animated: true,
+                        mode: 'ios',
                         message: '登录成功',
                         duration: 1000,
-                        position: 'bottom',
-                      });
+                        position: 'bottom'
+                    });
                     toast.present();
                     this.router.navigateByUrl('/tabs/tabs/tab3');
                 }
                 else if (this.isPass == '0') {
                     const alert = await this.alertController.create({
-                        message: '学号不存在！',
+                        message: '学号或工号不存在！',
                         mode: 'ios',
                         animated: true,
                         buttons: ['OK']
                     });
                     await alert.present();
-                  }
-                  else {
+                }
+                else {
                     const alert = await this.alertController.create({
                         message: '密码错误！',
                         mode: 'ios',
@@ -78,9 +81,9 @@ export class LoginInPage implements OnInit {
                         buttons: ['OK']
                     });
                     await alert.present();
-                  }
-            }).catch((error)=>{
-                console.log('postLogin出现错误:',error);
+                }
+            }).catch((error) => {
+                console.log('postLogin出现错误:', error);
             })
         }
     }

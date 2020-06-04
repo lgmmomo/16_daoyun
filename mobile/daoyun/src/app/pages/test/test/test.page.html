@@ -26,5 +26,15 @@
   <ion-button (click)="presentAlertPrompt()" expand="block" fill="clear" shape="round">
     测试alert
   </ion-button>
+  <ion-item mode='ios'>
+    <ion-label>身份</ion-label>
+    <ion-select [(ngModel)]="identity" value="teacher" interface="action-sheet">
+      <ion-select-option value="teacher">教师</ion-select-option>
+      <ion-select-option value="student">学生</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-button (click)="onSelect()" expand="block" fill="clear" shape="round">
+    测试下拉框
+  </ion-button>
 
 </ion-content>

@@ -19,6 +19,7 @@ export class TestPage implements OnInit {
   public result_length = 0;
   public submit = 0;
   public error:any;
+  public identity='teacher';
   ngOnInit() {
   }
 
@@ -51,12 +52,22 @@ export class TestPage implements OnInit {
   }
 
   onTest(){
-    this.commonService.getTest().then((r)=>{
+    this.commonService.countAllCallTheRoll('1').then((r)=>{
       console.log('success',r);
     }).then((err)=>{
       console.log('error!',err);
     })
+    // this.commonService.postTest1().then((r)=>{
+    //   console.log('success',r);
+    // }).then((err)=>{
+    //   console.log('error!',err);
+    // })
   }
+
+  onSelect(){
+    console.log(this.identity)
+  }
+  
 
   async presentAlertPrompt() {
     const alert = await this.alertController.create({

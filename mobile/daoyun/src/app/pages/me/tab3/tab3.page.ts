@@ -23,7 +23,9 @@ export class Tab3Page {
     });
     this.version = appConfig.version;
     let userId = this.localStorageService.get('userID', null);
-    this.commonService.getPersonById(userId).then((result: any) => {
+    let identity = this.localStorageService.get('identity', 'student');
+    console.log('当前获取的登入ID为', userId);
+    this.commonService.getPersonById(userId, identity).then((result: any) => {
       console.log('用户信息', result);
       this.name = result.personnel.Pname;
       this.id = result.personnel.ID;

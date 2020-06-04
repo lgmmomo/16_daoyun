@@ -12,27 +12,58 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage.servi
 export class StuClassInfoPage implements OnInit {
 
   course_id='';
+  teacherName='';
+  result:any;
+  ID:any;
+  classSession:any;
+  classLocation:any;
+  classDate:any;
+  classOrder:any;
+
+  hasTakenIn=0;//还未参加这门课
   course_information:any;
   constructor(private activatedRoute: ActivatedRoute,
               private commonService: CommonService,
               private router: Router,
               private alertController: AlertController,
               private localStorageService: LocalStorageService) {
+                console.log('hello stu-class-info page!')
+              }
+
+  ngOnInit() {
     this.activatedRoute.queryParams.subscribe((result)=>{
       console.log(result);
       this.course_id=result.course_id;
-      console.log('课程编号', this.course_id);
+      console.log('传入课程编号', this.course_id);
     });
-    let json=JSON.stringify({course_id: this.course_id});
-    this.commonService.postData('/getCourse', json).then((response)=>{
-      console.log('课程信息:', response);
-      this.course_information=response;
-    }).catch((error)=>{
-      console.log('根据课程号查询课程失败！', error);
+    //判断该同学是否加入了班课
+    let userId = this.localStorageService.get('userID', null);
+    console.log('当前获取的登入ID为', userId);
+    this.commonService.countAllCallTheRoll(this.course_id).then((result:any)=>{
+      console.log('成功获取课程成员信息：', result);
+      for(let r of result.data){
+        if(r.StudentNumber==userId){
+          this.hasTakenIn=1;//参加了这门课
+          console.log('该同学已经参加了这门课');
+          break;
+        }
+      }
     })
-  }
+    // this.commonService.getCourseByIDHql(userId).then((result:any)=>{
+    //   for(let i=0;i<result.courses.length;i++){
+    //     console.log('课程',i,result.courses[i])
+    //     if(result.courses[i].courseID==this.course_id){
+    //       this.teacherName=result.name;
+    //       this.result=result.courses[i];
+    //       this.ID=result.courses[i].courseID;
+    //       this.classSession=result.courses[i].classOrder;
+    //       this.classLocation=result.courses[i].classLocation;
+    //       this.classDate=result.courses[i].classDate;
+    //       this.classOrder=result.courses[i].CourseWeek;
+    //     }
+    //   }
+    // })
 
-  ngOnInit() {
   }
 
   async addcourse(){ //加入该门课程

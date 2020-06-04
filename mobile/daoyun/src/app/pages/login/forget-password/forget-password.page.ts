@@ -35,14 +35,16 @@ export class ForgetPasswordPage implements OnInit {
   async onSendPwd() {
     if (this.user.pwd === this.user.cpwd) {
       let userID = this.localStorageService.get('userID', null);
+      let identity = this.localStorageService.get('identity', 'student');
       // 注册成功，保存数据
       let updata = {
         'password': Md5.hashStr(this.user.pwd).toString(),
         'loginname': userID
       }
-      this.commonService.change_password(updata).then(async (result: any) => {
+      this.commonService.change_password(updata, identity).then(async (result: any) => {
         if (result.status = "success") {
           let alert = await this.alertController.create({
+            mode:'ios',
             animated: true,
             header: '提示',
             message: '密码修改成功！',
@@ -54,6 +56,7 @@ export class ForgetPasswordPage implements OnInit {
       }).catch(async (error) => {
         console.log('修改密码失败', error);
         let alert = await this.alertController.create({
+          mode:'ios',
           animated: true,
           header: '提示',
           message: '密码修改失败！',

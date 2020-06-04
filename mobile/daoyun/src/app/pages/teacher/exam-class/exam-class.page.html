@@ -1,4 +1,4 @@
-<ion-header class="ion-no-border">
+<ion-header>
   <ion-toolbar mode='ios'>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/tabs" (click)="onBack()" text="返回"></ion-back-button>
@@ -14,11 +14,11 @@
 
 <ion-content>
   <div style="height: 15px;">
-    <h5 slot="end" class="ion-no-margin font1">共100人</h5>
+    <h5 class="font1">成员总数&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;共{{students.length}}人</h5>
   </div>
-  <hr class="line" />
-  <ion-list>
-    <ion-item *ngFor="let item of student; let i=index" >
+  <hr class="line1"/>
+  <ion-list class='no-margin-top'>
+    <ion-item *ngFor="let item of students; let i=index" >
       <ion-note class="ion-no-margin ion-margin-vertical" slot="start" >
         {{i+1}}
       </ion-note>
@@ -26,12 +26,12 @@
         <img src="../../../../assets/img/person_icon.png" />
       </ion-thumbnail>
       <ion-label class="label1">
-        <h2>{{item.name}}</h2>
-        <p>{{item.id}}</p>
-        <p>签到&nbsp;2&nbsp;&nbsp;迟到&nbsp;1&nbsp;&nbsp;旷课&nbsp;1</p>
+        <h2>{{item.Studentname}}</h2>
+        <p>{{item.StudentNumber}}</p>
+        <p>签到&nbsp;{{item.ok}}&nbsp;&nbsp;迟到&nbsp;{{item.later}}&nbsp;&nbsp;缺勤&nbsp;{{item.no}}</p>
       </ion-label>
-      <h2>{{item.experience}}</h2>
-      <p class="p1">经验值</p>
+      <h2 class="experience_h" style="color: rgb(253, 169, 67);">{{item.experience}}</h2>
+      <p class="p1" style="color: rgb(253, 169, 67);">经验值</p>
     </ion-item>
   </ion-list>
 </ion-content>

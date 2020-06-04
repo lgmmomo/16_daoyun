@@ -1,61 +1,50 @@
 <ion-header class="ion-no-border">
   <ion-toolbar mode='ios'>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/exam-class" text="返回"></ion-back-button>
+      <ion-back-button defaultHref="/exam-class" (click)="onBack()" text="返回"></ion-back-button>
     </ion-buttons>
-    <ion-title>今日签到详情</ion-title>
+    <ion-title>{{course_name}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-list>
     <ion-list-header>
-      已签到&nbsp;&nbsp;&nbsp;1人
+      已签到&nbsp;&nbsp;&nbsp;{{sign_in_student_num}}人
     </ion-list-header>
-    <ion-item>
-      <ion-avatar slot='start'>
-        <img src="../../../../assets/img/person-circle-outline.svg">
-      </ion-avatar>
-      <ion-label>
-        <h2>张三</h2>
-        <p>190327011</p>
+    <ion-item *ngFor="let item of sign_in_student; let i=index" >
+      <ion-note class="ion-no-margin ion-margin-vertical" slot="start" >
+        {{i+1}}
+      </ion-note>
+      <ion-thumbnail>
+        <img src="../../../../assets/img/person_icon.png" />
+      </ion-thumbnail>
+      <ion-label class="label1">
+        <h2>{{item.studentName}}</h2>
+        <p>{{item.studentId}}</p>
       </ion-label>
     </ion-item>
   </ion-list>
   <ion-list>
     <ion-list-header>
-      迟到&nbsp;&nbsp;&nbsp;1人
+      未签到&nbsp;&nbsp;&nbsp;{{not_sign_in_student_num}}人
     </ion-list-header>
-    <ion-item>
-      <ion-avatar slot='start'>
-        <img src="../../../../assets/img/person-circle-outline.svg">
-      </ion-avatar>
-      <ion-label>
-        <h2>李四</h2>
-        <p>190327012</p>
+    <ion-item *ngFor="let item of not_sign_in_student; let i=index" >
+      <ion-note class="ion-no-margin ion-margin-vertical" slot="start" >
+        {{i+1}}
+      </ion-note>
+      <ion-thumbnail>
+        <img src="../../../../assets/img/person_icon.png" />
+      </ion-thumbnail>
+      <ion-label class="label1">
+        <h2>{{item.studentName}}</h2>
+        <p>{{item.studentId}}</p>
       </ion-label>
     </ion-item>
   </ion-list>
-  <ion-list>
-    <ion-list-header>
-      旷课&nbsp;&nbsp;&nbsp;1人
-    </ion-list-header>
-    <ion-item>
-      <ion-avatar slot='start'>
-        <img src="../../../../assets/img/person-circle-outline.svg">
-      </ion-avatar>
-      <ion-label>
-        <h2>王五</h2>
-        <p>190327013</p>
-      </ion-label>
-    </ion-item>
-  </ion-list>
+  <ion-fab horizontal="end" vertical="center" slot="fixed" mode='ios'>
+    <ion-fab-button color="danger" (click)="onFlash()">
+      <ion-icon name="refresh-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
-
-<ion-footer style="height: 60px;">
-  <ion-toolbar>
-    <ion-button (click)="onClick()" expand="block" shape='round' style="height: 50px;">
-      刷新
-    </ion-button>
-  </ion-toolbar>
-</ion-footer>

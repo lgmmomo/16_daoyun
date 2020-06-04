@@ -1,16 +1,23 @@
 <ion-content no-padding>
   <img src="assets/img/login/logoin_title.png" alt="">
+  <ion-item mode='ios'>
+    <ion-label>请选择身份</ion-label>
+    <ion-select [(ngModel)]="identity" value="teacher" interface="action-sheet">
+      <ion-select-option value="teacher">教师</ion-select-option>
+      <ion-select-option value="student">学生</ion-select-option>
+    </ion-select>
+  </ion-item> 
   <div padding-horizontal>
-    <form #loginForm="ngForm">
+    <form #loginForm="ngForm">   
       <ion-list padding-right no-margin>
         <ion-item lines="none"></ion-item>
         <ion-item>
           <ion-label position="fixed">账号</ion-label>
-          <ion-input name="username" type="text" placeholder="请输入您的手机号" [(ngModel)]="username"></ion-input>
+          <ion-input name="username" type="text" placeholder="请输入学号或工号" [(ngModel)]="username"></ion-input>
         </ion-item>
         <ion-item margin-top>
           <ion-label position="fixed">密码</ion-label>
-          <ion-input name="password" type="password" placeholder="请输入您的登录密码" [(ngModel)]="password"></ion-input>
+          <ion-input name="password" type="password" placeholder="请输入登录密码" [(ngModel)]="password"></ion-input>
         </ion-item>
         <ion-item no-lines></ion-item>
       </ion-list>

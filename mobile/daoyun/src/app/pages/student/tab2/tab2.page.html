@@ -13,7 +13,7 @@
 
 <ion-content>
   <ion-list lines='full'>
-    <ion-item *ngFor="let item of course; let i=index" routerLink="/view-class" [queryParams]="{course_id:item.id}">
+    <ion-item *ngFor="let item of courses; let i=index" routerLink="/view-class" [queryParams]="{courseID:item.cnameAndID.courseID,courseName:item.cnameAndID.courseName}">
       <ion-note class="ion-no-margin ion-margin-vertical" slot="start" >
         {{i+1}}
       </ion-note>
@@ -26,7 +26,7 @@
         </ion-button>
       </ion-avatar>
       <ion-label>
-        <h2>{{item.subject}}</h2>
+        <h2>{{item.cnameAndID.courseName}}</h2>
         <p>{{item.teacherName}}&nbsp;&nbsp;&nbsp;{{item.object}}</p>
       </ion-label>
     </ion-item>

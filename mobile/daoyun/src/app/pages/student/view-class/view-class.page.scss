@@ -1,7 +1,29 @@
-.div1{
-    width: 200px;
-    margin: auto;
+.label1{
+    margin-left: 15px;
 }
-.div2{
-    text-align: center;
+.label2{
+    width: fit-content;
+    // margin-right: 10px;
+    // margin-left: 200px;
+}
+.p1{
+    font-weight: lighter;
+    margin-bottom: 1px;
+    padding-right: 18px;
+}
+.font1{
+    font-size: smaller;
+    margin-bottom: 0px;
+    margin-top: 8px;
+    margin-left: 10%;
+}
+.experience_h{
+    font-weight: bold;
+}
+.no-margin-top{
+    padding-top: 0px;
+}
+.line1{
+    margin: 0px;
+    size: 3px;
 }

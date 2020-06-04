@@ -8,6 +8,7 @@
 </ion-header>
 
 <ion-content color="primary">
+  <ion-progress-bar type="indeterminate" color="light" *ngIf="hasPost"></ion-progress-bar>
   <div class="div3">
     <form #postForm="ngForm" (ngSubmit)="onSubmit()">
       <ion-item color="primary">

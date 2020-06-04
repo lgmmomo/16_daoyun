@@ -15,48 +15,37 @@ export class Tab2Page {
   scannedData: {};
   course_id:any;
   stuID='';
+  identity='';
   courses:any;
-
-  course=[
-    {
-      id:0,
-      subject: '工程实践',
-      school: '福州大学',
-      teacherName:'池芝标',
-      object: '2019级专硕'
-    },
-    {
-      id:1,
-      subject: '软件工程',
-      school: '福州大学',
-      teacherName:'zhangdong',
-      object: '2019级专硕'
-    },
-  ];
+  barcodeScannerOptions: BarcodeScannerOptions; //扫描二维码组件选项
   course_length=0;
   constructor(public actionSheetController: ActionSheetController,
               private router: Router,
               private barcodeScanner: BarcodeScanner,
               private alertController: AlertController,
-              private barcodeScannerOptions: BarcodeScannerOptions,
               private localStorageService: LocalStorageService,
-              private commonService: CommonService) {
-    this.stuID=this.localStorageService.get('userID', null);
-    this.commonService.getCourseById(this.stuID).then((result:any)=>{
-      console.log('根据学号请求已加入课程列表:', result);
-      this.courses=result.marks;
-      this.course_length=this.course.length;
-      console.log(this.course_length);
-    }).then((error)=>{
-      console.log('请求加入课程失败:', error);
-    })
-    this.course_length=this.course.length;
-    console.log(this.course_length);
-    //二维码Options
-    this.barcodeScannerOptions = {
-      showTorchButton: true,
-      showFlipCameraButton: true
-    };
+              private commonService: CommonService ) {
+    this.identity=this.localStorageService.get('identity', null);
+    if(this.identity=='student'){
+      this.stuID=this.localStorageService.get('userID', null);
+      console.log('enter tab2 page');
+      this.commonService.getCourseById(this.stuID).then((result:any)=>{
+        console.log('根据学号请求已加入课程列表:', result);
+        this.courses=result.marks;
+        this.course_length=this.courses.length;
+        console.log(this.course_length);
+      }).then((error)=>{
+        console.log('请求课程列表失败:', error);
+      })
+      //二维码Options
+      this.barcodeScannerOptions = {
+        showTorchButton: true,
+        showFlipCameraButton: true
+      };
+    }
+    else{
+      this.course_length=0;
+    }
   }
 
   async showMenu() {
@@ -75,9 +64,11 @@ export class Tab2Page {
           console.log('根据二维码查找班课');
           // this.course_id='1';
           this.barcodeScanner.scan().then(barcodeData => {
-            alert("Barcode data " + JSON.stringify(barcodeData));
+            // alert("Barcode data " + JSON.stringify(barcodeData));
+            console.log("Barcode data " + JSON.stringify(barcodeData));
             this.scannedData = barcodeData;
             this.course_id = this.scannedData['text'];//获取扫描到的班课号
+            console.log('扫描到的课程号为：', this.course_id);
             this.router.navigate(['/stu-class-info'],{
               queryParams:{
                 course_id: this.course_id
