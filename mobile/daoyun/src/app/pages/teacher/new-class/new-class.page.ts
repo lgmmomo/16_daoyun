@@ -19,20 +19,19 @@ export class NewClassPage implements OnInit {
     private alertController: AlertController,
     private localStorageService: LocalStorageService,
     private commonService: CommonService,
-    private router: Router) {}
+    private router: Router) { }
 
-  new_class_url=''; //新建课程信息的api
   submited = false;
   signup = {
     subject: '',
     school: '',
-    term:'',
+    courseDay: '',
     classroom: '',
-    start_time:'',
-    end_time:'',
-    object: '', 
-    start_week:'',
-    end_week: '', 
+    start_time: '',
+    end_time: '',
+    object: '',
+    start_week: '',
+    end_week: '',
     submited: false  //用来表示表单是否提交过
   }
 
@@ -47,38 +46,33 @@ export class NewClassPage implements OnInit {
   }
   onSignupSave() {
     let subjectInfo: any = {} //新建课程的信息
-    subjectInfo['subject'] = this.signup.subject
-    subjectInfo['school'] = this.signup.school
-    subjectInfo['term'] = this.signup.term
-    subjectInfo['classroom'] = this.signup.classroom
-    subjectInfo['start_time'] = this.signup.start_time
-    subjectInfo['end_time'] = this.signup.end_time
-    subjectInfo['object'] = this.signup.object
-    subjectInfo['start_week'] = this.signup.start_week
-    subjectInfo['end_week'] = this.signup.end_week
-    let loginUser = this.localStorageService.get('login', null);
-    subjectInfo['teacherName'] = loginUser.name;
-    subjectInfo['teacherId'] = loginUser.userNo;
-    subjectInfo['submitTime'] = new Date().toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '');
-    subjectInfo['submitPerson'] = loginUser.userNo;
-    let subjectInfo_json=JSON.stringify(subjectInfo);
-    console.log('新建课程信息：', subjectInfo_json);
-    this.commonService.postData(this.new_class_url, subjectInfo_json).then((response)=>{
-      console.log('新建课程成功!', response);
-      let course_id='123';
-      this.router.navigate(['/qrcode'],{
-        queryParams:{
-          course_id: course_id,
-          course_name: this.signup.subject
-        }
-      })
+    subjectInfo['add_CourseName'] = this.signup.subject
+    subjectInfo['add_School'] = this.signup.school
+    subjectInfo['add_CoursePlace'] = this.signup.classroom
+    subjectInfo['add_CourseWeek'] = this.signup.start_week + '-' + this.signup.end_week
+    subjectInfo['add_CourseDay'] = this.signup.courseDay
+    subjectInfo['add_stuobject'] = this.signup.object
+    subjectInfo['add_CourseTime'] = this.signup.start_time + '-' + this.signup.end_time
+    let userName = this.localStorageService.get('userName', null);
+    subjectInfo['add_TeacherName'] = userName;
+    this.commonService.postNewCourse(subjectInfo).then((result: any) => {
+      console.log('添加班课返回信息：', result);
+      if (result.status == 'success') {
+        let course_id = result.data;
+        console.log('班课号：', course_id);
+        this.router.navigate(['/qrcode'], {
+          queryParams: {
+            course_id: course_id,
+            course_name: this.signup.subject
+          }
+        })
+      }
     }).catch((error)=>{
       console.log('新建课程失败', error);
     })
-    // this.userService.signupSubject(subjectInfo);
   }
 
-  onBack(){
+  onBack() {
     this.router.navigateByUrl('/tabs/tabs/tab1');
   }
 

@@ -30,8 +30,8 @@ export class QrcodePage implements OnInit {
   }
 
   onBack(){
-    this.router.navigateByUrl('/tabs/tabs/tab1');
     console.log('调用onback');
+    this.router.navigateByUrl('/tabs/tabs/tab1');
   }
 
 }

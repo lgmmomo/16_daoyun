@@ -221,6 +221,19 @@ export class CommonService {
     })
   }
 
+  //新增班课
+  postNewCourse(data){
+    let url = this.hurl + '/course';
+    console.log('发送新增班课信息：', data);
+    return new Promise((reslove, reject) => {
+      this.http.post(url, JSON.stringify(data), this.httpOptions).subscribe((response) => {
+        reslove(response);
+      }, (error) => {
+        reject(error);
+      })
+    })
+  }
+
 
 
   getTest() {

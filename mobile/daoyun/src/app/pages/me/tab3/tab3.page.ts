@@ -30,6 +30,7 @@ export class Tab3Page {
       this.name = result.personnel.Pname;
       this.id = result.personnel.ID;
       this.localStorageService.set('Studentid', result.personnel.Studentid);
+      this.localStorageService.set('userName', result.personnel.Pname);
     })
   }
   //退出登录
