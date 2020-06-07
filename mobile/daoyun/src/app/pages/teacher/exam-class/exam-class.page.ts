@@ -84,7 +84,11 @@ export class ExamClassPage implements OnInit {
         text: '班课信息',
         handler: () => {
           console.log('班课信息');
-          this.router.navigateByUrl('/class-info');
+          this.router.navigate(['/class-info'], {
+            queryParams: {
+              course_id: this.course_id
+            }
+          })
         }
       }, {
         text: '取消',

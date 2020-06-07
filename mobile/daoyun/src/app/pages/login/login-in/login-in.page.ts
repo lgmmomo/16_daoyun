@@ -82,7 +82,7 @@ export class LoginInPage implements OnInit {
                     });
                     await alert.present();
                 }
-            }).catch((error) => {
+            }).catch(async (error) => {
                 console.log('postLogin出现错误:', error);
             })
         }

@@ -11,9 +11,9 @@
 
   <div id='patternHolder' class="center"></div>
 
-  <ion-button (click)="onClick()" mode='ios' expand="block" fill="clear" shape="round">
+  <!-- <ion-button (click)="onClick()" mode='ios' expand="block" fill="clear" shape="round">
     请求数据
-  </ion-button>
+  </ion-button> -->
   <ion-label *ngIf="!result_length && submit">{{error.status}}</ion-label>
   <ion-list *ngIf="result_length && submit">
     <ion-item *ngFor="let item of list">
@@ -23,7 +23,7 @@
   <ion-button (click)="onTest()" expand="block" fill="clear" shape="round">
     测试API
   </ion-button>
-  <ion-button (click)="presentAlertPrompt()" expand="block" fill="clear" shape="round">
+  <!-- <ion-button (click)="presentAlertPrompt()" expand="block" fill="clear" shape="round">
     测试alert
   </ion-button>
   <ion-item mode='ios'>
@@ -32,9 +32,9 @@
       <ion-select-option value="teacher">教师</ion-select-option>
       <ion-select-option value="student">学生</ion-select-option>
     </ion-select>
-  </ion-item>
-  <ion-button (click)="onSelect()" expand="block" fill="clear" shape="round">
+  </ion-item> -->
+  <!-- <ion-button (click)="onSelect()" expand="block" fill="clear" shape="round">
     测试下拉框
-  </ion-button>
+  </ion-button> -->
 
 </ion-content>

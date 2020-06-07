@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HTTP } from '@ionic-native/http/ngx';
 import { Md5 } from 'ts-md5';
 
 @Injectable({
@@ -13,7 +14,9 @@ export class CommonService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })//请求头进行转格式，防止出现415错误
   };
 
-  constructor(public http: HttpClient) {
+  constructor(
+    public http: HttpClient
+    ) {
     console.log('hello commonService!');
   }
 
@@ -139,6 +142,19 @@ export class CommonService {
     })
   }
 
+  findCourseById(id){
+    let url = this.hurl + '/findcourse/' + id;
+    console.log('查找班课编号：', id);
+    return new Promise((reslove, reject) => {
+      this.http.get(url).subscribe((response) => { //异步方法，需要用promise返回数据
+        reslove(response);
+      }, (error) => {
+        console.log('错误', error);
+        reject(error);
+      })
+    })
+  }
+
   //学生签到
   studentSignIn(Studentid, longitude, latitude, courseID, signpassword) {
     let url = this.hurl + '/app/student/pos_sign/';
@@ -227,6 +243,32 @@ export class CommonService {
     console.log('发送新增班课信息：', data);
     return new Promise((reslove, reject) => {
       this.http.post(url, JSON.stringify(data), this.httpOptions).subscribe((response) => {
+        reslove(response);
+      }, (error) => {
+        reject(error);
+      })
+    })
+  }
+
+  //修改班课信息
+  editCourseInformation(data){
+    let url = this.hurl + '/course';
+    console.log('发送修改班课信息：', data);
+    return new Promise((reslove, reject) => {
+      this.http.put(url, JSON.stringify(data), this.httpOptions).subscribe((response) => {
+        reslove(response);
+      }, (error) => {
+        reject(error);
+      })
+    })
+  }
+
+  //删除班课
+  DeleteCourse(course_id){
+    let url = this.hurl + '/course/'+course_id;
+    console.log('需要取消的课程编号：', course_id);
+    return new Promise((reslove, reject) => {
+      this.http.delete(url).subscribe((response) => {
         reslove(response);
       }, (error) => {
         reject(error);

@@ -8,34 +8,38 @@
 </ion-header>
 
 <ion-content fullscreen>
-  <ion-card class="ion-margin">
+  <ion-card class="ion-margin" [hidden]='!hasThisClass'>
     <img src="../../../../assets/img/login/logoin_title.png" />
     <ion-card-header>
-      <ion-card-subtitle>2019级计算机专硕</ion-card-subtitle>
-      <ion-card-title>工程实践</ion-card-title>
+      <ion-card-subtitle>{{course_object}}</ion-card-subtitle>
+      <ion-card-title>{{course_name}}</ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <ion-grid fixed>
         <ion-row>
+          <ion-col size="2">学校</ion-col>
+          <ion-col size="4">{{course_school}}</ion-col>
+        </ion-row>
+        <ion-row>
           <ion-col size="2">教师</ion-col>
-          <ion-col size="4">池芝标</ion-col>
+          <ion-col size="4">{{course_teacher}}</ion-col>
         </ion-row>
         <ion-row>
           <ion-col size="2">教室</ion-col>
-          <ion-col size="4">西三104</ion-col>
+          <ion-col size="4">{{course_place}}</ion-col>
         </ion-row>
         <ion-row>
-          <ion-col size="2">节数</ion-col>
-          <ion-col size="4">8：00-12:00</ion-col>
+          <ion-col size="2">时间</ion-col>
+          <ion-col size="4">{{course_day}}&nbsp;&nbsp;&nbsp;{{course_time}}&nbsp;&nbsp;节</ion-col>
         </ion-row>
         <ion-row>
           <ion-col size="2">周数</ion-col>
-          <ion-col size="4">1-16</ion-col>
+          <ion-col size="4">{{course_week}}&nbsp;&nbsp;周</ion-col>
         </ion-row>
       </ion-grid>
     </ion-card-content>
   </ion-card>
-  <ion-button [hidden]='hasTakenIn' (click)="addcourse()" expand="block" shape='round' class="ion-margin" style="height: 50px;">
+  <ion-button [hidden]='hasTakenIn||!hasThisClass' (click)="addcourse()" expand="block" shape='round' class="ion-margin" style="height: 50px;">
     加入班课
   </ion-button>
 </ion-content>

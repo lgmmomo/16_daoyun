@@ -2,7 +2,6 @@ import { ToastController, AlertController } from '@ionic/angular';
 import { CommonService } from './../../../shared/services/common.service';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
-import { preserveWhitespacesDefault } from '@angular/compiler';
 declare var PatternLock: any;
 
 @Component({
@@ -52,15 +51,10 @@ export class TestPage implements OnInit {
   }
 
   onTest(){
-    this.commonService.countAllCallTheRoll('1').then((r)=>{
-      console.log('success',r);
-    }).then((err)=>{
-      console.log('error!',err);
-    })
-    // this.commonService.postTest1().then((r)=>{
-    //   console.log('success',r);
-    // }).then((err)=>{
-    //   console.log('error!',err);
+    // this.http.get('http://47.115.121.100:3000/app/student/180327001', {}, {}).then((result)=>{
+    //   console.log(result)
+    // }).catch((error)=>{
+    //   console.log(error)
     // })
   }
 

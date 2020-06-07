@@ -6,7 +6,7 @@ import { StartAppGuard } from './core/start-app.guard';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'tabs',
+    redirectTo: 'login-in',
     pathMatch: 'full'
   },
   {
@@ -89,7 +89,8 @@ const routes: Routes = [
   {
     path: 'stu-class-info',
     loadChildren: () => import('./pages/student/stu-class-info/stu-class-info.module').then( m => m.StuClassInfoPageModule)
-  },  {
+  },
+  {
     path: 'qrcode',
     loadChildren: () => import('./pages/teacher/qrcode/qrcode.module').then( m => m.QrcodePageModule)
   }
