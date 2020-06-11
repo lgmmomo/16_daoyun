@@ -15,7 +15,7 @@ export class ExamClassPage implements OnInit {
     private router: Router,
     public actionSheetController: ActionSheetController) {
     console.log('跳入exam-class页面！');
-  } 
+  }
 
   public course_name = '';
   public course_id = '';
@@ -28,6 +28,11 @@ export class ExamClassPage implements OnInit {
       this.course_id = result.course_id;
       this.course_name = result.course_name;
     })
+    this.refreshData(null);
+  }
+
+  refreshData(event) {
+    this.students = [];
     this.commonService.countAllCallTheRoll(this.course_id).then((result: any) => {
       console.log('查询', this.course_name, '课程结果为：', result);
       for (let r of result.data) {
@@ -48,8 +53,16 @@ export class ExamClassPage implements OnInit {
         return b.experience - a.experience;//从小到大
       })
       console.log('排序后', this.students)
+    }).catch((error) => {
+      console.log('获取', this.course_name, '课程信息失败')
+      
+    }).finally(()=>{
+      if (event != null) { //如果不是第一次调用，则需要通知refresher控件结束工作
+        event.target.complete();
+      }
     })
   }
+
 
   onBack() {
     this.router.navigateByUrl('/tabs/tabs/tab1');

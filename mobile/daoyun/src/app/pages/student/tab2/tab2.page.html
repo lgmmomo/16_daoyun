@@ -12,7 +12,15 @@
 </ion-header>
 
 <ion-content>
-  <ion-list lines='full'>
+  <ion-refresher slot="fixed" (ionRefresh)="refreshData($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="下拉刷新"
+      refreshingSpinner="circles"
+      refreshingText="加载中...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <ion-list lines='full' *ngIf="course_length">
     <ion-item *ngFor="let item of courses; let i=index" routerLink="/view-class" [queryParams]="{courseID:item.cnameAndID.courseID,courseName:item.cnameAndID.courseName}">
       <ion-note class="ion-no-margin ion-margin-vertical" slot="start" >
         {{i+1}}

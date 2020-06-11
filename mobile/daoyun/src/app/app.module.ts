@@ -12,7 +12,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 
 @NgModule({
@@ -23,7 +23,8 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
             AppRoutingModule,
             SharedModule,
             HttpClientModule,
-            FormsModule],
+            FormsModule,
+            ReactiveFormsModule],
   providers: [
     StatusBar,
     SplashScreen,

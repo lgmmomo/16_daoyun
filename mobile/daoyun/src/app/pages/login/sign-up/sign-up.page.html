@@ -1,13 +1,45 @@
-<ion-header class="ion-no-border">
+<ion-header>
   <ion-toolbar mode='ios'>
-    <ion-title></ion-title>
+    <ion-title>注册</ion-title>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="welcome" text="返回"></ion-back-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="signup">
+<ion-content fullscreen>
+  <ion-list lines="full" class="ion-no-margin ion-no-padding">  
+    <ion-item mode='ios'>
+      <ion-label position="stacked">以下为必填项&nbsp;<ion-text color="danger">*</ion-text></ion-label>
+      <ion-input placeholder="学号/工号" [(ngModel)]="signup.userNo"></ion-input>
+      <ion-input placeholder="姓名" [(ngModel)]="signup.name"></ion-input>
+      <ion-input placeholder="密码" [(ngModel)]="signup.password"></ion-input> 
+      <ion-input placeholder="确认密码" [(ngModel)]="signup.confirmPassword"></ion-input>
+    </ion-item>
+    <ion-item mode='ios'>
+      <ion-label>身份&nbsp;<ion-text color="danger">*</ion-text></ion-label>
+      <ion-select (ionChange)='onChangeIdentity($event)' [(ngModel)]="signup.identity" value='student' interface="action-sheet">
+        <ion-select-option value='teacher'>教师</ion-select-option>
+        <ion-select-option value='student'>学生</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item mode='ios' [hidden]="!isStudent">
+      <ion-label position="stacked">以下为选填项</ion-label>
+      <ion-input placeholder="学校" [(ngModel)]="signup.school"></ion-input>
+      <ion-input placeholder="专业" [(ngModel)]="signup.major"></ion-input>
+      <ion-input placeholder="班级" [(ngModel)]="signup.class"></ion-input>
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+<ion-footer>
+  <div class="ion-padding">
+    <ion-button (click)="onSubmit()" expand="block" class="ion-no-margin">
+      提交
+     </ion-button>   
+  </div>
+</ion-footer>
+<!-- <ion-content class="signup">
   <div>
     <div class="ion-text-center">
       <img class="logo" src="assets/img/signup/logo.png" alt="" />
@@ -53,7 +85,6 @@
             pattern="^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,3,5-9]))\d{8}$" [(ngModel)]="signup.phone"
             #phone="ngModel" class="margintop fillet-boder">
           </ion-input>
-          <!-- 如果输入框被点击过并且输入不合法，就显示警告 -->
           <ion-text class="ion-text-left" color="danger" *ngIf="(phone.invalid && phone.touched) || submited">
             <p class="tips ion-padding-start" [hidden]="!phone.errors?.required">
               手机号不能为空
@@ -133,4 +164,4 @@
       </ion-slide>
     </ion-slides>
   </div>
-</ion-content>
+</ion-content> -->

@@ -48,6 +48,26 @@ export class CommonService {
     })
   }
 
+  //注册
+  postRegister(data, identity) {
+    if (identity == 'student') {
+      var url = this.hurl + '/register/student';
+      console.log('学生');
+    }
+    else {
+      var url = this.hurl + '/register/teacher';
+      console.log('教师');
+    }
+    console.log('发送的注册信息：', data);
+    return new Promise((reslove, reject) => {
+      this.http.put(url, JSON.stringify(data), this.httpOptions).subscribe((response) => {
+        reslove(response);
+      }, (error) => {
+        reject(error);
+      })
+    })
+  }
+
   //登入
   postLogin(id, password, identity) {
     if (identity == 'student') {
@@ -122,7 +142,25 @@ export class CommonService {
       this.http.get(url).subscribe((response) => { //异步方法，需要用promise返回数据
         reslove(response);
       }, (error) => {
-        console.log('错误', error)
+        reject(error);
+      })
+    })
+  }
+
+  //根据身份和学号获取更加详细的个人信息
+  getDetailInfo(identity, userId){
+    if (identity == 'student') {
+      var url = this.hurl + '/app/get_student_info/' + userId;
+      console.log('学生获取更加详细的个人信息', userId)
+    }
+    else {
+      var url = this.hurl + '/app/get_teacher_info/' + userId;
+      console.log('教师获取更加详细的个人信息', userId)
+    }
+    return new Promise((reslove, reject) => {
+      this.http.get(url).subscribe((response) => { //异步方法，需要用promise返回数据
+        reslove(response);
+      }, (error) => {
         reject(error);
       })
     })
@@ -269,6 +307,26 @@ export class CommonService {
     console.log('需要取消的课程编号：', course_id);
     return new Promise((reslove, reject) => {
       this.http.delete(url).subscribe((response) => {
+        reslove(response);
+      }, (error) => {
+        reject(error);
+      })
+    })
+  }
+
+  //修改个人信息
+  changePersonInfo(identity, data){
+    if (identity == 'student') {
+      var url = this.hurl + '/user/changeinfo/student';
+      console.log('学生')
+    }
+    else {
+      var url = this.hurl + '/user/changeinfo/teacher';
+      console.log('教师')
+    }
+    console.log('发送的修改信息：',data);
+    return new Promise((reslove, reject) => {
+      this.http.put(url, JSON.stringify(data), this.httpOptions).subscribe((response) => { //异步方法，需要用promise返回数据
         reslove(response);
       }, (error) => {
         reject(error);

@@ -26,6 +26,11 @@ export class ViewClassPage implements OnInit {
       this.course_id = result.courseID;
       this.course_name = result.courseName;
     })
+    this.refreshData(null);
+  }
+
+  refreshData(event){
+    this.students=[];
     this.commonService.countAllCallTheRoll(this.course_id).then((result: any) => {
       console.log('查询', this.course_name, '课程结果为：', result);
       for (let r of result.data) {
@@ -41,13 +46,17 @@ export class ViewClassPage implements OnInit {
         console.log('t', t);
         this.students.push(t);
       }
-      console.log('排序前', this.students)
+      // console.log('排序前', this.students)
       this.students.sort((a: any, b: any) => {
         return b.experience - a.experience;//大到小
       })
       console.log('排序后', this.students)
     }).catch((error) => {
       console.log('获取', this.course_name, '课程信息失败')
+    }).finally(()=>{
+      if (event != null) { //如果不是第一次调用，则需要通知refresher控件结束工作
+        event.target.complete();
+      }
     })
   }
 

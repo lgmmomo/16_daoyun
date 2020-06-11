@@ -13,8 +13,10 @@ export class Tab3Page {
   version: '';
   name: '小冰';
   id: '1903270xx';
-  constructor(private localStorageService: LocalStorageService, private router: Router, private alertController: AlertController,
-              private commonService: CommonService) { }
+  constructor(private localStorageService: LocalStorageService,
+    private router: Router,
+    private alertController: AlertController,
+    private commonService: CommonService) { }
   ionViewWillEnter() {
     let appConfig: any = this.localStorageService.get('App', {
       hasRun: true,
@@ -44,8 +46,8 @@ export class Tab3Page {
   async checkUpdate() {
     // 判断是否为最新版本
     let alert = await this.alertController.create({
-      animated:true,
-      mode:'ios',
+      animated: true,
+      mode: 'ios',
       header: '提示',
       message: '当前为最新版本!',
       buttons: ['确定']

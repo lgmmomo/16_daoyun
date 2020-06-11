@@ -6,7 +6,7 @@ import { StartAppGuard } from './core/start-app.guard';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login-in',
+    redirectTo: 'set-information',
     pathMatch: 'full'
   },
   {
@@ -67,24 +67,8 @@ const routes: Routes = [
     loadChildren: () => import('./pages/me/edit-information/edit-information.module').then( m => m.EditInformationPageModule)
   },
   {
-    path: 'test',
-    loadChildren: () => import('./pages/test/test/test.module').then( m => m.TestPageModule)
-  },
-  {
-    path: 'map',
-    loadChildren: () => import('./pages/test/map/map.module').then( m => m.MapPageModule)
-  },
-  {
-    path: 'qrious-test',
-    loadChildren: () => import('./pages/test/qrious-test/qrious-test.module').then( m => m.QriousTestPageModule)
-  },
-  {
     path: 'class-info',
     loadChildren: () => import('./pages/teacher/class-info/class-info.module').then( m => m.ClassInfoPageModule)
-  },
-  {
-    path: 'qrtest',
-    loadChildren: () => import('./pages/test/qrtest/qrtest.module').then( m => m.QrtestPageModule)
   },
   {
     path: 'stu-class-info',

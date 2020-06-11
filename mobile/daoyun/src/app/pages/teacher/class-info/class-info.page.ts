@@ -42,6 +42,10 @@ export class ClassInfoPage implements OnInit {
       this.course_id = result.course_id;
       console.log('传入课程编号', this.course_id);
     });
+    this.getCourse();
+  }
+
+  getCourse() {
     //获取course_id的班课信息，因为教师端不是通过班课号查找的班课，所以不会出现查找班课失败的情况
     this.commonService.findCourseById(this.course_id).then(async (result: any) => {
       console.log('查找班课返回信息：', result);
@@ -85,11 +89,8 @@ export class ClassInfoPage implements OnInit {
           buttons: ['OK']
         });
         await alert.present();
-        this.router.navigate(['/class-info'], {
-          queryParams: {
-            course_id: this.course_id
-          }
-        })
+        this.isEdit = 0;
+        this.getCourse();
       }
     }).then((error) => {
       console.log('修改班课信息失败：', error);
@@ -107,6 +108,7 @@ export class ClassInfoPage implements OnInit {
         }
       }, {
         text: '删除班课',
+        role: 'destructive',
         handler: () => {
           console.log('删除班课');
           this.presentAlertDelete();
@@ -137,6 +139,7 @@ export class ClassInfoPage implements OnInit {
           }
         }, {
           text: '删除',
+          cssClass:'danger',
           handler: () => {
             console.log('Confirm Delete');
             this.commonService.DeleteCourse(this.course_id).then(async (result: any) => {

@@ -15,13 +15,29 @@ export class Tab1Page {
   userID = '';
   identity = '';
   constructor(public actionSheetController: ActionSheetController,
-              private router: Router,
-              private localStorageService: LocalStorageService,
-              private commonService: CommonService,
-              private alertController: AlertController) {
+    private router: Router,
+    private localStorageService: LocalStorageService,
+    private commonService: CommonService,
+    private alertController: AlertController) {
     this.identity = this.localStorageService.get('identity', 'teacher');
     if (this.identity == 'teacher') {
       this.userID = this.localStorageService.get('userID', null);
+      this.refreshData(null);
+    }
+    else {
+      this.courses_length = 0
+    }
+  }
+
+  //刷新
+  refreshData(event) {
+    if (this.identity == 'student') {//如果身份为学生，则默认关闭查找创建班课的功能
+      this.courses_length = 0;
+      if (event != null) { //如果不是第一次调用，则需要通知refresher控件结束工作
+        event.target.complete();
+      }
+    }
+    else {
       this.commonService.getCourseByIDHql(this.userID).then((result: any) => {
         console.log('获取教师创建的课程信息成功！', result);
         this.courses = result.courses;
@@ -29,12 +45,14 @@ export class Tab1Page {
         console.log('courses', this.courses, 'length', this.courses_length);
       }).then((error) => {
         console.log('获取教师创建的课程信息失败！', error);
+      }).finally(()=>{
+        if (event != null) { //如果不是第一次调用，则需要通知refresher控件结束工作
+          event.target.complete();
+        }
       })
     }
-    else {
-      this.courses_length = 0
-    }
   }
+
 
   async showMenu() {
     const actionSheet = await this.actionSheetController.create({
@@ -43,10 +61,10 @@ export class Tab1Page {
         text: '创建班课',
         handler: () => {
           console.log('创建班课');
-          if (this.identity == 'teacher'){
+          if (this.identity == 'teacher') {
             this.router.navigateByUrl('/new-class');
           }
-          else{//学生无权限
+          else {//学生无权限
             this.presentAlert();
           }
         }
