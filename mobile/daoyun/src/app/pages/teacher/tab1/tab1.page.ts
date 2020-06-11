@@ -81,7 +81,6 @@ export class Tab1Page {
 
   async presentAlert() {
     const alert = await this.alertController.create({
-      header: 'Warning!',
       animated: true,
       mode: 'ios',
       message: '您没有此权限',

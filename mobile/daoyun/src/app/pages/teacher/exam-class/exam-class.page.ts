@@ -83,9 +83,9 @@ export class ExamClassPage implements OnInit {
           })
         }
       }, {
-        text: '今日签到详情',
+        text: '最新签到详情',
         handler: () => {
-          console.log('今日签到详情');
+          console.log('最新签到详情');
           this.router.navigate(['/exam-sign-in'], {
             queryParams: {
               course_id: this.course_id,

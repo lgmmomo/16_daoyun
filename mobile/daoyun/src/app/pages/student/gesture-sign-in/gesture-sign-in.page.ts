@@ -59,7 +59,6 @@ export class GestureSignInPage implements OnInit {
             let flag = result.status;
             if (flag == '0') {
               const alert = await that.alertController.create({
-                header: 'Warning!',
                 animated: true,
                 mode: 'ios',
                 message: '当前课程尚未有老师发起签到！',
@@ -69,7 +68,6 @@ export class GestureSignInPage implements OnInit {
             }
             else if (flag == '1') {
               const alert = await that.alertController.create({
-                header: 'Warning!',
                 animated: true,
                 mode: 'ios',
                 message: '当前时间段课程无签到！',
@@ -79,7 +77,6 @@ export class GestureSignInPage implements OnInit {
             }
             else if (flag == '2') {
               const alert = await that.alertController.create({
-                header: 'Warning!',
                 animated: true,
                 mode: 'ios',
                 message: '你已签到，请勿重复签到',
@@ -109,7 +106,6 @@ export class GestureSignInPage implements OnInit {
             }
             else if (flag == '5') {
               const alert = await that.alertController.create({
-                header: 'Warning!',
                 animated: true,
                 mode: 'ios',
                 message: '签到成功，但已迟到',
@@ -119,7 +115,6 @@ export class GestureSignInPage implements OnInit {
             }
             else if (flag == '6') {
               const alert = await that.alertController.create({
-                header: 'Success',
                 animated: true,
                 mode: 'ios',
                 message: '签到成功!',

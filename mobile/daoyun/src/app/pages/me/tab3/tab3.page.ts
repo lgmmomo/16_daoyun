@@ -3,6 +3,7 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage.servi
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { CommonService } from 'src/app/shared/services/common.service';
+import { APP_KEY } from '../../welcome/welcome.page';
 
 @Component({
   selector: 'app-tab3',
@@ -18,11 +19,7 @@ export class Tab3Page {
     private alertController: AlertController,
     private commonService: CommonService) { }
   ionViewWillEnter() {
-    let appConfig: any = this.localStorageService.get('App', {
-      hasRun: true,
-      isLogin: true,
-      version: '1.0.0'
-    });
+    let appConfig: any = this.localStorageService.get(APP_KEY, null);
     this.version = appConfig.version;
     let userId = this.localStorageService.get('userID', null);
     let identity = this.localStorageService.get('identity', 'student');
@@ -37,9 +34,11 @@ export class Tab3Page {
   }
   //退出登录
   onLogout() {
-    let app = this.localStorageService.get('APP', []);
+    let app = this.localStorageService.get(APP_KEY, []);
     app.isLogin = false  //将APP的登录状态设置为false
-    this.localStorageService.set('APP', app);
+    this.localStorageService.set(APP_KEY, app);
+    this.localStorageService.remove('userID');
+    this.localStorageService.remove('identity');
     this.router.navigateByUrl('/login-in');
   }
   //检查升级
@@ -48,7 +47,6 @@ export class Tab3Page {
     let alert = await this.alertController.create({
       animated: true,
       mode: 'ios',
-      header: '提示',
       message: '当前为最新版本!',
       buttons: ['确定']
     });

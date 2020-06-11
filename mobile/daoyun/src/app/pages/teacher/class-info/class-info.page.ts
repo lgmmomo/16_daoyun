@@ -1,4 +1,3 @@
-import { async } from '@angular/core/testing';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonService } from 'src/app/shared/services/common.service';

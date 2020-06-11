@@ -20,34 +20,6 @@ export class CommonService {
     console.log('hello commonService!');
   }
 
-  //从对应的api获取数据
-  getData(url) {
-    var api = url;
-    //回调函数 subscribe返回api的结果，promise回调函数（异步的 ）返回对应的信息
-    return new Promise((reslove, reject) => {
-      this.http.get(api).subscribe((response) => { //异步方法，需要用promise返回数据
-        reslove(response);
-      }, (error) => {
-        console.log('错误', error)
-        reject(error);
-      })
-    })
-  }
-
-  //封装了一个post请求，用于发送数据
-  postData(url: String, json: Object) {
-    let api = this.hurl + url;
-    // let api = 'http://47.115.121.100:3000/app/student/login_check';
-    console.log('请求的api', api);
-    return new Promise((reslove, reject) => {
-      this.http.post(api, json, this.httpOptions).subscribe((response) => {
-        reslove(response);
-      }, (error) => {
-        reject(error);
-      })
-    })
-  }
-
   //注册
   postRegister(data, identity) {
     if (identity == 'student') {
@@ -318,11 +290,11 @@ export class CommonService {
   changePersonInfo(identity, data){
     if (identity == 'student') {
       var url = this.hurl + '/user/changeinfo/student';
-      console.log('学生')
+      console.log('学生修改个人信息')
     }
     else {
       var url = this.hurl + '/user/changeinfo/teacher';
-      console.log('教师')
+      console.log('教师修改个人信息')
     }
     console.log('发送的修改信息：',data);
     return new Promise((reslove, reject) => {
@@ -334,34 +306,4 @@ export class CommonService {
     })
   }
 
-
-
-  getTest() {
-    let url = 'http://47.115.121.100:3000/logintest';
-    // let url='http://175.24.16.48:8082/dictionary/detail/1';
-    return new Promise((reslove, reject) => {
-      this.http.get(url).subscribe((response) => { //异步方法，需要用promise返回数据
-        reslove(response);
-      }, (error) => {
-        console.log('错误', error);
-        reject(error);
-      })
-    })
-  }
-
-  postTest1() {
-    let url = this.hurl + '/logincheck/';
-    let data = {
-      'username': 'admin',
-      'passcode': '827ccb0eea8a706c4c34a16891f84e7b',
-      'oneTimeCode': 1561814585774
-    };
-    return new Promise((reslove, reject) => {
-      this.http.post(url, JSON.stringify(data), this.httpOptions).subscribe((response) => {
-        reslove(response);
-      }, (error) => {
-        reject(error);
-      })
-    })
-  }
 }

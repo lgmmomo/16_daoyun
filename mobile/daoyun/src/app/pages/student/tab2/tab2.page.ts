@@ -153,7 +153,6 @@ export class Tab2Page {
 
   async presentAlert() {
     const alert = await this.alertController.create({
-      header: 'Warning!',
       animated: true,
       mode: 'ios',
       message: '老师无法查找班课哦~',

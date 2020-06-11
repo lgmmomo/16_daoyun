@@ -6,7 +6,7 @@ import { StartAppGuard } from './core/start-app.guard';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'set-information',
+    redirectTo: 'welcome',
     pathMatch: 'full'
   },
   {

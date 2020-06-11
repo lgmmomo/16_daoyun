@@ -1,9 +1,7 @@
 import { CommonService } from './../../../shared/services/common.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonSlides, AlertController } from '@ionic/angular';
+import { Component, OnInit } from '@angular/core';
+import {  AlertController } from '@ionic/angular';
 import { Md5 } from 'ts-md5/dist/md5';
-import { NgForm } from '@angular/forms';
-import { UserService } from 'src/app/shared/services/user.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -13,8 +11,7 @@ import { Router } from '@angular/router';
 })
 export class SignUpPage implements OnInit {
 
-  constructor(private userService: UserService,
-    private alertController: AlertController,
+  constructor(private alertController: AlertController,
     private commonService: CommonService,
     private router: Router) { }
 
@@ -35,6 +32,7 @@ export class SignUpPage implements OnInit {
 
   ngOnInit() {
   }
+  
   onChangeIdentity(e){
     if(this.signup.identity=='teacher'){
       this.isStudent=0;

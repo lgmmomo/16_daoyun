@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticationCodeService } from 'src/app/shared/services/authentication-code.service';
-import { UserService } from 'src/app/shared/services/user.service';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
 import { NgForm } from '@angular/forms';
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
 import { CommonService } from 'src/app/shared/services/common.service';
@@ -14,8 +12,7 @@ import { Router } from '@angular/router';
 })
 export class NewClassPage implements OnInit {
 
-  constructor(
-    private userService: UserService,
+  constructor(private toastController: ToastController,
     private alertController: AlertController,
     private localStorageService: LocalStorageService,
     private commonService: CommonService,
@@ -55,11 +52,19 @@ export class NewClassPage implements OnInit {
     subjectInfo['add_CourseTime'] = this.signup.start_time + '-' + this.signup.end_time
     let userName = this.localStorageService.get('userName', null);
     subjectInfo['add_TeacherName'] = userName;
-    this.commonService.postNewCourse(subjectInfo).then((result: any) => {
+    this.commonService.postNewCourse(subjectInfo).then(async(result: any) => {
       console.log('添加班课返回信息：', result);
       if (result.status == 'success') {
         let course_id = result.data;
         console.log('班课号：', course_id);
+        let toast = await this.toastController.create({
+          animated: true,
+          mode: 'ios',
+          message: '创建班课成功！',
+          duration: 1500,
+          position: 'bottom'
+      });
+      toast.present();
         this.router.navigate(['/qrcode'], {
           queryParams: {
             course_id: course_id,

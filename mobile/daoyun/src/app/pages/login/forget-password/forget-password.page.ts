@@ -1,8 +1,6 @@
 import { async } from '@angular/core/testing';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonSlides, AlertController, MenuController } from '@ionic/angular';
-import { AuthenticationCodeService } from 'src/app/shared/services/authentication-code.service';
-import { UserService } from 'src/app/shared/services/user.service';
 import { Router } from '@angular/router';
 import { Md5 } from 'ts-md5';
 import { CommonService } from 'src/app/shared/services/common.service';
@@ -22,7 +20,6 @@ export class ForgetPasswordPage implements OnInit {
   };
   pwdIsSame = true;
   constructor(private router: Router,
-    private userService: UserService,
     private alertController: AlertController,
     private commonService: CommonService,
     private localStorageService: LocalStorageService) { }

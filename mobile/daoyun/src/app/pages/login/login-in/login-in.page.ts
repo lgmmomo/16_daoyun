@@ -3,9 +3,9 @@ import { CommonService } from './../../../shared/services/common.service';
 import { Component, OnInit } from '@angular/core';
 import { ToastController, AlertController, MenuController } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { UserService } from 'src/app/shared/services/user.service';
 import { NgForm } from '@angular/forms';
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
+import { APP_KEY } from '../../welcome/welcome.page';
 
 @Component({
     selector: 'app-login-in',
@@ -17,18 +17,13 @@ export class LoginInPage implements OnInit {
     password: string; // 视图模型的属性密码，双向绑定
     identity = 'teacher'; //登录身份
     isPass = '';
-    constructor(private toastController: ToastController, private alertController: AlertController,
-        private router: Router, private userService: UserService, private menuController: MenuController,
-        private commonService: CommonService, private localStorageService: LocalStorageService) { }
+    constructor(private toastController: ToastController, 
+        private alertController: AlertController,
+        private router: Router, 
+        private commonService: CommonService, 
+        private localStorageService: LocalStorageService) { }
     ngOnInit() {
     }
-    ionViewDidEnter() {
-        this.menuController.enable(false);
-    }
-    ionViewDidLeave() {
-        this.menuController.enable(true);
-    }
-
     // 点击登录按钮时调用
     async onLogin(form: NgForm) {
         if (this.username == undefined || this.password == undefined || this.username == '' || this.password == '') {
@@ -48,12 +43,11 @@ export class LoginInPage implements OnInit {
                     //将登录信息存在本地数据库
                     this.localStorageService.set('userID', this.username);
                     this.localStorageService.set('identity', this.identity);
-                    let app = this.localStorageService.get('APP', []);
+                    let app = this.localStorageService.get(APP_KEY, []);
                     app.isLogin = true;
-                    app.version = '1.0.0';
-                    app.hasRun = true;
+                    console.log('app', app);
                     // app.identity = loginUser.identity
-                    this.localStorageService.set('APP', app);
+                    this.localStorageService.set(APP_KEY, app);
                     let toast = await this.toastController.create({
                         animated: true,
                         mode: 'ios',
