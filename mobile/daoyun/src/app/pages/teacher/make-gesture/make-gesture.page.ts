@@ -19,6 +19,8 @@ export class MakeGesturePage implements OnInit {
     private localStorageService: LocalStorageService,
     private activatedRoute: ActivatedRoute) {
     console.log('跳入make-gesture页面！')
+    let theme = this.localStorageService.get('data-theme', 'light');
+    document.body.setAttribute('data-theme', theme);
   }
 
   public post_geature_url = '';

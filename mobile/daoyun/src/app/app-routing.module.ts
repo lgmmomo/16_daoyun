@@ -63,10 +63,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/me/about-us/about-us.module').then( m => m.AboutUsPageModule)
   },
   {
-    path: 'edit-information',
-    loadChildren: () => import('./pages/me/edit-information/edit-information.module').then( m => m.EditInformationPageModule)
-  },
-  {
     path: 'class-info',
     loadChildren: () => import('./pages/teacher/class-info/class-info.module').then( m => m.ClassInfoPageModule)
   },
@@ -78,11 +74,6 @@ const routes: Routes = [
     path: 'qrcode',
     loadChildren: () => import('./pages/teacher/qrcode/qrcode.module').then( m => m.QrcodePageModule)
   }
-
-
-
-
-
 ];
 @NgModule({
   imports: [

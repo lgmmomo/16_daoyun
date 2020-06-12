@@ -14,9 +14,7 @@ export class CommonService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })//请求头进行转格式，防止出现415错误
   };
 
-  constructor(
-    public http: HttpClient
-    ) {
+  constructor(public http: HttpClient) {
     console.log('hello commonService!');
   }
 

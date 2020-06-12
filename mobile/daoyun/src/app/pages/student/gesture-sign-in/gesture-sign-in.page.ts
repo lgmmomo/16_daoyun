@@ -20,6 +20,8 @@ export class GestureSignInPage implements OnInit {
     private activatedRoute: ActivatedRoute,
     private alertController: AlertController) {
     console.log('转入gesture-sign-in页面！')
+    let theme = this.localStorageService.get('data-theme', 'light');
+    document.body.setAttribute('data-theme', theme);
   }
 
   public gesture_sign = '';

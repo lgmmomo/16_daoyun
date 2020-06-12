@@ -11,7 +11,7 @@
   <ion-list lines="full" class="ion-no-margin ion-no-padding">  
     <ion-item mode='ios'>
       <ion-label position="stacked">以下为必填项&nbsp;<ion-text color="danger">*</ion-text></ion-label>
-      <ion-input placeholder="学号/工号" [(ngModel)]="signup.userNo"></ion-input>
+      <ion-input type='number' placeholder="学号/工号" [(ngModel)]="signup.userNo"></ion-input>
       <ion-input placeholder="姓名" [(ngModel)]="signup.name"></ion-input>
       <ion-input type='password' placeholder="密码" [(ngModel)]="signup.password"></ion-input> 
       <ion-input type='password' placeholder="确认密码" [(ngModel)]="signup.confirmPassword"></ion-input>

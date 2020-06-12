@@ -17,11 +17,14 @@ export class LoginInPage implements OnInit {
     password: string; // 视图模型的属性密码，双向绑定
     identity = 'teacher'; //登录身份
     isPass = '';
-    constructor(private toastController: ToastController, 
+    constructor(private toastController: ToastController,
         private alertController: AlertController,
-        private router: Router, 
-        private commonService: CommonService, 
-        private localStorageService: LocalStorageService) { }
+        private router: Router,
+        private commonService: CommonService,
+        private localStorageService: LocalStorageService) {
+        let theme = this.localStorageService.get('data-theme', 'dark');
+        document.body.setAttribute('data-theme', theme);
+    }
     ngOnInit() {
     }
     // 点击登录按钮时调用
@@ -84,6 +87,13 @@ export class LoginInPage implements OnInit {
     // 点击忘记密码时调用
     openForgotPassword() {
         // 进入找回密码页面
-        this.router.navigateByUrl('forgot-password');
+        this.router.navigate(['/forget-password'], {
+            queryParams: {
+                page: 1
+            }
+        })
+    }
+    openSignUp(){
+        this.router.navigateByUrl('/sign-up');
     }
 }

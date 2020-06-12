@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
 
 @Component({
   selector: 'app-tabs',
@@ -7,6 +8,9 @@ import { Component } from '@angular/core';
 })
 export class TabsPage {
 
-  constructor() {}
+  constructor(private localStorageService: LocalStorageService) {
+    let theme = this.localStorageService.get('data-theme', 'light');
+    document.body.setAttribute('data-theme', theme);
+  }
 
 }

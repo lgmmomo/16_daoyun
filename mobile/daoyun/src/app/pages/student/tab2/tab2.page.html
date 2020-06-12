@@ -12,7 +12,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-refresher slot="fixed" (ionRefresh)="refreshData($event)">
+  <ion-refresher slot="fixed" (ionRefresh)="refreshData($event)" mode='ios'>
     <ion-refresher-content
       pullingIcon="arrow-dropdown"
       pullingText="下拉刷新"

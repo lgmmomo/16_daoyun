@@ -1,7 +1,7 @@
 import { async } from '@angular/core/testing';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonSlides, AlertController, MenuController } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { IonSlides, AlertController, MenuController, NavController } from '@ionic/angular';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Md5 } from 'ts-md5';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
@@ -18,11 +18,23 @@ export class ForgetPasswordPage implements OnInit {
     pwd: '',
     cpwd: ''
   };
+  backPage=1;//默认上一级为登录页面
   pwdIsSame = true;
+  username_login='';
+  identity_login = 'teacher'; //登录身份
   constructor(private router: Router,
+    private nav: NavController,
+    private activatedRoute: ActivatedRoute,
     private alertController: AlertController,
     private commonService: CommonService,
-    private localStorageService: LocalStorageService) { }
+    private localStorageService: LocalStorageService) {
+    let theme = this.localStorageService.get('data-theme', 'dark');
+    document.body.setAttribute('data-theme', theme);
+    this.activatedRoute.queryParams.subscribe((result:any) => {
+      console.log('传入的参数：', result);
+      this.backPage=Number(result.page);
+    })
+  }
   ngOnInit() {
   }
   /**
@@ -30,40 +42,57 @@ export class ForgetPasswordPage implements OnInit {
    * @memberof ForgotPasswordPage
    */
   async onSendPwd() {
-    if (this.user.pwd === this.user.cpwd) {
-      let userID = this.localStorageService.get('userID', null);
-      let identity = this.localStorageService.get('identity', 'student');
-      // 注册成功，保存数据
+    let identity = '';
+    let userID = '';
+    if (this.user.pwd == this.user.cpwd) {
+      if(this.backPage==1){//上一级是登录页面
+        if(this.username_login==''){
+          this.presentAlert('账号不能为空！');
+          return;
+        }
+        identity = this.identity_login;
+        userID = this.username_login;
+      }
+      else{//如果是tab3跳来的，说明本地已经有储存学号和身份了
+        userID = this.localStorageService.get('userID', null);
+        identity = this.localStorageService.get('identity', 'student');
+      }
       let updata = {
         'password': Md5.hashStr(this.user.pwd).toString(),
         'loginname': userID
       }
       this.commonService.change_password(updata, identity).then(async (result: any) => {
         if (result.status = "success") {
-          let alert = await this.alertController.create({
-            mode:'ios',
-            animated: true,
-            header: '提示',
-            message: '密码修改成功！',
-            buttons: ['确定']
-          });
-          alert.present();
+          this.presentAlert('密码修改成功！');
           this.router.navigateByUrl('/login-in');
         }
       }).catch(async (error) => {
         console.log('修改密码失败', error);
-        let alert = await this.alertController.create({
-          mode:'ios',
-          animated: true,
-          header: '提示',
-          message: '密码修改失败！',
-          buttons: ['确定']
-        });
-        alert.present();
+        this.presentAlert('密码修改失败！');
       })
     } else {//密码输入不一致
       this.pwdIsSame = false;
     }
   }
+
+  onBack(){
+    if(this.backPage==1){
+      this.router.navigateByUrl('/login-in');
+    }
+    else{
+      this.router.navigateByUrl('/tabs/tabs/tab3');
+    }
+  }
+
+  async presentAlert(message) {
+    const alert = await this.alertController.create({
+      animated: true,
+      mode: 'ios',
+      message: message,
+      buttons: ['OK']
+    });
+    await alert.present();
+  }
+
 
 }

@@ -31,6 +31,8 @@ export class StuClassInfoPage implements OnInit {
     private alertController: AlertController,
     private localStorageService: LocalStorageService) {
     console.log('hello stu-class-info page!')
+    let theme = this.localStorageService.get('data-theme', 'light');
+    document.body.setAttribute('data-theme', theme);
   }
 
   ngOnInit() {

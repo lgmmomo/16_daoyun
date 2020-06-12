@@ -14,12 +14,13 @@
 <ion-content>
   <div *ngIf="!isEdit">
     <ion-list inset="true">
-      <ion-item >
+      <ion-item>
         <ion-label>姓名</ion-label>
         <ion-note slot="end" class="font-size">{{loginUser.name}}</ion-note>
       </ion-item>
       <ion-item>
-        <ion-label>学号</ion-label>
+        <ion-label *ngIf="isStudent">学号</ion-label>
+        <ion-label *ngIf="!isStudent">工号</ion-label>
         <ion-note slot="end" class="font-size">{{loginUser.userNo}}</ion-note>
       </ion-item>
       <ion-item>
@@ -28,19 +29,19 @@
       </ion-item>
     </ion-list>
     <ion-list inset="true" *ngIf="isStudent">
-      <ion-item >
+      <ion-item>
         <ion-label>学校</ion-label>
         <ion-note slot="end" class="font-size">{{loginUser.School}}</ion-note>
       </ion-item>
-      <ion-item >
+      <ion-item>
         <ion-label>专业</ion-label>
         <ion-note slot="end" class="font-size">{{loginUser.Major}}</ion-note>
       </ion-item>
-      <ion-item >
+      <ion-item>
         <ion-label>班级</ion-label>
         <ion-note slot="end" class="font-size">{{loginUser.Class}}</ion-note>
       </ion-item>
-    </ion-list>  
+    </ion-list>
   </div>
 
   <div *ngIf="isEdit">
@@ -50,7 +51,8 @@
         <ion-input slot="end" [(ngModel)]="loginUser.name" class="input-label"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label>学号</ion-label>
+        <ion-label *ngIf="isStudent">学号</ion-label>
+        <ion-label *ngIf="!isStudent">工号</ion-label>
         <ion-note slot="end" class="font-size">{{loginUser.userNo}}</ion-note>
       </ion-item>
       <ion-item>
@@ -59,18 +61,18 @@
       </ion-item>
     </ion-list>
     <ion-list inset="true" *ngIf="isStudent">
-      <ion-item >
+      <ion-item>
         <ion-label class="label-padding">学校</ion-label>
         <ion-input slot="end" [(ngModel)]="loginUser.School" class="input-label"></ion-input>
       </ion-item>
-      <ion-item >
+      <ion-item>
         <ion-label class="label-padding">专业</ion-label>
         <ion-input slot="end" [(ngModel)]="loginUser.Major" class="input-label"></ion-input>
       </ion-item>
-      <ion-item >
+      <ion-item>
         <ion-label class="label-padding">班级</ion-label>
         <ion-input slot="end" [(ngModel)]="loginUser.Class" class="input-label"></ion-input>
       </ion-item>
-    </ion-list>  
+    </ion-list>
   </div>
 </ion-content>

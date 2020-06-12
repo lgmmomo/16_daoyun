@@ -19,6 +19,8 @@ export class Tab1Page {
     private localStorageService: LocalStorageService,
     private commonService: CommonService,
     private alertController: AlertController) {
+    let theme = this.localStorageService.get('data-theme', 'light');
+    document.body.setAttribute('data-theme', theme);
     this.identity = this.localStorageService.get('identity', 'teacher');
     if (this.identity == 'teacher') {
       this.userID = this.localStorageService.get('userID', null);
@@ -45,7 +47,7 @@ export class Tab1Page {
         console.log('courses', this.courses, 'length', this.courses_length);
       }).then((error) => {
         console.log('获取教师创建的课程信息失败！', error);
-      }).finally(()=>{
+      }).finally(() => {
         if (event != null) { //如果不是第一次调用，则需要通知refresher控件结束工作
           event.target.complete();
         }

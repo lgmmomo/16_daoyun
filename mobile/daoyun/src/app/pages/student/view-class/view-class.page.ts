@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NavController, ActionSheetController } from '@ionic/angular';
 import { CommonService } from 'src/app/shared/services/common.service';
+import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
 
 @Component({
   selector: 'app-view-class',
@@ -13,7 +14,11 @@ export class ViewClassPage implements OnInit {
   constructor(private commonService: CommonService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    public actionSheetController: ActionSheetController) { }
+    private localStorageService: LocalStorageService,
+    public actionSheetController: ActionSheetController) { 
+      let theme = this.localStorageService.get('data-theme', 'light');
+    document.body.setAttribute('data-theme', theme);
+    }
 
   public course_name = '';
   public course_id = '';

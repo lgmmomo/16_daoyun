@@ -16,7 +16,10 @@ export class NewClassPage implements OnInit {
     private alertController: AlertController,
     private localStorageService: LocalStorageService,
     private commonService: CommonService,
-    private router: Router) { }
+    private router: Router) { 
+      let theme = this.localStorageService.get('data-theme', 'light');
+    document.body.setAttribute('data-theme', theme);
+    }
 
   submited = false;
   signup = {

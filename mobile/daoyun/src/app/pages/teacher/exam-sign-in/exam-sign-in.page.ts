@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonService } from 'src/app/shared/services/common.service';
+import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
 
 @Component({
   selector: 'app-exam-sign-in',
@@ -11,8 +12,11 @@ export class ExamSignInPage implements OnInit {
 
   constructor(private commonService: CommonService,
     private activatedRoute: ActivatedRoute,
+    private localStorageService: LocalStorageService,
     private router: Router) {
     console.log('跳入exam-sign-in页面！');
+    let theme = this.localStorageService.get('data-theme', 'light');
+    document.body.setAttribute('data-theme', theme);
   }
 
   public course_name = '';

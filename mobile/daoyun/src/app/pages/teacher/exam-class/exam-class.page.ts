@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { ActionSheetController } from '@ionic/angular';
+import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
 
 @Component({
   selector: 'app-exam-class',
@@ -13,8 +14,11 @@ export class ExamClassPage implements OnInit {
   constructor(private commonService: CommonService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
+    private localStorageService: LocalStorageService,
     public actionSheetController: ActionSheetController) {
     console.log('跳入exam-class页面！');
+    let theme = this.localStorageService.get('data-theme', 'light');
+    document.body.setAttribute('data-theme', theme);
   }
 
   public course_name = '';

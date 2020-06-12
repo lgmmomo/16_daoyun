@@ -28,6 +28,9 @@ export class SetInformationPage implements OnInit {
     private alertController: AlertController,
     private commonService: CommonService) {
     console.log('进入set-information页面')
+    let theme = this.localStorageService.get('data-theme', 'light');
+    document.body.setAttribute('data-theme', theme);
+
   }
 
   ngOnInit() {

@@ -33,6 +33,8 @@ export class ClassInfoPage implements OnInit {
     public actionSheetController: ActionSheetController,
     private localStorageService: LocalStorageService) {
     console.log('hello class-info page!')
+    let theme = this.localStorageService.get('data-theme', 'light');
+    document.body.setAttribute('data-theme', theme);
   }
 
   ngOnInit() {
