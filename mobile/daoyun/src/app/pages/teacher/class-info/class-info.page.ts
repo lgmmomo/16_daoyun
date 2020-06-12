@@ -1,3 +1,4 @@
+import { async } from '@angular/core/testing';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonService } from 'src/app/shared/services/common.service';
@@ -83,7 +84,6 @@ export class ClassInfoPage implements OnInit {
       console.log('修改班课信息返回：', result);
       if (result.status == 'success') {
         const alert = await this.alertController.create({
-          header: 'success!',
           animated: true,
           mode: 'ios',
           message: '修改班课信息成功',
@@ -147,7 +147,6 @@ export class ClassInfoPage implements OnInit {
               console.log('删除班课返回信息：', result);
               if (result.status == 'success') {
                 const alert = await this.alertController.create({
-                  header: 'success!',
                   animated: true,
                   mode: 'ios',
                   message: '删除班课成功',
@@ -156,7 +155,7 @@ export class ClassInfoPage implements OnInit {
                 await alert.present();
                 this.router.navigateByUrl('/tabs/tabs/tab1');
               }
-            }).then((error) => {
+            }).then(async (error) => {
               console.log('删除失败', error);
             })
           }

@@ -22,8 +22,8 @@ export class Tab1Page {
     let theme = this.localStorageService.get('data-theme', 'light');
     document.body.setAttribute('data-theme', theme);
     this.identity = this.localStorageService.get('identity', 'teacher');
+    console.log('获取的身份',this.identity)
     if (this.identity == 'teacher') {
-      this.userID = this.localStorageService.get('userID', null);
       this.refreshData(null);
     }
     else {
@@ -33,6 +33,8 @@ export class Tab1Page {
 
   //刷新
   refreshData(event) {
+    this.userID = this.localStorageService.get('userID', null);
+    this.identity = this.localStorageService.get('identity', 'teacher');
     if (this.identity == 'student') {//如果身份为学生，则默认关闭查找创建班课的功能
       this.courses_length = 0;
       if (event != null) { //如果不是第一次调用，则需要通知refresher控件结束工作

@@ -30,7 +30,6 @@ export class Tab2Page {
     console.log('enter tab2 page');
     this.identity = this.localStorageService.get('identity', null);
     if (this.identity == 'student') {
-      this.stuID = this.localStorageService.get('userID', null);
       this.refreshData(null);
       //二维码Options
       this.barcodeScannerOptions = {
@@ -44,6 +43,8 @@ export class Tab2Page {
   }
 
   refreshData(event) {
+    this.stuID = this.localStorageService.get('userID', null);
+    this.identity = this.localStorageService.get('identity', null);
     if (this.identity == 'teacher') {//如果身份为老师，则默认关闭查找加入班课的功能
       this.course_length = 0;
       if (event != null) { //如果不是第一次调用，则需要通知refresher控件结束工作
