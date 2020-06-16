@@ -1,0 +1,256 @@
+<div style="margin-top:30px;">
+  <nz-row>
+    <nz-col nzSpan="8">
+            <button nz-button nzType = "primary" (click)="add_Menu_open()">
+              <i class="fa fa-plus"></i>     
+               <a>&nbsp;&nbsp;创建</a>
+             </button>
+    </nz-col>
+    <nz-col nzSpan="8" nzOffset="8">
+        <div style="width:60%;margin-left: 40%">
+                <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                        <input type="text" nz-input placeholder="input search text" [(ngModel)]='search_text' />
+                </nz-input-group>  
+                <ng-template #suffixIconButton>
+                        <button nz-button nzType="primary" nzSearch (click)="search_data()"><i nz-icon type="search"></i></button>
+                </ng-template>
+        </div>
+    </nz-col>
+  </nz-row>
+  </div>
+  <nz-divider></nz-divider>
+  <nz-table  [nzPageSize]="10" #nestedTable [nzData]="all_data">
+    <thead>
+        <tr>
+          <th nzShowExpand ></th>
+          <th>类目</th>
+          <th>描述</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+        <tbody >
+            <ng-template ngFor let-data [ngForOf]="nestedTable.data">
+              <tr>
+                <td nzShowExpand [(nzExpand)]="data.expand"></td>
+                <td>{{ data.code1 }}</td>                <!--菜单类目数据-->
+                <td>{{ data.desc1 }}</td>
+                <td>
+                  <button nz-button nzType = "default" (click)="addMenuDetailopen(data)"><i class="fa fa-plus"></i></button>&nbsp;
+                  <button nz-button nzType = "primary" nzGhost (click)="Menuopen(data)"><i class="fa fa-edit"></i></button>&nbsp;
+                  <button nz-button nzType = "danger" nzGhost nz-popconfirm nzTitle="Are you sure?" [nzIcon]="iconTpl" (nzOnConfirm)="delet_Menu(data)"><i class="fa fa-close"></i></button>
+                  <ng-template #iconTpl>
+                      <i nz-icon nzType="question-circle-o" style="color: red;"></i>
+                    </ng-template>
+                </td>
+              </tr>
+              <tr [nzExpand]="data.expand">
+                  <td></td>
+                  <td colspan="7">
+                      <nz-table #innerTable [nzData]="data.childen" nzSize="middle" [nzShowPagination]="false">
+                      <thead>
+                          <tr>
+                            <th>ItemValue</th>
+                            <th>position</th> 
+                            <th>isDefault</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody >
+                          <tr *ngFor="let childen_data of innerTable.data">
+                            <td>{{ childen_data.ItemValue1 }}</td>   <!--菜单数据！！！！-->
+                            <td>{{ childen_data.position1 }}</td>
+                            <td>{{ childen_data.isDefault1 }}</td>
+                            <td>
+                                <button nz-button nzType = "primary" nzGhost (click)="MenuDetailopen(childen_data)"><i class="fa fa-edit"></i></button>&nbsp;
+                                <button nz-button nzType = "danger" nzGhost nz-popconfirm nzTitle="Are you sure?" [nzIcon]="iconTpl" (nzOnConfirm)="delet_MenuDetail(childen_data)" ><i class="fa fa-close"></i></button>
+                              </td>
+                          </tr>
+                        </tbody>
+                        </nz-table>
+                  </td>
+              </tr>
+              </ng-template>
+        </tbody>
+  </nz-table>
+  
+  
+  
+      <nz-drawer
+        [nzClosable]="false"
+        [nzWidth]="320"
+        [nzVisible]="Menu_visible"
+        nzTitle="编辑菜单类目"
+        (nzOnClose)="close()"
+      >
+        <form nz-form>
+          <div nz-row>
+            <div nz-col nzSpan="24">
+              <nz-form-item>
+                <nz-form-label nzRequired nzFor="code">code</nz-form-label>
+                <nz-form-control>
+                  <input nz-input placeholder="please enter Menu name" name="code" [(ngModel)]='edition_code1'/>
+                  <nz-form-explain *ngIf="!edition_code1" style="color:red">菜单类目不能为空</nz-form-explain>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+          <div nz-row>
+            <div nz-col nzSpan="24">
+              <nz-form-item>
+                <nz-form-label>desc</nz-form-label>
+                <nz-form-control>
+                  <input nz-input placeholder="please enter Menu Description" name="desc" [(ngModel)]='edition_desc1'/>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+        </form>
+        <div class="footer">
+          <button type="button" (click)="close()" class="ant-btn" style="margin-right: 8px;"><span>Cancel</span></button>
+          <button type="button" (click)="Menu_updata()" [disabled]="!edition_code1" class="ant-btn ant-btn-primary"><span>Submit</span></button>
+        </div>
+      </nz-drawer>
+  
+      <nz-drawer
+      [nzClosable]="false"
+      [nzWidth]="320"
+      [nzVisible]="MenuDetail_visible"
+      nzTitle="编辑菜单内容"
+      (nzOnClose)="close()"
+    >
+      <form nz-form>
+        <div nz-row>
+          <div nz-col nzSpan="24">
+            <nz-form-item>
+              <nz-form-label>ItemValue</nz-form-label>
+              <nz-form-control>
+                <input nz-input name="ItemValue1" [(ngModel)]='detail_ItemValue1'/>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+        <div nz-row>
+          <div nz-col nzSpan="24">
+            <nz-form-item>
+              <nz-form-label>position</nz-form-label>
+              <nz-form-control>
+                <input nz-input name="position1" [(ngModel)]='detail_position1'/>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+        <div nz-row>
+          <div nz-col nzSpan="24">
+            <nz-form-item>
+              <nz-form-label>isDefault</nz-form-label>
+              <nz-form-control>
+                <input nz-input name="isDefault" [(ngModel)]='detail_isDefault1'/>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </form>
+      <div class="footer">
+        <button type="button" (click)="close()" class="ant-btn" style="margin-right: 8px;"><span>Cancel</span></button>
+        <button type="button" (click)="MenuDetail_updata()" [disabled]="(detail_ItemKey1=='')||(detail_ItemValue1=='')||(detail_position1=='')||(detail_isDefault1=='')" class="ant-btn ant-btn-primary"><span>Submit</span></button>
+      </div>
+    </nz-drawer>
+  
+  
+    <nz-drawer
+    [nzClosable]="false"
+    [nzWidth]="320"
+    [nzVisible]="AddMenuDetail_visible"
+    nzTitle="增加菜单"
+    (nzOnClose)="close()"
+  >
+    <form nz-form>
+      <div nz-row>
+        <div nz-col nzSpan="24">
+          <nz-form-item>
+            <nz-form-label>ItemKey</nz-form-label>
+            <nz-form-control>
+              <input nz-input name="add_ItemKey1" [(ngModel)]='add_detail_ItemKey1'/>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <div nz-row>
+        <div nz-col nzSpan="24">
+          <nz-form-item>
+            <nz-form-label>ItemValue</nz-form-label>
+            <nz-form-control>
+              <input nz-input name="add_ItemValue1" [(ngModel)]='add_detail_ItemValue1'/>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <div nz-row>
+        <div nz-col nzSpan="24">
+          <nz-form-item>
+            <nz-form-label>position</nz-form-label>
+            <nz-form-control>
+              <input nz-input name="add_position1" [(ngModel)]='add_detail_position1'/>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <div nz-row>
+        <div nz-col nzSpan="24">
+          <nz-form-item>
+            <nz-form-label>isDefault</nz-form-label>
+            <nz-form-control>
+              <input nz-input name="add_isDefault1" [(ngModel)]='add_detail_isDefault1'/>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </form>
+    <div class="footer">
+      <button type="button" (click)="close()" class="ant-btn" style="margin-right: 8px;"><span>Cancel</span></button>
+      <button type="button"  [disabled]="(add_detail_ItemKey1=='')||(add_detail_ItemValue1=='')||(add_detail_position1=='')||(add_detail_isDefault1=='')" class="ant-btn ant-btn-primary" (click)="add_MenuDetail()"><span>Submit</span></button>
+    </div>
+  </nz-drawer>
+  
+  
+  
+  
+  
+  <nz-drawer
+  [nzClosable]="false"
+  [nzWidth]="320"
+  [nzVisible]="Add_Menu_visible"
+  nzTitle="编辑菜单"
+  (nzOnClose)="close()"
+  >
+  <form nz-form>
+    <div nz-row>
+      <div nz-col nzSpan="24">
+        <nz-form-item>
+          <nz-form-label nzRequired nzFor="code">code</nz-form-label>
+          <nz-form-control>
+            <input nz-input placeholder="please enter Menu name" name="code1" [(ngModel)]='add_menu_code'/>
+            <nz-form-explain *ngIf="!add_menu_code" style="color:red">字典名不能为空</nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+    <div nz-row>
+      <div nz-col nzSpan="24">
+        <nz-form-item>
+          <nz-form-label>desc</nz-form-label>
+          <nz-form-control>
+            <input nz-input placeholder="please enter Menu Description" name="desc1" [(ngModel)]='add_menu_desc'/>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+  </form>
+  <div class="footer">
+    <button type="button" (click)="close()" class="ant-btn" style="margin-right: 8px;"><span>Cancel</span></button>
+    <button type="button" (click)="add_Menu()"  [disabled]="!add_menu_code" class="ant-btn ant-btn-primary"><span>Submit</span></button>
+  </div>
+  </nz-drawer>
+  
+  
+  
