@@ -74,6 +74,7 @@ export class Tab2Page {
         text: '根据课程号查找班课',
         handler: () => {
           console.log('根据课程号查找班课');
+          this.identity = this.localStorageService.get('identity', null);
           if (this.identity == 'teacher') {
             this.presentAlert();
           }

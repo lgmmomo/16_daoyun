@@ -65,6 +65,7 @@ export class Tab1Page {
         text: '创建班课',
         handler: () => {
           console.log('创建班课');
+          this.identity = this.localStorageService.get('identity', 'teacher');
           if (this.identity == 'teacher') {
             this.router.navigateByUrl('/new-class');
           }

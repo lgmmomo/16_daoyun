@@ -14,15 +14,15 @@ export class Tab3Page {
   version = '';
   name = '';
   id = '';
-  isDarkMode=true;
+  isDarkMode = true;
   constructor(private localStorageService: LocalStorageService,
     private router: Router,
     private alertController: AlertController,
     private commonService: CommonService) {
     let theme = this.localStorageService.get('data-theme', 'dark');
     document.body.setAttribute('data-theme', theme);
-    if(theme=='light'){
-      this.isDarkMode=false;
+    if (theme == 'light') {
+      this.isDarkMode = false;
     }
     let appConfig: any = this.localStorageService.get(APP_KEY, null);
     this.version = appConfig.version;
@@ -31,7 +31,7 @@ export class Tab3Page {
     console.log('当前获取的登入ID为', userId);
     this.getData(userId, identity);
   }
-  getData(userId, identity){
+  getData(userId, identity) {
     this.commonService.getPersonById(userId, identity).then((result: any) => {
       console.log('用户信息', result);
       this.name = result.personnel.Pname;
@@ -41,34 +41,56 @@ export class Tab3Page {
     })
   }
   //下拉刷新
-  refreshData(event){
+  refreshData(event) {
     let userId = this.localStorageService.get('userID', null);
     let identity = this.localStorageService.get('identity', 'student');
     this.getData(userId, identity);
     let theme = this.localStorageService.get('data-theme', 'dark');
-    if(theme=='light'){
-      this.isDarkMode=false;
+    if (theme == 'light') {
+      this.isDarkMode = false;
     }
-    else{
-      this.isDarkMode=true;
+    else {
+      this.isDarkMode = true;
     }
     event.target.complete();
   }
-  openSetInformation(){
+  openSetInformation() {
     this.router.navigateByUrl('/set-information');
   }
-  openAboutUs(){
+  openAboutUs() {
     this.router.navigateByUrl('/about-us');
   }
   //退出登录
-  onLogout() {
-    let app = this.localStorageService.get(APP_KEY, []);
-    app.isLogin = false  //将APP的登录状态设置为false
-    this.localStorageService.set(APP_KEY, app);
-    this.localStorageService.remove('userID');
-    this.localStorageService.remove('userName');
-    this.localStorageService.remove('identity');
-    this.router.navigateByUrl('/login-in');
+  async onLogout() {
+    const alert = await this.alertController.create({
+      animated: true,
+      mode: 'ios',
+      message: '确认退出？',
+      buttons: [
+        {
+          text: '取消',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            console.log('Confirm Cancel');
+          }
+        }, {
+          text: '退出',
+          cssClass: 'danger',
+          handler: () => {
+            console.log('Confirm Delete');
+            let app = this.localStorageService.get(APP_KEY, []);
+            app.isLogin = false  //将APP的登录状态设置为false
+            this.localStorageService.set(APP_KEY, app);
+            this.localStorageService.remove('userID');
+            this.localStorageService.remove('userName');
+            this.localStorageService.remove('identity');
+            this.router.navigateByUrl('/login-in');
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
   //检查升级
   async checkUpdate() {
@@ -109,10 +131,10 @@ export class Tab3Page {
   openForgotPassword() {
     // 进入找回密码页面
     this.router.navigate(['/forget-password'], {
-        queryParams: {
-            page: 0
-        }
+      queryParams: {
+        page: 0
+      }
     })
-}
+  }
 
 }
