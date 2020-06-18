@@ -94,7 +94,7 @@ class STUDENT(db.Model):
     StudentNumber = db.Column(db.Integer, unique=True)
     Major = db.Column(db.String(255))
     Schooling = db.Column(db.String(255))
-    Userid = db.Column(db.Integer, db.ForeignKey('USER.Userid'))
+    Userid = db.Column(db.Integer, db.ForeignKey('User.Userid'))
     Class = db.Column(db.String(255))
 
     def __init__(self,Studentname, StudentNumber,Major,Schooling,Userid,Class):
@@ -146,34 +146,35 @@ class Course(db.Model):
     __tablename__='Course'
     CourseId = db.Column(db.Integer, primary_key=True,autoincrement=True)
     CourseName = db.Column(db.String(255), unique=True)
-    TeachId = db.Column(db.Integer,db.ForeignKey('Teacher.TeachId'))
+    Teachername = db.Column(db.String(255))
+    stuobject=db.Column(db.String(255))
     CourseWeek = db.Column(db.String(255)) #课程学时
     CourseDay=db.Column(db.String(255))#课程周序
     CourseTime=db.Column(db.String(255))#课程节次
     CoursePlace=db.Column(db.String(255))#课程地点
-    Layout=db.Column(db.String(255))#课程布局
+    School=db.Column(db.String(255))
     
-    def __init__(self,CourseName, TeachId,CourseWeek,CourseDay,CourseTime,CoursePlace,Layout):
+    def __init__(self,CourseName,Teachername,stuobject,CourseWeek,CourseDay,CourseTime,CoursePlace,School):
         self.CourseName = CourseName
-        self.TeachId = TeachId
+        self.Teachername = Teachername
+        self.stuobject = stuobject
         self.CourseWeek = CourseWeek
         self.CourseDay = CourseDay
         self.CourseTime = CourseTime
         self.CoursePlace = CoursePlace  
-        self.Layout = Layout  
+        self.School = School
 
     def to_json(self):
-        TeacherName,TeachNumber=Teacher.query.filter_by(TeachId=self.TeachId).first().get_TeachName_TeachNumber()
         json_data={
             'CourseId':self.CourseId,
             'CourseName':self.CourseName,
-            'TeachNumber':TeachNumber,
-            'TeacherName':TeacherName,
+            'TeacherName':self.Teachername,
+            'stuobject':self.stuobject,
             'CourseWeek':self.CourseWeek,
             'CourseDay':self.CourseDay,
             'CourseTime':self.CourseTime,
             'CoursePlace':self.CoursePlace,
-            'Layout':self.Layout
+            'School':self.School
         }
         return json.dumps(json_data)
     
@@ -184,7 +185,12 @@ class Teacher(db.Model):
     TeachId = db.Column(db.Integer, primary_key=True,autoincrement=True)
     TeachName = db.Column(db.String(255), unique=True)
     TeachNumber = db.Column(db.Integer)
-    Userid = db.Column(db.Integer,db.ForeignKey('USER.Userid')) 
+    Userid = db.Column(db.Integer,db.ForeignKey('User.Userid')) 
+
+    def __init__(self,TeachName, TeachNumber, Userid):
+        self.TeachName = TeachName
+        self.TeachNumber = TeachNumber
+        self.Userid = Userid 
 
     def to_json(self):
         json_data={
@@ -263,7 +269,11 @@ class Course_Student(db.Model):
     id = db.Column(db.Integer,primary_key = True,autoincrement = True)
     CourseId = db.Column(db.Integer,db.ForeignKey(Course.CourseId))
     Studentid = db.Column(db.Integer,db.ForeignKey(STUDENT.Studentid))
+    def __init__(self, CourseId,Studentid):
+        self.CourseId = CourseId
+        self.Studentid = Studentid
 
+        
     def to_json(self):
         json_data={
             'CourseId':self.CourseId,
@@ -274,18 +284,20 @@ class Course_Student(db.Model):
 class Course_Sign(db.Model):
     __tablename__='Course_Sign'
     id = db.Column(db.Integer,primary_key = True,autoincrement = True)
-    SignId = db.Column(db.Integer,db.ForeignKey('SignData.SignId'))
+    SignId = db.Column(db.Integer,db.ForeignKey('Pos_SignData.SignId'))
     CourseId = db.Column(db.Integer,db.ForeignKey('Course.CourseId'))
-    Studentid = db.Column(db.Integer,db.ForeignKey('STUDENT.Studentid'))
-    Place = db.Column(db.String(255))
-    SignData = db.Column(db.String(255))
+    Studentid = db.Column(db.Integer,db.ForeignKey('Student.Studentid'))
+    longitude=db.Column(db.Numeric)
+    latitude=db.Column(db.Numeric)
+    SignTime = db.Column(db.String(255))
     Status = db.Column(db.String(255))
 
-    def __init__(self, SignId,CourseId,Studentid,Place,Status):
+    def __init__(self, SignId,CourseId,Studentid,longitude,latitude,Status):
         self.SignId = SignId
         self.CourseId = CourseId
         self.Studentid = Studentid
-        self.Place = Place
+        self.longitude = longitude
+        self.latitude = latitude
         self.Status = Status
 
         
@@ -294,8 +306,9 @@ class Course_Sign(db.Model):
             'SignId':self.SignId,
             'CourseId':self.CourseId,
             'Studentid':self.Studentid,
-            'Place':self.Place,
-            'SignData':self.SignData,
+            'longitude':self.longitude,
+            'latitude':self.latitude,
+            'SignTime':self.SignTime,
             'Status':self.Status,
 
         }
@@ -321,5 +334,83 @@ class SignData(db.Model):
         }
         return json.dumps(json_data)
 
+class Pos_SignData(db.Model):
+    __tablename__='Pos_SignData'
+    SignId = db.Column(db.Integer,primary_key = True,autoincrement = True)
+    CourseId = db.Column(db.Integer,db.ForeignKey('Course.CourseId'))
+    password=db.Column(db.Integer)
+    StartData = db.Column(db.DateTime)
+    longitude=db.Column(db.Numeric)
+    latitude=db.Column(db.Numeric)
 
 
+    def __init__(self, CourseId,password,StartData,longitude,latitude):
+        self.CourseId = CourseId
+        self.password = password
+        self.StartData = StartData
+        self.longitude = longitude
+        self.latitude = latitude
+
+
+    def to_json(self):
+        json_data={
+            'SignId':self.SignId,
+            'CourseId':self.CourseId,
+            'password':self.password,
+            'StartData':self.StartData,
+            'longitude':self.longitude,
+            'latitude':self.latitude
+        }
+        return json.dumps(json_data)
+
+
+class OPmenu(db.Model):
+    __tablename__ = 'OPmenu'
+    id = db.Column(db.Integer, primary_key=True,autoincrement=True)
+    code = db.Column(db.String(16), unique=True)
+    description = db.Column(db.String(256), unique=True)
+
+    def __init__(self, code, description):
+        self.code = code
+        self.description = description
+
+    def to_json(self):
+        json_data={
+            'id':self.id,
+            'code':self.code,
+            'desc':self.description
+        }
+        return json.dumps(json_data)
+
+    def get_opmenu_detail(self):
+        opmenu_detail=MenuDetail.query.filter_by(MenuDetailID=self.id).order_by(MenuDetail.position.asc())
+        all_data=[]
+        for data in opmenu_detail:
+            data=data.to_json()
+            data=json.loads(data)
+            all_data.append(data)
+        return json.dumps(all_data)
+
+class MenuDetail(db.Model):
+    __tablename__ = 'MenuDetail'
+    id = db.Column(db.Integer, primary_key=True,autoincrement=True)
+    MenuDetailID = db.Column(db.Integer,db.ForeignKey('OPmenu.id'))
+    ItemValue = db.Column(db.String(32),nullable=False)
+    position=db.Column(db.Integer,nullable=False)
+    isDefault=db.Column(db.Integer,nullable=False)
+
+    def __init__(self, MenuDetailID, ItemValue,position,isDefault):
+        self.MenuDetailID = MenuDetailID
+        self.ItemValue = ItemValue
+        self.position = position
+        self.isDefault = isDefault
+
+    def to_json(self):
+        json_data={
+            'id':self.id,
+            'MenuDetailID':self.MenuDetailID,
+            'ItemValue':self.ItemValue,
+            'position':self.position,
+            'isDefault':self.isDefault
+        }
+        return json.dumps(json_data)
