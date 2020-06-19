@@ -19,7 +19,7 @@ export class Tab1Page {
     private localStorageService: LocalStorageService,
     private commonService: CommonService,
     private alertController: AlertController) {
-    let theme = this.localStorageService.get('data-theme', 'light');
+    let theme = this.localStorageService.get('data-theme', 'dark');
     document.body.setAttribute('data-theme', theme);
     this.identity = this.localStorageService.get('identity', 'teacher');
     console.log('获取的身份',this.identity)

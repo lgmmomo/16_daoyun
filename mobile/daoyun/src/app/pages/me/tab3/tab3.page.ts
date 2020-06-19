@@ -21,6 +21,7 @@ export class Tab3Page {
     private commonService: CommonService) {
     let theme = this.localStorageService.get('data-theme', 'dark');
     document.body.setAttribute('data-theme', theme);
+    this.localStorageService.set('data-theme', theme);
     if (theme == 'light') {
       this.isDarkMode = false;
     }
@@ -46,6 +47,7 @@ export class Tab3Page {
     let identity = this.localStorageService.get('identity', 'student');
     this.getData(userId, identity);
     let theme = this.localStorageService.get('data-theme', 'dark');
+    this.localStorageService.set('data-theme', theme);
     if (theme == 'light') {
       this.isDarkMode = false;
     }

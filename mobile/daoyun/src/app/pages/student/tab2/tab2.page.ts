@@ -25,7 +25,7 @@ export class Tab2Page {
     private alertController: AlertController,
     private localStorageService: LocalStorageService,
     private commonService: CommonService) {
-      let theme = this.localStorageService.get('data-theme', 'light');
+    let theme = this.localStorageService.get('data-theme', 'dark');
     document.body.setAttribute('data-theme', theme);
     console.log('enter tab2 page');
     this.identity = this.localStorageService.get('identity', null);
