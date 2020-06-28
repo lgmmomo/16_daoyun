@@ -23,7 +23,7 @@ export class QrcodePage implements OnInit {
 
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe((result) => {
-      console.log('传入的参数：', result);
+      // console.log('传入的参数：', result);
       this.course_id = result.course_id;
       this.course_name = result.course_name;
     })
@@ -36,7 +36,7 @@ export class QrcodePage implements OnInit {
   }
 
   onBack() {
-    console.log('调用onback');
+    // console.log('调用onback');
     this.router.navigateByUrl('/tabs/tabs/tab1');
   }
 

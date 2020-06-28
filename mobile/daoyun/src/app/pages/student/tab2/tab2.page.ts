@@ -27,7 +27,7 @@ export class Tab2Page {
     private commonService: CommonService) {
     let theme = this.localStorageService.get('data-theme', 'dark');
     document.body.setAttribute('data-theme', theme);
-    console.log('enter tab2 page');
+    // // console.log('enter tab2 page');
     this.identity = this.localStorageService.get('identity', null);
     if (this.identity == 'student') {
       this.refreshData(null);
@@ -53,12 +53,12 @@ export class Tab2Page {
     }
     else {
       this.commonService.getCourseById(this.stuID).then((result: any) => {
-        console.log('根据学号请求已加入课程列表:', result);
+        // // console.log('根据学号请求已加入课程列表:', result);
         this.courses = result.marks;
         this.course_length = this.courses.length;
-        console.log(this.course_length);
+        // // console.log(this.course_length);
       }).then((error) => {
-        console.log('请求课程列表失败:', error);
+        // // console.log('请求课程列表失败:', error);
       }).finally(() => {
         if (event != null) { //如果不是第一次调用，则需要通知refresher控件结束工作
           event.target.complete();
@@ -73,7 +73,7 @@ export class Tab2Page {
       buttons: [{
         text: '根据课程号查找班课',
         handler: () => {
-          console.log('根据课程号查找班课');
+          // // console.log('根据课程号查找班课');
           this.identity = this.localStorageService.get('identity', null);
           if (this.identity == 'teacher') {
             this.presentAlert();
@@ -85,24 +85,24 @@ export class Tab2Page {
       }, {
         text: '根据二维码查找班课',
         handler: () => {
-          console.log('根据二维码查找班课');
+          // // console.log('根据二维码查找班课');
           if (this.identity == 'teacher') {
             this.presentAlert();
           }
           else {
             this.barcodeScanner.scan().then(barcodeData => {
               // alert("Barcode data " + JSON.stringify(barcodeData));
-              console.log("Barcode data " + JSON.stringify(barcodeData));
+              // // console.log("Barcode data " + JSON.stringify(barcodeData));
               this.scannedData = barcodeData;
               this.course_id = this.scannedData['text'];//获取扫描到的班课号
-              console.log('扫描到的课程号为：', this.course_id);
+              // // console.log('扫描到的课程号为：', this.course_id);
               this.router.navigate(['/stu-class-info'], {
                 queryParams: {
                   course_id: this.course_id
                 }
               });
             }).catch(err => {
-              console.log("Error", err);
+              // // console.log("Error", err);
             });
           }
         }
@@ -110,7 +110,7 @@ export class Tab2Page {
         text: '取消',
         role: 'cancel',
         handler: () => {
-          console.log('Cancel clicked');
+          // // console.log('Cancel clicked');
         }
       }]
     });
@@ -136,12 +136,12 @@ export class Tab2Page {
           role: 'cancel',
           cssClass: 'secondary',
           handler: () => {
-            console.log('Confirm Cancel');
+            // // console.log('Confirm Cancel');
           }
         }, {
           text: '搜索',
           handler: (data: any) => {
-            console.log('点击搜索', data.course_id);
+            // // console.log('点击搜索', data.course_id);
             this.course_id = data.course_id;
             this.router.navigate(['/stu-class-info'], {
               queryParams: {

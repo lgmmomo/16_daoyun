@@ -26,7 +26,7 @@ export class WelcomePage implements OnInit {
   ngOnInit() {
   }
   onSlideWillChange(event) {
-    console.log(event);
+    // console.log(event);
     this.slides.isEnd().then((end) => {
       this.showSkip = !end;  //end=1,不显示跳过按钮
     });

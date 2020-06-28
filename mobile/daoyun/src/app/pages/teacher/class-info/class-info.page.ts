@@ -33,16 +33,16 @@ export class ClassInfoPage implements OnInit {
     private alertController: AlertController,
     public actionSheetController: ActionSheetController,
     private localStorageService: LocalStorageService) {
-    console.log('hello class-info page!')
+    // console.log('hello class-info page!')
     let theme = this.localStorageService.get('data-theme', 'light');
     document.body.setAttribute('data-theme', theme);
   }
 
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe((result) => {
-      console.log(result);
+      // console.log(result);
       this.course_id = result.course_id;
-      console.log('传入课程编号', this.course_id);
+      // console.log('传入课程编号', this.course_id);
     });
     this.getCourse();
   }
@@ -50,7 +50,7 @@ export class ClassInfoPage implements OnInit {
   getCourse() {
     //获取course_id的班课信息，因为教师端不是通过班课号查找的班课，所以不会出现查找班课失败的情况
     this.commonService.findCourseById(this.course_id).then(async (result: any) => {
-      console.log('查找班课返回信息：', result);
+      // console.log('查找班课返回信息：', result);
       if (result.status == 'success') {
         this.hasThisClass = 1;//有这门课，可以显示所有控件
         this.course_day = result.data[0].CourseDay;
@@ -63,12 +63,12 @@ export class ClassInfoPage implements OnInit {
         this.course_object = result.data[0].stuobject;
       }
     }).catch((error) => {
-      console.log('查找班课信息失败', error);
+      // console.log('查找班课信息失败', error);
     })
   }
 
   submitClassInfo() {
-    console.log('点击提交编辑信息');
+    // console.log('点击提交编辑信息');
     let subjectInfo: any = {} //新建课程的信息
     subjectInfo['CourseId'] = this.course_id
     subjectInfo['CourseName'] = this.course_name
@@ -79,9 +79,9 @@ export class ClassInfoPage implements OnInit {
     subjectInfo['CoursePlace'] = this.course_place
     subjectInfo['School'] = this.course_school
     subjectInfo['stuobject'] = this.course_object
-    console.log('subjectInfo', subjectInfo)
+    // console.log('subjectInfo', subjectInfo)
     this.commonService.editCourseInformation(subjectInfo).then(async (result: any) => {
-      console.log('修改班课信息返回：', result);
+      // console.log('修改班课信息返回：', result);
       if (result.status == 'success') {
         const alert = await this.alertController.create({
           animated: true,
@@ -94,7 +94,7 @@ export class ClassInfoPage implements OnInit {
         this.getCourse();
       }
     }).then((error) => {
-      console.log('修改班课信息失败：', error);
+      // console.log('修改班课信息失败：', error);
     })
   }
 
@@ -104,21 +104,21 @@ export class ClassInfoPage implements OnInit {
       buttons: [{
         text: '编辑班课',
         handler: () => {
-          console.log('编辑班课');
+          // console.log('编辑班课');
           this.isEdit = 1;
         }
       }, {
         text: '删除班课',
         role: 'destructive',
         handler: () => {
-          console.log('删除班课');
+          // console.log('删除班课');
           this.presentAlertDelete();
         }
       }, {
         text: '取消',
         role: 'cancel',
         handler: () => {
-          console.log('Cancel clicked');
+          // console.log('Cancel clicked');
         }
       }]
     });
@@ -136,15 +136,15 @@ export class ClassInfoPage implements OnInit {
           role: 'cancel',
           cssClass: 'secondary',
           handler: (blah) => {
-            console.log('Confirm Cancel');
+            // console.log('Confirm Cancel');
           }
         }, {
           text: '删除',
           cssClass:'danger',
           handler: () => {
-            console.log('Confirm Delete');
+            // console.log('Confirm Delete');
             this.commonService.DeleteCourse(this.course_id).then(async (result: any) => {
-              console.log('删除班课返回信息：', result);
+              // console.log('删除班课返回信息：', result);
               if (result.status == 'success') {
                 const alert = await this.alertController.create({
                   animated: true,
@@ -156,7 +156,7 @@ export class ClassInfoPage implements OnInit {
                 this.router.navigateByUrl('/tabs/tabs/tab1');
               }
             }).then(async (error) => {
-              console.log('删除失败', error);
+              // console.log('删除失败', error);
             })
           }
         }

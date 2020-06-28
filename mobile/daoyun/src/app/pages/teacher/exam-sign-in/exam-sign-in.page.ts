@@ -14,7 +14,7 @@ export class ExamSignInPage implements OnInit {
     private activatedRoute: ActivatedRoute,
     private localStorageService: LocalStorageService,
     private router: Router) {
-    console.log('跳入exam-sign-in页面！');
+    // console.log('跳入exam-sign-in页面！');
     let theme = this.localStorageService.get('data-theme', 'light');
     document.body.setAttribute('data-theme', theme);
   }
@@ -29,7 +29,7 @@ export class ExamSignInPage implements OnInit {
 
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe((result) => {
-      console.log('传入的参数：', result);
+      // console.log('传入的参数：', result);
       this.course_id = result.course_id;
       this.course_name = result.course_name;
     })
@@ -44,9 +44,9 @@ export class ExamSignInPage implements OnInit {
     this.sign_in_student_num = 0;
     this.not_sign_in_student_num = 0;
     this.commonService.getTodayCourseSignInInfo(this.course_id).then((response: any) => {
-      console.log('获取的今日课程签到信息成功:', response);
+      // console.log('获取的今日课程签到信息成功:', response);
       let stuList = response.data;
-      console.log('学生签到信息列表', stuList);
+      // console.log('学生签到信息列表', stuList);
       for (let s of stuList) {
         if (s.Status == '签到') {
           let data = {
@@ -66,12 +66,12 @@ export class ExamSignInPage implements OnInit {
       this.sign_in_student_num = this.sign_in_student.length;
       this.not_sign_in_student_num = this.not_sign_in_student.length;
     }).then((error) => {
-      console.log('获取今日课程签到信息失败:', error);
+      // console.log('获取今日课程签到信息失败:', error);
     })
   }
 
   onBack() {
-    console.log('调用onback方法');
+    // console.log('调用onback方法');
     this.router.navigate(['/exam-class'], {
       queryParams: {
         course_id: this.course_id,

@@ -29,12 +29,12 @@ export class Tab3Page {
     this.version = appConfig.version;
     let userId = this.localStorageService.get('userID', null);
     let identity = this.localStorageService.get('identity', 'student');
-    console.log('当前获取的登入ID为', userId);
+    // // console.log('当前获取的登入ID为', userId);
     this.getData(userId, identity);
   }
   getData(userId, identity) {
     this.commonService.getPersonById(userId, identity).then((result: any) => {
-      console.log('用户信息', result);
+      // // console.log('用户信息', result);
       this.name = result.personnel.Pname;
       this.id = result.personnel.ID;
       this.localStorageService.set('Studentid', result.personnel.Studentid);
@@ -74,13 +74,13 @@ export class Tab3Page {
           role: 'cancel',
           cssClass: 'secondary',
           handler: (blah) => {
-            console.log('Confirm Cancel');
+            // // console.log('Confirm Cancel');
           }
         }, {
           text: '退出',
           cssClass: 'danger',
           handler: () => {
-            console.log('Confirm Delete');
+            // // console.log('Confirm Delete');
             let app = this.localStorageService.get(APP_KEY, []);
             app.isLogin = false  //将APP的登录状态设置为false
             this.localStorageService.set(APP_KEY, app);
@@ -107,7 +107,7 @@ export class Tab3Page {
   }
   //改变模式
   onChangeScheme(event) {
-    console.log('改变主题颜色');
+    // // console.log('改变主题颜色');
     let systemDark = window.matchMedia("(prefers-color-scheme: dark)");
     systemDark.addListener(this.colorTest);
     if (event.detail.checked) {

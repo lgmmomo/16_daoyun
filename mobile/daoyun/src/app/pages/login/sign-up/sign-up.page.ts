@@ -83,7 +83,7 @@ export class SignUpPage implements OnInit {
         userInfo['teachernumber'] = this.signup.userNo
       }
       this.commonService.postRegister(userInfo, this.signup.identity).then(async (result: any) => {
-        console.log('发送注册信息成功', result);
+        // // console.log('发送注册信息成功', result);
         if (result.status == 'success') {
           this.presentAlert('注册成功！');
           this.router.navigateByUrl('/login-in');
@@ -93,7 +93,7 @@ export class SignUpPage implements OnInit {
         }
       }).catch(async (error) => {
         this.presentAlert('未知错误！');
-        console.log('发送注册信息失败', error);
+        // // console.log('发送注册信息失败', error);
       })
     }
   }

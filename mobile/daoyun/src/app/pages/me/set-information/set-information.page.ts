@@ -27,7 +27,7 @@ export class SetInformationPage implements OnInit {
     private router: Router,
     private alertController: AlertController,
     private commonService: CommonService) {
-    console.log('进入set-information页面')
+    // // console.log('进入set-information页面')
     let theme = this.localStorageService.get('data-theme', 'light');
     document.body.setAttribute('data-theme', theme);
 
@@ -53,14 +53,14 @@ export class SetInformationPage implements OnInit {
 
   getData(){
     this.commonService.getDetailInfo(this.identity, this.userId).then((result: any) => {
-      console.log('返回个人信息成功', result);
+      // // console.log('返回个人信息成功', result);
       this.loginUser.userNo = this.userId;
       this.loginUser.Class = result.personnel.Class;
       this.loginUser.Major = result.personnel.Major;
       this.loginUser.School = result.personnel.School;
       this.loginUser.name = result.personnel.name;
     }).catch((error) => {
-      console.log('返回个人信息失败', error);
+      // // console.log('返回个人信息失败', error);
     })
   }
 
@@ -79,7 +79,7 @@ export class SetInformationPage implements OnInit {
       userInfo['teachernumber'] = this.loginUser.userNo;
     }
     this.commonService.changePersonInfo(this.identity, userInfo).then((result:any)=>{
-      console.log('个人信息发送成功',result);
+      // // console.log('个人信息发送成功',result);
       if(result.status=='success'){
         this.presentAlert('个人信息修改成功！');
         this.getData();
@@ -91,7 +91,7 @@ export class SetInformationPage implements OnInit {
         this.isEdit=0;
       }
     }).catch((error)=>{
-      console.log('个人信息发送失败', error);
+      // // console.log('个人信息发送失败', error);
       this.presentAlert('发送信息失败！');
     })
   }

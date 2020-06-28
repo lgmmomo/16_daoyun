@@ -31,7 +31,7 @@ export class ForgetPasswordPage implements OnInit {
     let theme = this.localStorageService.get('data-theme', 'dark');
     document.body.setAttribute('data-theme', theme);
     this.activatedRoute.queryParams.subscribe((result:any) => {
-      console.log('传入的参数：', result);
+      // // console.log('传入的参数：', result);
       this.backPage=Number(result.page);
     })
   }
@@ -67,7 +67,7 @@ export class ForgetPasswordPage implements OnInit {
           this.router.navigateByUrl('/login-in');
         }
       }).catch(async (error) => {
-        console.log('修改密码失败', error);
+        // // console.log('修改密码失败', error);
         this.presentAlert('密码修改失败！');
       })
     } else {//密码输入不一致

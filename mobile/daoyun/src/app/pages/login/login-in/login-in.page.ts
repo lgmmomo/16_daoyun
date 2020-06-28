@@ -40,7 +40,7 @@ export class LoginInPage implements OnInit {
         }
         else {//有输入
             this.commonService.postLogin(this.username, this.password, this.identity).then(async (result: any) => {
-                console.log('返回的登入信息:', result);
+                // // console.log('返回的登入信息:', result);
                 this.isPass = result.state;
                 if (this.isPass == '1') {
                     //将登录信息存在本地数据库
@@ -48,7 +48,7 @@ export class LoginInPage implements OnInit {
                     this.localStorageService.set('identity', this.identity);
                     let app = this.localStorageService.get(APP_KEY, []);
                     app.isLogin = true;
-                    console.log('app', app);
+                    // // console.log('app', app);
                     // app.identity = loginUser.identity
                     this.localStorageService.set(APP_KEY, app);
                     let toast = await this.toastController.create({
@@ -80,7 +80,7 @@ export class LoginInPage implements OnInit {
                     await alert.present();
                 }
             }).catch(async (error) => {
-                console.log('postLogin出现错误:', error);
+                // // console.log('postLogin出现错误:', error);
             })
         }
     }

@@ -27,7 +27,7 @@ export class ViewClassPage implements OnInit {
 
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe((result) => {
-      console.log('传入的参数：', result);
+      // // console.log('传入的参数：', result);
       this.course_id = result.courseID;
       this.course_name = result.courseName;
     })
@@ -37,9 +37,9 @@ export class ViewClassPage implements OnInit {
   refreshData(event){
     this.students=[];
     this.commonService.countAllCallTheRoll(this.course_id).then((result: any) => {
-      console.log('查询', this.course_name, '课程结果为：', result);
+      // // console.log('查询', this.course_name, '课程结果为：', result);
       for (let r of result.data) {
-        console.log('r', r);
+        // // console.log('r', r);
         let t = {
           StudentNumber: r.StudentNumber,
           Studentname: r.Studentname,
@@ -48,16 +48,16 @@ export class ViewClassPage implements OnInit {
           no: r.no,
           experience: 2 * r.ok - 1 * r.later - 2 * r.no
         }
-        console.log('t', t);
+        // // console.log('t', t);
         this.students.push(t);
       }
-      // console.log('排序前', this.students)
+      // // console.log('排序前', this.students)
       this.students.sort((a: any, b: any) => {
         return b.experience - a.experience;//大到小
       })
-      console.log('排序后', this.students)
+      // // console.log('排序后', this.students)
     }).catch((error) => {
-      console.log('获取', this.course_name, '课程信息失败')
+      // // console.log('获取', this.course_name, '课程信息失败')
     }).finally(()=>{
       if (event != null) { //如果不是第一次调用，则需要通知refresher控件结束工作
         event.target.complete();
@@ -75,7 +75,7 @@ export class ViewClassPage implements OnInit {
       buttons: [{
         text: '查看班课信息',
         handler: () => {
-          console.log('班课信息');
+          // // console.log('班课信息');
           this.router.navigate(['/stu-class-info'], {
             queryParams: {
               course_id: this.course_id
@@ -86,7 +86,7 @@ export class ViewClassPage implements OnInit {
       }, {
         text: '手势签到',
         handler: () => {
-          console.log('点击手势签到');
+          // // console.log('点击手势签到');
           this.router.navigate(['/gesture-sign-in'], {
             queryParams: {
               course_id: this.course_id,
@@ -99,7 +99,7 @@ export class ViewClassPage implements OnInit {
         text: '取消',
         role: 'cancel',
         handler: () => {
-          console.log('Cancel clicked');
+          // // console.log('Cancel clicked');
         }
       }]
     });
