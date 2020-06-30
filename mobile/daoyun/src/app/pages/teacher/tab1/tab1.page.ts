@@ -42,6 +42,7 @@ export class Tab1Page {
       }
     }
     else {
+      // console.log(this.userID)
       this.commonService.getCourseByIDHql(this.userID).then((result: any) => {
         // console.log('获取教师创建的课程信息成功！', result);
         this.courses = result.courses;

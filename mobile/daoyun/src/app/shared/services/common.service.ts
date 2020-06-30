@@ -39,7 +39,7 @@ export class CommonService {
   }
 
   //登入
-  postLogin(id, password, identity) {
+  postLogin(flag, id, password, identity) {
     if (identity == 'student') {
       var url = this.hurl + '/app/student/login_check';
       // console.log('学生');
@@ -48,13 +48,57 @@ export class CommonService {
       var url = this.hurl + '/app/teacher/login_check';
       // console.log('教师');
     }
-    let logindata = {
-      id: id,
-      password: Md5.hashStr(password).toString()
+    var logindata:any;
+    if(flag==1){//登入用的用户名
+      logindata = {
+        flag: String(flag),
+        username: String(id),
+        password: Md5.hashStr(password).toString()
+      }
+    }
+    else{//登入用的手机号
+      logindata = {
+        flag: String(flag),
+        tel: String(id),
+        password: Md5.hashStr(password).toString()
+      }
     }
     // console.log('发送的登录信息：', logindata);
     return new Promise((reslove, reject) => {
       this.http.post(url, JSON.stringify(logindata), this.httpOptions).subscribe((response) => {
+        reslove(response);
+      }, (error) => {
+        reject(error);
+      })
+    })
+  }
+
+  //获取用户ID
+  getUserID(flag, loginname, identity) {
+    if (identity == 'student') {
+      var url = this.hurl + '/app/query_stuuser';
+      // console.log('学生');
+    }
+    else {
+      var url = this.hurl + '/app/query_teauser';
+      // console.log('教师');
+    }
+    var data:any;
+    if(flag==1){//登入用的用户名
+      data = {
+        flag: String(flag),
+        username: String(loginname)
+      }
+    }
+    else{//登入用的手机号
+      data = {
+        flag: String(flag),
+        tel: String(loginname)
+      }
+    }
+    // console.log('发送的获取用户ID信息：', data);
+    return new Promise((reslove, reject) => {
+      this.http.post(url, JSON.stringify(data), this.httpOptions).subscribe((response) => {
         reslove(response);
       }, (error) => {
         reject(error);
@@ -118,7 +162,7 @@ export class CommonService {
   }
 
   //根据身份和学号获取更加详细的个人信息
-  getDetailInfo(identity, userId){
+  getDetailInfo(identity, userId) {
     if (identity == 'student') {
       var url = this.hurl + '/app/get_student_info/' + userId;
       // console.log('学生获取更加详细的个人信息', userId)
@@ -150,7 +194,7 @@ export class CommonService {
     })
   }
 
-  findCourseById(id){
+  findCourseById(id) {
     let url = this.hurl + '/findcourse/' + id;
     // console.log('查找班课编号：', id);
     return new Promise((reslove, reject) => {
@@ -222,6 +266,7 @@ export class CommonService {
   //根据教师工号获取创建的班课和班课信息
   getCourseByIDHql(id) {
     let url = this.hurl + '/app/teacher_course/' + id;
+    // console.log('根据教师工号获取创建的班课和班课信息', id)
     return new Promise((reslove, reject) => {
       this.http.get(url).subscribe((response) => { //异步方法，需要用promise返回数据
         reslove(response);
@@ -233,7 +278,7 @@ export class CommonService {
   }
 
   //检查本次课程登录情况
-  getTodayCourseSignInInfo(course_id){
+  getTodayCourseSignInInfo(course_id) {
     let url = this.hurl + '/app/teacher/Coursesign_ino/' + course_id;
     // console.log('教师检查本次课程登录情况:', url)
     return new Promise((reslove, reject) => {
@@ -246,7 +291,7 @@ export class CommonService {
   }
 
   //新增班课
-  postNewCourse(data){
+  postNewCourse(data) {
     let url = this.hurl + '/course';
     // console.log('发送新增班课信息：', data);
     return new Promise((reslove, reject) => {
@@ -259,7 +304,7 @@ export class CommonService {
   }
 
   //修改班课信息
-  editCourseInformation(data){
+  editCourseInformation(data) {
     let url = this.hurl + '/course';
     // console.log('发送修改班课信息：', data);
     return new Promise((reslove, reject) => {
@@ -272,8 +317,8 @@ export class CommonService {
   }
 
   //删除班课
-  DeleteCourse(course_id){
-    let url = this.hurl + '/course/'+course_id;
+  DeleteCourse(course_id) {
+    let url = this.hurl + '/course/' + course_id;
     // console.log('需要取消的课程编号：', course_id);
     return new Promise((reslove, reject) => {
       this.http.delete(url).subscribe((response) => {
@@ -285,7 +330,7 @@ export class CommonService {
   }
 
   //修改个人信息
-  changePersonInfo(identity, data){
+  changePersonInfo(identity, data) {
     if (identity == 'student') {
       var url = this.hurl + '/user/changeinfo/student';
       // console.log('学生修改个人信息')
@@ -294,7 +339,7 @@ export class CommonService {
       var url = this.hurl + '/user/changeinfo/teacher';
       // console.log('教师修改个人信息')
     }
-    // console.log('发送的修改信息：',data);
+    // console.log('发送的修改信息：', data);
     return new Promise((reslove, reject) => {
       this.http.put(url, JSON.stringify(data), this.httpOptions).subscribe((response) => { //异步方法，需要用promise返回数据
         reslove(response);

@@ -25,6 +25,8 @@ export class SignUpPage implements OnInit {
   signup = {
     name: '',//真实姓名
     school: '',//学校
+    username:'', //用户名
+    tel: '', //手机号
     major: '',//专业
     class: '', //班级(先手动输入，后面有需求再改成下拉框)
     identity: 'student',//学生、老师
@@ -47,8 +49,19 @@ export class SignUpPage implements OnInit {
     }
   }
   onSubmit() {
+    // console.log(this.signup)
     if (this.signup.name == '') {
       this.presentAlert('姓名不能为空!');
+    }
+    else if (this.signup.username == '') {
+      this.presentAlert('用户名不能为空!');
+    }
+    else if (this.signup.tel == '') {
+      this.presentAlert('手机号不能为空!');
+    }
+    else if (String(this.signup.tel).length != 11) {
+      // console.log(this.signup.tel.length)
+      this.presentAlert('手机号格式不正确!');
     }
     else if (this.signup.userNo == '') {
       this.presentAlert('学号不能为空!');
@@ -68,6 +81,8 @@ export class SignUpPage implements OnInit {
     else { //必填信息都填了，而且没有错
       let userInfo: any = {}
       if (this.signup.identity == 'student') {
+        userInfo['username'] = this.signup.username
+        userInfo['tel'] = String(this.signup.tel)
         userInfo['studentname'] = this.signup.name
         userInfo['schooling'] = this.signup.school
         userInfo['major'] = this.signup.major
@@ -77,13 +92,15 @@ export class SignUpPage implements OnInit {
         userInfo['password'] = Md5.hashStr(this.signup.password).toString()
       }
       else { //老师
+        userInfo['username'] = this.signup.username
+        userInfo['tel'] = String(this.signup.tel)
         userInfo['teachername'] = this.signup.name
         userInfo['password'] = Md5.hashStr(this.signup.password).toString()
         userInfo['roleid'] = '2'
         userInfo['teachernumber'] = this.signup.userNo
       }
       this.commonService.postRegister(userInfo, this.signup.identity).then(async (result: any) => {
-        // // console.log('发送注册信息成功', result);
+        // console.log('发送注册信息成功', result);
         if (result.status == 'success') {
           this.presentAlert('注册成功！');
           this.router.navigateByUrl('/login-in');
@@ -93,7 +110,7 @@ export class SignUpPage implements OnInit {
         }
       }).catch(async (error) => {
         this.presentAlert('未知错误！');
-        // // console.log('发送注册信息失败', error);
+        // console.log('发送注册信息失败', error);
       })
     }
   }

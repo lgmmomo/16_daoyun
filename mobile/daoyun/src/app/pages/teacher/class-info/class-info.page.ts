@@ -93,6 +93,15 @@ export class ClassInfoPage implements OnInit {
         this.isEdit = 0;
         this.getCourse();
       }
+      else {
+        const alert = await this.alertController.create({
+          animated: true,
+          mode: 'ios',
+          message: '修改班课信息失败,' + result.error,
+          buttons: ['OK']
+        });
+        await alert.present();
+      }
     }).then((error) => {
       // console.log('修改班课信息失败：', error);
     })
@@ -140,7 +149,7 @@ export class ClassInfoPage implements OnInit {
           }
         }, {
           text: '删除',
-          cssClass:'danger',
+          cssClass: 'danger',
           handler: () => {
             // console.log('Confirm Delete');
             this.commonService.DeleteCourse(this.course_id).then(async (result: any) => {

@@ -52,7 +52,7 @@ export class ExamClassPage implements OnInit {
         // console.log('t', t);
         this.students.push(t);
       }
-      // // console.log('排序前', this.students)
+      // console.log('排序前', this.students)
       this.students.sort((a: any, b: any) => {
         return b.experience - a.experience;//从小到大
       })
@@ -76,7 +76,7 @@ export class ExamClassPage implements OnInit {
     const actionSheet = await this.actionSheetController.create({
       mode: 'ios',
       buttons: [{
-        text: '创建签到',
+        text: '发起签到',
         handler: () => {
           // console.log('创建签到');
           this.router.navigate(['/make-gesture'], {
