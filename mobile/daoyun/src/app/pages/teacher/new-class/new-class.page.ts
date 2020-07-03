@@ -56,10 +56,10 @@ export class NewClassPage implements OnInit {
     let userName = this.localStorageService.get('userName', null);
     subjectInfo['add_TeacherName'] = userName;
     this.commonService.postNewCourse(subjectInfo).then(async(result: any) => {
-      console.log('添加班课返回信息：', result);
+      // console.log('添加班课返回信息：', result);
       if (result.status == 'success') {
         let course_id = result.data;
-        console.log('班课号：', course_id);
+        // console.log('班课号：', course_id);
         let toast = await this.toastController.create({
           animated: true,
           mode: 'ios',
@@ -76,7 +76,7 @@ export class NewClassPage implements OnInit {
         })
       }
     }).catch((error)=>{
-      console.log('新建课程失败', error);
+      // console.log('新建课程失败', error);
     })
   }
 

@@ -18,7 +18,7 @@ export class MakeGesturePage implements OnInit {
     public toastController: ToastController,
     private localStorageService: LocalStorageService,
     private activatedRoute: ActivatedRoute) {
-    console.log('跳入make-gesture页面！')
+    // console.log('跳入make-gesture页面！')
     let theme = this.localStorageService.get('data-theme', 'light');
     document.body.setAttribute('data-theme', theme);
   }
@@ -32,12 +32,12 @@ export class MakeGesturePage implements OnInit {
 
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe((result) => {
-      console.log('传入的参数：', result);
+      // console.log('传入的参数：', result);
       this.course_id = result.course_id;
       this.course_name = result.course_name;
     })
     this.teacher_id = this.localStorageService.get('userID', null);
-    console.log('教师编号：', this.teacher_id);
+    // console.log('教师编号：', this.teacher_id);
     var that = this;
     var lock = new PatternLock("#patternHolder", {
       onDraw: function (pattern) {
@@ -51,10 +51,10 @@ export class MakeGesturePage implements OnInit {
   async onSubmit() {
     this.hasPost=1; //准备发送数据，显示进度条
     this.getLocation().then((response: any) => {
-      console.log('教师位置：', response.point.lat, response.point.lng);
+      // console.log('教师位置：', response.point.lat, response.point.lng);
       this.commonService.startSignIn(this.course_id, response.point.lng, response.point.lat, this.sign_in_number).then(async (result) => {
         this.hasPost=0;//不显示进度条
-        console.log('返回信息：', result);
+        // console.log('返回信息：', result);
         const toast = await this.toastController.create({
           color: 'light',
           duration: 2000,
@@ -71,10 +71,10 @@ export class MakeGesturePage implements OnInit {
         })
       }).catch((error) => {
         this.hasPost=0;
-        console.log('创建签到失败', error);
+        // console.log('创建签到失败', error);
       })
     }).catch((error) => {
-      console.log('定位失败', error);
+      // console.log('定位失败', error);
     })
   }
 
@@ -82,13 +82,13 @@ export class MakeGesturePage implements OnInit {
     let geolocation = new BMap.Geolocation(); //新建地图对象
     return new Promise((reslove, reject) => {
       geolocation.getCurrentPosition(function (r) {
-        console.log(this.getStatus())
+        // console.log(this.getStatus())
         if (this.getStatus() == 0) {
-          console.log('获取位置成功：', r.point.lat, r.point.lng);
+          // console.log('获取位置成功：', r.point.lat, r.point.lng);
           reslove(r);
         }
         else {
-          console.log('获取位置失败:', this.getStatus());
+          // console.log('获取位置失败:', this.getStatus());
           reject(this.getStatus());
         }
       });

@@ -39,16 +39,22 @@ export class LoginInPage implements OnInit {
             await alert.present();
         }
         else {//有输入
-            this.commonService.postLogin(this.username, this.password, this.identity).then(async (result: any) => {
-                console.log('返回的登入信息:', result);
+            let flag=1;//1是用户名 2的时候用手机号登录
+            // console.log('账号的首字母',this.username[0])
+            if(this.username.length==11&&this.username[0]=='1'){             
+                flag=2;//登录账号为手机号   
+            }
+            this.commonService.postLogin(flag, this.username, this.password, this.identity).then(async (result: any) => {
+                // console.log('返回的登入信息:', result);
                 this.isPass = result.state;
                 if (this.isPass == '1') {
                     //将登录信息存在本地数据库
-                    this.localStorageService.set('userID', this.username);
+                    this.localStorageService.set('flag', flag);
+                    this.localStorageService.set('loginname', this.username);
                     this.localStorageService.set('identity', this.identity);
                     let app = this.localStorageService.get(APP_KEY, []);
                     app.isLogin = true;
-                    console.log('app', app);
+                    // console.log('app', app);
                     // app.identity = loginUser.identity
                     this.localStorageService.set(APP_KEY, app);
                     let toast = await this.toastController.create({
@@ -63,7 +69,7 @@ export class LoginInPage implements OnInit {
                 }
                 else if (this.isPass == '0') {
                     const alert = await this.alertController.create({
-                        message: '学号或工号不存在！',
+                        message: '登录账号不存在！',
                         mode: 'ios',
                         animated: true,
                         buttons: ['OK']
@@ -80,7 +86,7 @@ export class LoginInPage implements OnInit {
                     await alert.present();
                 }
             }).catch(async (error) => {
-                console.log('postLogin出现错误:', error);
+                // console.log('postLogin出现错误:', error);
             })
         }
     }

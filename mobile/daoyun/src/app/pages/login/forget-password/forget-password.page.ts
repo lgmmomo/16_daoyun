@@ -31,7 +31,7 @@ export class ForgetPasswordPage implements OnInit {
     let theme = this.localStorageService.get('data-theme', 'dark');
     document.body.setAttribute('data-theme', theme);
     this.activatedRoute.queryParams.subscribe((result:any) => {
-      console.log('传入的参数：', result);
+      // console.log('传入的参数：', result);
       this.backPage=Number(result.page);
     })
   }
@@ -43,7 +43,7 @@ export class ForgetPasswordPage implements OnInit {
    */
   async onSendPwd() {
     let identity = '';
-    let userID = '';
+    let loginname='';
     if (this.user.pwd == this.user.cpwd) {
       if(this.backPage==1){//上一级是登录页面
         if(this.username_login==''){
@@ -51,15 +51,15 @@ export class ForgetPasswordPage implements OnInit {
           return;
         }
         identity = this.identity_login;
-        userID = this.username_login;
+        loginname = this.username_login;
       }
-      else{//如果是tab3跳来的，说明本地已经有储存学号和身份了
-        userID = this.localStorageService.get('userID', null);
+      else{//如果是tab3跳来的，说明本地已经有储存用户名和身份了
+        loginname = this.localStorageService.get('userloginname', null);
         identity = this.localStorageService.get('identity', 'student');
       }
       let updata = {
         'password': Md5.hashStr(this.user.pwd).toString(),
-        'loginname': userID
+        'loginname': loginname
       }
       this.commonService.change_password(updata, identity).then(async (result: any) => {
         if (result.status = "success") {
@@ -67,8 +67,8 @@ export class ForgetPasswordPage implements OnInit {
           this.router.navigateByUrl('/login-in');
         }
       }).catch(async (error) => {
-        console.log('修改密码失败', error);
-        this.presentAlert('密码修改失败！');
+        // console.log('修改密码失败,没有此用户名', error);
+        this.presentAlert('密码修改失败，没有此用户名！');
       })
     } else {//密码输入不一致
       this.pwdIsSame = false;

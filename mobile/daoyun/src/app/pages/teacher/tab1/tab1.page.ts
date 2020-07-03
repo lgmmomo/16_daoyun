@@ -19,10 +19,10 @@ export class Tab1Page {
     private localStorageService: LocalStorageService,
     private commonService: CommonService,
     private alertController: AlertController) {
-    let theme = this.localStorageService.get('data-theme', 'light');
+    let theme = this.localStorageService.get('data-theme', 'dark');
     document.body.setAttribute('data-theme', theme);
     this.identity = this.localStorageService.get('identity', 'teacher');
-    console.log('获取的身份',this.identity)
+    // console.log('获取的身份',this.identity)
     if (this.identity == 'teacher') {
       this.refreshData(null);
     }
@@ -42,13 +42,14 @@ export class Tab1Page {
       }
     }
     else {
+      // console.log(this.userID)
       this.commonService.getCourseByIDHql(this.userID).then((result: any) => {
-        console.log('获取教师创建的课程信息成功！', result);
+        // console.log('获取教师创建的课程信息成功！', result);
         this.courses = result.courses;
         this.courses_length = this.courses.length;
-        console.log('courses', this.courses, 'length', this.courses_length);
+        // console.log('courses', this.courses, 'length', this.courses_length);
       }).then((error) => {
-        console.log('获取教师创建的课程信息失败！', error);
+        // console.log('获取教师创建的课程信息失败！', error);
       }).finally(() => {
         if (event != null) { //如果不是第一次调用，则需要通知refresher控件结束工作
           event.target.complete();
@@ -64,7 +65,8 @@ export class Tab1Page {
       buttons: [{
         text: '创建班课',
         handler: () => {
-          console.log('创建班课');
+          // console.log('创建班课');
+          this.identity = this.localStorageService.get('identity', 'teacher');
           if (this.identity == 'teacher') {
             this.router.navigateByUrl('/new-class');
           }
@@ -76,7 +78,7 @@ export class Tab1Page {
         text: '取消',
         role: 'cancel',
         handler: () => {
-          console.log('Cancel clicked');
+          // console.log('Cancel clicked');
         }
       }]
     });

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { async } from 'rxjs/internal/scheduler/async';
 declare var PatternLock: any;
@@ -18,8 +18,9 @@ export class GestureSignInPage implements OnInit {
   constructor(private commonService: CommonService,
     private localStorageService: LocalStorageService,
     private activatedRoute: ActivatedRoute,
-    private alertController: AlertController) {
-    console.log('转入gesture-sign-in页面！')
+    private alertController: AlertController,
+    private router: Router) {
+    // console.log('转入gesture-sign-in页面！')
     let theme = this.localStorageService.get('data-theme', 'light');
     document.body.setAttribute('data-theme', theme);
   }
@@ -36,9 +37,9 @@ export class GestureSignInPage implements OnInit {
 
   ngOnInit() {
     this.stuId = this.localStorageService.get('Studentid', null);
-    console.log('用户id号', this.stuId);//签到的API用的不是学号
+    // console.log('用户id号', this.stuId);//签到的API用的不是学号
     this.activatedRoute.queryParams.subscribe((result) => {
-      console.log('传入的参数：', result);
+      // console.log('传入的参数：', result);
       this.courseId = result.course_id;
       this.courseName = result.course_name;
     })
@@ -51,12 +52,12 @@ export class GestureSignInPage implements OnInit {
         //do something with pattern
         that.hasPost=1;
         that.gesture_sign = lock.getPattern();
-        console.log('获取签到手势：', that.gesture_sign);
+        // console.log('获取签到手势：', that.gesture_sign);
         that.getLocation().then((response: any) => {
           // console.log('获取定位信息：', response);
-          console.log('学生位置：', response.point.lat, response.point.lng);
+          // console.log('学生位置：', response.point.lat, response.point.lng);
           that.commonService.studentSignIn(that.stuId, response.point.lng, response.point.lat, that.courseId, that.gesture_sign).then(async (result: any) => {
-            console.log('返回的签到信息', result);
+            // console.log('返回的签到信息', result);
             that.hasPost=0;
             let flag = result.status;
             if (flag == '0') {
@@ -124,10 +125,10 @@ export class GestureSignInPage implements OnInit {
               });
               await alert.present();
               //签到成功转入view-class页面
-              this.router.navigate(['/view-class'], {
+              that.router.navigate(['/view-class'], {
                 queryParams: {
-                  courseID: this.courseId,
-                  courseName: this.courseName
+                  courseID: that.courseId,
+                  courseName: that.courseName
                 }
               })
             }
@@ -144,7 +145,7 @@ export class GestureSignInPage implements OnInit {
           })
         }).catch(async (error: any) => {
           this.hasPost=0;
-          console.log('获取定位失败:', error)
+          // console.log('获取定位失败:', error)
           const alert = await that.alertController.create({
             header: 'Warning!',
             animated: true,
@@ -162,13 +163,13 @@ export class GestureSignInPage implements OnInit {
     let geolocation = new BMap.Geolocation(); //新建地图对象
     return new Promise((reslove, reject) => {
       geolocation.getCurrentPosition(function (r) {
-        console.log(this.getStatus())
+        // console.log(this.getStatus())
         if (this.getStatus() == 0) {
-          console.log('获取位置成功：', r.point.lat, r.point.lng);
+          // console.log('获取位置成功：', r.point.lat, r.point.lng);
           reslove(r);
         }
         else {
-          console.log('获取位置失败:', this.getStatus());
+          // console.log('获取位置失败:', this.getStatus());
           reject(this.getStatus());
         }
       });
