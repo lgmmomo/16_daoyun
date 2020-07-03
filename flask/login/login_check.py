@@ -13,7 +13,6 @@ mod = Blueprint('login_check', __name__)
 def dictionary_data():
     username_password=request.get_data()
     username_password=json.loads(username_password)
-    # username_password {'username': 'admin', 'passcode': '827ccb0eea8a706c4c34a16891f84e7b', 'oneTimeCode': 1561814585774}
     user=USER.query.filter_by(Loginname=username_password['username']).first()
     if not user or user.Roleid==2 or user.Roleid==3:
         return jsonify({'status':'error','data':'','error':'用户不存在'})
