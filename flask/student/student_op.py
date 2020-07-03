@@ -11,7 +11,6 @@ import hashlib
 mod = Blueprint('student',__name__)
 
 @mod.route('/student',methods = ['GET'])
-@check_role(4)
 def student_data():
     students=STUDENT.query.all()
     #print(students)
@@ -28,20 +27,21 @@ def student_data():
     return jsonify({'status':'success','data':return_data,'error':''})
 
 @mod.route('/student/add_newone', methods=['POST'])
-@check_role(1)
 def add_student():
 	add_data = request.get_data()
 	add_data = json.loads(add_data)
 	print(add_data)
-	count = USER.query.filter_by(Loginname = add_data['StudentNumber']).count()
+	count = USER.query.filter_by(Loginname = add_data['loginname']).count()
 	if(count):
 		return jsonify({'status':'error','data':'','error':'学生已存在'})
-	user = USER(add_data['StudentNumber'],"e10adc3949ba59abbe56e057f20f883e",3)
+	count1 = USER.query.filter_by(tel = add_data['tel']).count()
+	if(count1):
+		return jsonify({'status':'error','data':'','error':'手机号已被使用'})
+	user = USER(add_data['loginname'],add_data['tel'],"e10adc3949ba59abbe56e057f20f883e",3)
 	#'hashlib.md5('123456'.encode('utf-8')).hexdigest()'
 	db.session.add(user)
 	db.session.commit()
-	userid = USER.query.filter_by(Loginname = add_data['StudentNumber']).first().Userid
-	print(userid)
+	userid = USER.query.filter_by(Loginname = add_data['loginname']).first().Userid
 	stu = STUDENT(add_data['Studentname'],add_data['StudentNumber'],add_data['Major'],add_data['Schooling'],userid,add_data['Class'])
 	db.session.add(stu)
 	db.session.commit()
@@ -49,7 +49,6 @@ def add_student():
 
 
 @mod.route('/student/updateInfo', methods=['PUT'])
-@check_role(3)
 def update_student():
 	up_data = request.get_data()
 	up_data = json.loads(up_data)
@@ -68,7 +67,6 @@ def update_student():
 
 
 @mod.route('/student/delete_singleOne/<int:StudentNumber>', methods=['DELETE'])
-@check_role(2)
 def delete_singleOne(StudentNumber):
 	try:
 		user = USER.query.filter_by(Loginname = StudentNumber).first()
