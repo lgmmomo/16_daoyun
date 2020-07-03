@@ -12,7 +12,6 @@ mod = Blueprint('teacher', __name__)
 
 
 @mod.route('/teach', methods=['GET'])
-@check_role(8)
 def get_teacher():
     teachers=Teacher.query.all()
     return_data=[]
@@ -24,27 +23,27 @@ def get_teacher():
 
 
 @mod.route('/teacher/insert', methods=['POST'])
-@check_role(5)
 def add_student():
-	add_data = request.get_data()
-	add_data = json.loads(add_data)
-	print(add_data)
-	count = USER.query.filter_by(Loginname = add_data['TeachNumber']).count()
-	if(count):
-		return jsonify({'status':'error','data':'','error':'老师已存在'})
-	t = USER(add_data['TeachNumber'],"e10adc3949ba59abbe56e057f20f883e",2)
+    add_data = request.get_data()
+    add_data = json.loads(add_data)
+	#print(add_data)
+    count = USER.query.filter_by(Loginname = add_data['username']).count()
+    if(count):
+        return jsonify({'status':'error','data':'','error':'老师已存在'})
+    count1 = USER.query.filter_by(tel = add_data['tel']).count()
+    if(count1):
+        return jsonify({'status':'error','data':'','error':'手机号已被使用'})
+    t = USER(add_data['username'],add_data['tel'],"e10adc3949ba59abbe56e057f20f883e",2)
 	#'hashlib.md5('123456'.encode('utf-8')).hexdigest()'
-	db.session.add(t)
-	db.session.commit()
-	userid = USER.query.filter_by(Loginname = add_data['TeachNumber']).first().Userid
-	print(userid)
-	teacher = Teacher(add_data['TeachName'],add_data['TeachNumber'],userid)
-	db.session.add(teacher)
-	db.session.commit()
-	return jsonify({'status':'success','data':'','error':''})
+    db.session.add(t)
+    db.session.commit()
+    userid = USER.query.filter_by(Loginname = add_data['username']).first().Userid
+    teacher = Teacher(add_data['TeachName'],add_data['TeachNumber'],userid)
+    db.session.add(teacher)
+    db.session.commit()
+    return jsonify({'status':'success','data':'','error':''})
 
 @mod.route('/teacher/delete/<int:id>', methods=['DELETE'])
-@check_role(6)
 def delete_teacher(id):
 	print(id)
 	try:
@@ -64,7 +63,6 @@ def delete_teacher(id):
 	return jsonify({'status':'success','data':'','error':''})
 
 @mod.route('/teacher/updataInfo', methods=['PUT'])
-@check_role(7)
 def update_student():
 	up_data = request.get_data()
 	up_data = json.loads(up_data)
