@@ -1,0 +1,58 @@
+<!--p>
+  {{username}} , Welcome !
+</p-->
+<p>
+  管理员，欢迎！
+</p>
+<a><button nz-button nzType = "primary" nzGhost (click)="EditUseropen(username)" ><u>修改密码</u></button></a>
+<a><button nz-button nzType = "danger"  nzGhost (click)= "logout()" ><u>退出登录</u></button></a>
+<!-- <a> <button nz-button nzSize = "small" nzType = "primary" (click)="EditUseropen(username)" ><i nz-icon type="edit"></i> 修改密码</button></a>
+<a> <button nz-button nzSize = "small" nzType = "primary" (click)= "logout()"><i nz-icon type="user"></i> 退出登录</button></a> -->
+
+
+
+<nz-drawer
+[nzClosable]="false"
+[nzWidth]="360"
+[nzVisible]="updata"
+nzTitle="同时修改用户名和密码"
+(nzOnClose)="updateclose()"
+>
+<form nz-form>
+<div nz-row>
+<div nz-col nzSpan="24">
+  <nz-form-item>
+    <nz-form-label>登录账号</nz-form-label>
+    <nz-form-control>
+      <input nz-input name="loginname" [(ngModel)]='loginname'/>
+    </nz-form-control>
+  </nz-form-item>
+</div>
+</div>
+<div nz-row >
+  <div nz-col nzSpan="24">
+    <nz-form-item>
+      <nz-form-label>新密码</nz-form-label>
+      <nz-form-control>
+        <input nz-input name="newpsw" [(ngModel)]='newpsw' />
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+</div>
+<div nz-row >
+  <div nz-col nzSpan="24">
+    <nz-form-item>
+      <nz-form-label>确认密码</nz-form-label>
+      <nz-form-control>
+        <input nz-input name="confirmnewpsw" [(ngModel)]='confirmnewpsw' />
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+</div>
+</form>
+<div class="footer">
+<button type="button" (click)="updateclose()" class="ant-btn" style="margin-right: 8px;"><span>Cancel</span></button>
+<button type="button" (click)="updataUser()" [disabled]="isshow" class="ant-btn ant-btn-primary"><span>Submit</span></button>
+</div>
+
+</nz-drawer>

@@ -1,0 +1,11 @@
+
+  {
+    "/api/": {  
+      "target": "http://47.115.121.100:3000",
+      "logLevel": "debug",  
+      "changeOrigin": true, 
+      "pathRewrite": { 
+        "^/api": "/"
+      }
+    }
+  }
