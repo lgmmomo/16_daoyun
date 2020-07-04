@@ -1,0 +1,288 @@
+<div style="margin-top:30px;">
+    <nz-row>
+        <nz-col nzSpan="8">
+            <div style="margin-left:10px">
+                <button nz-button nzType = "primary" (click)="addCourseopen()">
+                  <i class="fa fa-plus"></i>    
+                    创建
+                 </button>
+            </div>
+        </nz-col>
+        <!--nz-col nzSpan="8" nzOffset="8">
+            <div style="width:60%;margin-left: 40%">
+                    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                            <input type="text" nz-input placeholder="input search text"  name = "search" [(ngModel)] = "searchUserbyNumber"/>
+                    </nz-input-group>  
+                    <ng-template #suffixIconButton>
+                            <button nz-button nzType="primary" nzSearch (click)="SearchUser()" ><i nz-icon type="search"></i></button>
+                    </ng-template>
+            </div>
+        </nz-col-->
+    </nz-row>
+    <nz-divider></nz-divider>
+    <nz-table #basicTable [nzData]="listOfData"  [nzPageSize]="10">
+        <thead>
+          <tr>
+            <th>   </th>
+            <!--th>课程编号</th-->
+            <th>课程名</th>
+            <!--th>账号</th-->
+            <th>课程老师</th>
+            <th>课程年级</th>
+            <th>课程学时</th>
+            <th>课程周序</th>
+            <th>课程节次</th>
+            <th>课程地点</th>
+            <!--<th>班级布局</th-->
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of basicTable.data">
+            
+            <td>{{ data.CourseID }}</td>
+            <td>{{ data.CourseName }}</td>
+            <!--td>{{ data.TeachNumber }}</td-->
+            <td>{{ data.TeacherName }}</td>
+            <td>{{ data.stuobject }}</td>
+            <td>{{ data.CourseWeek }}</td>
+            <td>{{ data.CourseDay }}</td>
+            <td>{{ data.CourseTime }}</td>
+            <td>{{ data.CoursePlace }}</td>
+            <!--td>{{ data.Layout }}</td-->
+            <td>
+              <a>
+                <button nz-button nzType = "primary" nzGhost (click)="EditCourse(data)"><i class="fa fa-edit"></i></button>
+                <!--https://www.jianshu.com/p/49e6c56e0c85-->
+            </a>
+            <nz-divider nzType="vertical"></nz-divider>
+            <a>
+              <button nz-button nzType = "danger" nzGhost nz-popconfirm nzTitle="Are you sure?" [nzIcon]="iconTpl" (nzOnConfirm)="delet_course(data)" ><i class="fa fa-close"></i></button>
+            </a>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+</div>
+
+<!-- 增加课程 -->
+<nz-drawer
+      [nzClosable]="false"
+      [nzWidth]="320"
+      [nzVisible]="Course_visible"
+      nzTitle="增加课程"
+      (nzOnClose)="close()"
+    >
+    <form nz-form>
+      <!--div nz-row>
+        <div nz-col nzSpan="24">
+          <nz-form-item>
+            <nz-form-label>课程编号</nz-form-label>
+            <nz-form-control>
+              <input nz-input name="CourseID" [(ngModel)]='add_CourseID'/>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div-->
+      <div nz-row>
+        <div nz-col nzSpan="24">
+          <nz-form-item>
+            <nz-form-label>课程名</nz-form-label>
+            <nz-form-control>
+              <input nz-input name="CourseName" [(ngModel)]='add_CourseName'/>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <div nz-row>
+        <div nz-col nzSpan="24">
+          <nz-form-item>
+            <nz-form-label>课程老师</nz-form-label>
+            <nz-form-control>
+              <input nz-input name="TeacherName" [(ngModel)]='add_TeacherName'/>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <div nz-row>
+        <div nz-col nzSpan="24">
+          <nz-form-item>
+            <nz-form-label>课程年级</nz-form-label>
+            <nz-form-control>
+              <input nz-input name="stuobject" [(ngModel)]='add_stuobject'/>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <div nz-row>
+        <div nz-col nzSpan="24">
+          <nz-form-item>
+            <nz-form-label>课程学时</nz-form-label>
+            <nz-form-control>
+              <input nz-input name="CourseWeek" [(ngModel)]='add_CourseWeek'/>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <div nz-row>
+        <div nz-col nzSpan="24">
+          <nz-form-item>
+            <nz-form-label>课程周序</nz-form-label>
+            <nz-form-control>
+              <nz-select [(ngModel)]="add_CourseDay" name="CourseDay">
+                <nz-option *ngFor="let option of dictionary_day" [nzValue]="option.ItemValue" [nzLabel]="option.ItemValue"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <div nz-row>
+        <div nz-col nzSpan="24">
+          <nz-form-item>
+            <nz-form-label>课程节次</nz-form-label>
+            <nz-form-control>
+              <input nz-input name="CourseTime" [(ngModel)]='add_CourseTime'/>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <div nz-row>
+        <div nz-col nzSpan="24">
+          <nz-form-item>
+            <nz-form-label>课程地点</nz-form-label>
+            <nz-form-control>
+              <input nz-input name="CoursePlace" [(ngModel)]='add_CoursePlace'/>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <!--div nz-row>
+        <div nz-col nzSpan="24">
+          <nz-form-item>
+            <nz-form-label>班级布局</nz-form-label>
+            <nz-form-control>
+              <input nz-input name="Layout" [(ngModel)]='add_Layout'/>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div-->
+    </form>
+    <div class="footer">
+      <button type="button" (click)="close()" class="ant-btn" style="margin-right: 8px;"><span>Cancel</span></button>
+      <button type="button" (click)="add_Course_function()" [disabled]="(add_CourseName=='')||(add_TeacherName=='')||(add_stuobject=='')||(add_CourseWeek=='')||(add_CourseDay=='')||(add_CourseTime=='')||(add_CoursePlace=='')" class="ant-btn ant-btn-primary"><span>Submit</span></button>
+    </div>
+    </nz-drawer>
+
+
+<!-- 修改课程 -->
+    <nz-drawer
+    [nzClosable]="false"
+    [nzWidth]="320"
+    [nzVisible]="updata_Course_visible"
+    nzTitle="修改课程"
+    (nzOnClose)="close()"
+  >
+  <form nz-form>
+    <!--div nz-row>
+      <div nz-col nzSpan="24">
+        <nz-form-item>
+          <nz-form-label>课程编号</nz-form-label>
+          <nz-form-control>
+            <input nz-input name="CourseID" [(ngModel)]='up_CourseID'/>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div-->
+    <div nz-row>
+      <div nz-col nzSpan="24">
+        <nz-form-item>
+          <nz-form-label>课程名</nz-form-label>
+          <nz-form-control>
+            <input nz-input name="CourseName" [(ngModel)]='up_CourseName'/>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+    <div nz-row>
+      <div nz-col nzSpan="24">
+        <nz-form-item>
+          <nz-form-label>课程老师</nz-form-label>
+          <nz-form-control>
+            <input nz-input name="TeacherName" [(ngModel)]='up_TeacherName'/>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+    <div nz-row>
+      <div nz-col nzSpan="24">
+        <nz-form-item>
+          <nz-form-label>课程年级</nz-form-label>
+          <nz-form-control>
+            <input nz-input name="stuobject" [(ngModel)]='up_stuobject'/>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+    <div nz-row>
+      <div nz-col nzSpan="24">
+        <nz-form-item>
+          <nz-form-label>课程学时</nz-form-label>
+          <nz-form-control>
+            <input nz-input name="CourseWeek" [(ngModel)]='up_CourseWeek'/>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+    <div nz-row>
+      <div nz-col nzSpan="24">
+        <nz-form-item>
+          <nz-form-label>课程周序</nz-form-label>
+          <nz-form-control>
+            <nz-select [(ngModel)]="up_CourseDay" name="CourseDay">
+              <nz-option *ngFor="let option of dictionary_day" [nzValue]="option.ItemValue" [nzLabel]="option.ItemValue"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+    <div nz-row>
+      <div nz-col nzSpan="24">
+        <nz-form-item>
+          <nz-form-label>课程节次</nz-form-label>
+          <nz-form-control>
+            <input nz-input name="CourseTime" [(ngModel)]='up_CourseTime'/>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+    <div nz-row>
+      <div nz-col nzSpan="24">
+        <nz-form-item>
+          <nz-form-label>课程地点</nz-form-label>
+          <nz-form-control>
+            <input nz-input name="CoursePlace" [(ngModel)]='up_CoursePlace'/>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+    <!--div nz-row>
+      <div nz-col nzSpan="24">
+        <nz-form-item>
+          <nz-form-label>班级布局</nz-form-label>
+          <nz-form-control>
+            <input nz-input name="Layout" [(ngModel)]='up_Layout'/>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div-->
+  </form>
+  <div class="footer">
+    <button type="button" (click)="close()" class="ant-btn" style="margin-right: 8px;"><span>Cancel</span></button>
+    <button type="button" (click)="up_Course_function()" [disabled]="(up_CourseName=='')||(up_TeacherName=='')||(up_stuobject=='')||(up_CourseWeek=='')||(up_CourseDay=='')||(up_CourseTime=='')||(up_CoursePlace=='')" class="ant-btn ant-btn-primary"><span>Submit</span></button>
+  </div>
+  </nz-drawer>
+
+
+
+
+

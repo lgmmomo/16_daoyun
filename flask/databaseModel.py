@@ -66,21 +66,25 @@ class DictionaryDetail(db.Model):
         return json.dumps(json_data)
 
 
+
 class USER(db.Model):
     __tablename__ = 'User'
     Userid = db.Column(db.Integer, primary_key=True,autoincrement=True)
     Loginname = db.Column(db.String(255), unique=True)
+    tel=db.Column(db.Integer)
     password = db.Column(db.String(32), unique=True)
     Roleid = db.Column(db.Integer)
 
-    def __init__(self,Loginname, password,Roleid):
+    def __init__(self,Loginname,tel,password,Roleid):
         self.Loginname = Loginname
+        self.tel=tel
         self.password = password
         self.Roleid = Roleid 
     def to_json(self):
         json_data={
             'userid':self.Userid,
             'loginname':self.Loginname,
+            'tel':self.tel,
             'password':self.password,
             'roleid':self.Roleid,
         }
@@ -315,24 +319,7 @@ class Course_Sign(db.Model):
         return json.dumps(json_data)
 
 
-class SignData(db.Model):
-    __tablename__='SignData'
-    SignId = db.Column(db.Integer,primary_key = True,autoincrement = True)
-    CourseId = db.Column(db.Integer,db.ForeignKey('Course.CourseId'))
-    StartData = db.Column(db.DateTime)
 
-    def __init__(self, CourseId,StartData):
-        self.CourseId = CourseId
-        self.StartData = StartData
-
-
-    def to_json(self):
-        json_data={
-            'SignId':self.SignId,
-            'CourseId':self.CourseId,
-            'StartData':self.StartData
-        }
-        return json.dumps(json_data)
 
 class Pos_SignData(db.Model):
     __tablename__='Pos_SignData'

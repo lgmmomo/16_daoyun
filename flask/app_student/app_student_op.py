@@ -4,14 +4,16 @@
 from flask import Blueprint,session
 from flask import jsonify,request
 from flask_web import db
-from flask_web.databaseModel import Course,Teacher,USER,MENU,STUDENT,Course_Student,SignData,Course_Sign
+from flask_web.databaseModel import Course,Teacher,USER,MENU,STUDENT,Course_Student,Pos_SignData,Course_Sign
 import json
 import time
 import datetime
 import sys
- 
-reload(sys)
-sys.setdefaultencoding('utf8')
+import importlib
+importlib.reload(sys)
+from geopy.distance import geodesic
+#reload(sys)
+#sys.setdefaultencoding('utf8')
 mod = Blueprint('app_student_op', __name__)
 
 @mod.route('/app/student/login_check', methods=['post'])
@@ -20,7 +22,10 @@ def login_check_student():
     username_password=json.loads(username_password)
     # print(username_password)
     # {u'password': u'123', u'id': u'123'}
-    user=USER.query.filter_by(Loginname=str(username_password['id'])).first()
+    if username_password['flag']=='1':
+        user=USER.query.filter_by(Loginname=str(username_password['username'])).first()
+    else:
+        user=USER.query.filter_by(tel=username_password['tel']).first()
     if not user:
         return jsonify({'state':'0','error':''})
     user_json=user.to_json()
@@ -54,58 +59,16 @@ def get_course(StudentNumber):
         # print(course_data)
         a={'cnameAndID':{'courseID':course_data['CourseId'] }}
         a['cnameAndID']['courseName']=course_data['CourseName']
+        a['cnameAndID']['stuobject']=course_data['stuobject']
+        a['cnameAndID']['Teachername']=course_data['TeacherName']
         # print(a)
+        a['cnameAndID']['CoursePlace']=course_data['CoursePlace']
         return_data.append(a)
     # print(return_data)
     return jsonify({'marks':return_data,'data':'','error':''})
 
 
-@mod.route('/app/course_shape/<int:CourseId>', methods=['get'])
-def get_course_shape(CourseId):
-    course_data=Course.query.filter_by(CourseId=int(CourseId)).first()
-    return jsonify({'shape':course_data.Layout})
 
-
-@mod.route('/app/student/sign/', methods=['put'])
-def sign_status():
-    sign_data=request.get_data()
-    sign_data=json.loads(sign_data)
-    # {'Studentid': 2, 'position': '5*5', 'courseID': 1}
-    sign_time=time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-    Sign=SignData.query.filter_by(CourseId=sign_data['courseID']).order_by(SignData.StartData.desc()).first()
-    if not Sign:
-        return jsonify({'status':'error','data':'','error':'老师未发起签到'})
-    sign_id=Sign.SignId
-    student_sign=Course_Sign.query.filter_by(SignId=sign_id,CourseId=sign_data['courseID'],Studentid=sign_data['Studentid']).first()
-    if student_sign.Status=='签到' or student_sign.Status=='迟到':
-        return jsonify({'status':'error','data':'','error':'你已签到'})
-    sign_start_time=Sign.StartData
-    sign_start_time=datetime.datetime.strptime(sign_start_time,"%Y-%m-%d %H:%M:%S")
-    sign_time=datetime.datetime.strptime(sign_time,"%Y-%m-%d %H:%M:%S")
-    timeout=sign_time-sign_start_time
-    seconds=timeout.seconds
-    if seconds < 120 :
-        student_sign=Course_Sign.query.filter_by(SignId=sign_id,CourseId=sign_data['courseID'],Place=sign_data['position']).first()
-        if student_sign:
-            return jsonify({'status':'error','data':'','error':'该位置已经有人'})
-        student_sign=Course_Sign.query.filter_by(SignId=sign_id,CourseId=sign_data['courseID'],Studentid=sign_data['Studentid']).first()
-        student_sign.SignData=sign_time
-        student_sign.Status="签到"
-        student_sign.Place=sign_data['position']
-        db.session.commit()
-        return jsonify({'status':'success','data':'','error':''})
-    elif seconds < 7200:
-        student_sign=Course_Sign.query.filter_by(SignId=sign_id,CourseId=sign_data['courseID'],Place=sign_data['position']).first()
-        if student_sign:
-            return jsonify({'status':'error','data':'','error':'该位置已经有人'})
-        student_sign=Course_Sign.query.filter_by(SignId=sign_id,CourseId=sign_data['courseID'],Studentid=sign_data['Studentid']).first()
-        student_sign.SignData=sign_time
-        student_sign.Status="迟到"
-        student_sign.Place=sign_data['position']
-        db.session.commit()
-        return jsonify({'status':'error','data':'','error':'签到成功，你已迟到'})
-    else:
-        return jsonify({'status':'error','data':'','error':'你迟到过久，记为旷课'})
 
 
 @mod.route('/app/student/change_pass', methods=['put'])
@@ -153,9 +116,9 @@ def get_nocourse(studentid):
             a={}
             a['coursename']=course.CourseName
             a['courseid']=course.CourseId
-            teacher_id=course.TeachId
-            teacher=Teacher.query.filter_by(TeachId = teacher_id).first()
-            a['teachername']=teacher.TeachName
+            #teacher_id=course.TeachId
+            #teacher=Teacher.query.filter_by(TeachId = teacher_id).first()
+            a['teachername']=course.Teachername
             a['CourseWeek']=course.CourseWeek
             a['CourseDay']=course.CourseDay
             a['CourseTime']=course.CourseTime
@@ -174,3 +137,66 @@ def add_course(courseid):
     db.session.add(add)
     db.session.commit()
     return jsonify({'status':'success','data':'','error':''})
+
+@mod.route('/app/student/pos_sign/',methods=['put'])
+def sign_status():
+    sign_data=request.get_data()
+    sign_data=json.loads(sign_data)
+    signpassword=sign_data['signpassword']
+    CourseId=sign_data['courseID']
+    longitude=sign_data['longitude']
+    latitude=sign_data['latitude']
+    Sign=Pos_SignData.query.filter_by(CourseId=sign_data['courseID']).order_by(Pos_SignData.StartData.desc()).first()
+    if not Sign:
+        return jsonify({'status':'0','data':'','error':'当前课程尚未有老师未发起签到'})
+    sign_id=Sign.SignId
+    sign_start_time=Sign.StartData
+    sign_start_time=datetime.datetime.strptime(sign_start_time,"%Y-%m-%d %H:%M:%S")
+    sign_time=time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+    sign_time=datetime.datetime.strptime(sign_time,"%Y-%m-%d %H:%M:%S")
+    timeout=sign_time-sign_start_time
+    seconds=timeout.seconds
+    if seconds>3600:
+        return jsonify({'status':'1','data':'','error':'当前时间段课程无签到'})
+    student_sign=Course_Sign.query.filter_by(SignId=sign_id,CourseId=sign_data['courseID'],Studentid=sign_data['Studentid']).first()
+    if student_sign.Status=='签到' or student_sign.Status=='迟到':
+        return jsonify({'status':'2','data':'','error':'你已签到,请勿重复签到'})
+    Signpassword=Sign.password
+    if signpassword!=Signpassword:
+        return jsonify({'status':'3','data':'','error':'签到手势错误，签到失败'})
+    t_long=Sign.longitude
+    t_lat=Sign.latitude
+    distance=geodesic((latitude,longitude), (t_lat,t_long)).m
+    #print(distance)
+    if distance<200:
+        student_sign=Course_Sign.query.filter_by(SignId=sign_id,CourseId=sign_data['courseID'],Studentid=sign_data['Studentid']).first()
+        student_sign.SignTime=sign_time
+        student_sign.longitude=longitude
+        student_sign.latitude=latitude
+        if seconds<180:
+            student_sign.Status="签到"
+            db.session.commit()
+            return jsonify({'status':'6','error':'签到成功！'})
+        elif seconds>180 and seconds<3600:
+            student_sign.Status="迟到"
+            db.session.commit()
+            return jsonify({'status':'5','error':'签到成功，但已迟到'})
+    else:
+        return jsonify({'status':'4','error':'与签到距离过远'})
+@mod.route('/app/get_student_info/<int:StudentNumber>', methods=['get'])
+def get_student_name(StudentNumber):
+	# print(StudentNumber)
+	stu=STUDENT.query.filter_by(StudentNumber = StudentNumber).first()
+	return jsonify({'personnel':{'name':stu.Studentname,'roleid':3,'Major':stu.Major,'School':stu.Schooling,'Class':stu.Class}})
+
+@mod.route('/app/query_stuuser', methods=['post'])
+def get_studentnum():
+    stu_acc=request.get_data()
+    stu_acc=json.loads(stu_acc)
+    if stu_acc['flag']=='1':
+        user=USER.query.filter_by(Loginname=str(stu_acc['username'])).first()
+    else: 
+        user=USER.query.filter_by(tel=stu_acc['tel']).first()
+    userid=user.Userid
+    stu=STUDENT.query.filter_by(Userid = userid).first()
+    return jsonify({'studentnum':stu.StudentNumber,'userinfo':user.Loginname,'usertel':user.tel})

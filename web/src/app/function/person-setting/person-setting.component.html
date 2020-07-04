@@ -1,0 +1,183 @@
+<div style="margin-top:30px;">
+    <nz-row>
+        <nz-col nzSpan="8">
+            <div style="margin-left:10px">
+                <button nz-button nzType = "primary" (click)="addUseropen()">
+                  <i class="fa fa-plus"></i>      
+                    创建
+                 </button>
+            </div>
+        </nz-col>
+        <nz-col nzSpan="8" nzOffset="8">
+            <div style="width:60%;margin-left: 40%">
+                    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                            <input type="text" nz-input placeholder="输入用户账号"  name = "search" [(ngModel)] = "searchUserbyNumber"/>
+                    </nz-input-group>  
+                    <ng-template #suffixIconButton>
+                            <button nz-button nzType="primary" nzSearch (click)="SearchUser()" ><i nz-icon type="search"></i></button>
+                    </ng-template>
+            </div>
+        </nz-col>
+    </nz-row><!-- [nzData]="dataSet"  -->
+    <nz-divider></nz-divider>
+    <div style="margin-top:20px">
+            <!-- nzShowSizeChanger
+            [nzFrontPagination]="false"
+            [nzData]="listOfData"
+            [nzLoading]="loading"
+            [nzTotal]="total"
+            [(nzPageIndex)]="pageIndex"
+            [(nzPageSize)]="pageSize"
+            (nzPageIndexChange)="searchData()"
+            (nzPageSizeChange)="searchData(true)"> -->
+              <nz-table
+                #basicTable
+                [nzShowQuickJumper] = true
+                [nzTotal] = "total"
+                [nzData]="listOfAllData"
+                (nzCurrentPageDataChange)="currentPageDataChange($event)"
+              > 
+                    <thead > 
+                        <tr>
+                            <th
+                            nzShowCheckbox
+                            [(nzChecked)]="isAllDisplayDataChecked"
+                            [nzIndeterminate]="isIndeterminate"
+                            (nzCheckedChange)="checkAll($event)"
+                            ></th>
+                            <!-- <th nzShowSort nzSortKey="name" style="text-align:center"><strong>id</strong></th> -->
+                            <th style="text-align:center"><strong>登录账号</strong></th>
+                            <th style="text-align:center"><strong>角色</strong></th>
+                            <th style="text-align:center"><strong>操作</strong></th>
+                          
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of basicTable.data">
+                            <!-- <td>{{data.id}}</td> -->
+                            <td
+                            nzShowCheckbox
+                            [(nzChecked)]="mapOfCheckedId[data.userid]"
+                            [nzDisabled]="data.disabled"
+                            (nzCheckedChange)="refreshStatus()"
+                            ></td>
+                            <td style="text-align:center">{{data.loginname}}</td>
+                            <td style="text-align:center">{{data.Rolename}}</td>
+                            <td style="text-align:center">
+                              <!-- <a>Action 一 {{data.name}}</a>
+                              <nz-divider nzType="vertical"></nz-divider>
+                              <a>Delete</a> -->
+                              <a>
+                                    <!-- [queryParams]="{snumber:data.number}" -->
+                                  <button nz-button nzType = "primary" nzGhost (click)="EditUseropen(data)" ><i nz-icon type="edit"></i> 修改</button>
+                              </a>
+                              <nz-divider nzType="vertical"></nz-divider>
+                              <a>
+                                  <button nz-button nzType = "danger" nzGhost (click)="deleteUser(data)"><i nz-icon type="delete"></i> 删除</button>
+                              </a>
+                              <nz-divider nzType="vertical"></nz-divider>
+                              <a>
+                                  <button nz-button nzType = "primary"  nzGhost (click)="resetPSW(data)"><i nz-icon type="lock"></i> 重置</button>
+                              </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+    </div>
+    <!-- <div style="margin-top:20px;text-align: center" >
+        <nz-pagination [nzPageIndex]="1" [nzTotal]="100"></nz-pagination>
+    </div> -->
+    <nz-drawer
+        [nzClosable]="false"
+        [nzWidth]="360"
+        [nzVisible]="edit_visible"
+        nzTitle="编辑用户内容"
+        (nzOnClose)="EditUserclose()"
+    >
+    <form nz-form>
+    <div nz-row>
+        <div nz-col nzSpan="24">
+          <nz-form-item>
+            <nz-form-label>登录账号</nz-form-label>
+            <nz-form-control>
+              <input nz-input name="loginname" [(ngModel)]='edit_loginname' disabled="disabled"/>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <div nz-row *ngIf = "isshow">
+          <div nz-col nzSpan="24">
+            <nz-form-item>
+              <nz-form-label>角色</nz-form-label>
+              <nz-form-control>
+                <input nz-input name="role" [(ngModel)]='edit_role' disabled="disabled"/>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      <div nz-row *ngIf = "!isshow" >
+          <div nz-col nzSpan="24">
+            <nz-form-item>
+              <nz-form-label>角色</nz-form-label>
+              <nz-form-control>
+                  <nz-radio-group [(ngModel)]="edit_role" nzName="radiogroup" name = "role">
+                      <label *ngFor="let role of rolelist" nz-radio [nzValue] ="role.Roleid" [nzDisabled] = "role.Disabled">{{role.Rolename}}</label>
+              </nz-radio-group>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+    </form>
+    <div class="footer">
+      <button type="button" (click)="EditUserclose()" class="ant-btn" style="margin-right: 8px;"><span>Cancel</span></button>
+      <button type="button" (click)="updataUser()" [disabled]="isshow" class="ant-btn ant-btn-primary"><span>Submit</span></button>
+    </div>
+
+    </nz-drawer>
+
+    <nz-drawer
+      [nzClosable]="false"
+      [nzWidth]="320"
+      [nzVisible]="add_visible"
+      nzTitle="新增用户"
+      (nzOnClose)="addUserclose()"
+    >
+    <form nz-form>
+      <div nz-row>
+          <div nz-col nzSpan="24">
+            <nz-form-item>
+              <nz-form-label>登录账号</nz-form-label>
+              <nz-form-control>
+                <input nz-input name="loginname" [(ngModel)]='add_loginname'/>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+        <div nz-row>
+          <div nz-col nzSpan="24">
+            <nz-form-item>
+              <nz-form-label>手机号码</nz-form-label>
+              <nz-form-control>
+                <input nz-input name="tel" [(ngModel)]='add_tel'/>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+        <div nz-row>
+          <div nz-col nzSpan="24">
+            <nz-form-item>
+              <nz-form-label>角色</nz-form-label>
+              <nz-form-control>
+                  <nz-radio-group [(ngModel)]="add_role" nzName="radiogroup" name = "role">
+                      <label *ngFor="let role of rolelist" nz-radio [nzValue] ="role.Roleid" [nzDisabled] = "role.Disabled">{{role.Rolename}}</label>
+              </nz-radio-group>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </form>
+      <div class="footer">
+        <button type="button" (click)="addUserclose()" class="ant-btn" style="margin-right: 8px;"><span>Cancel</span></button>
+        <button type="button" (click)="UserDetail_insert()" [disabled]="(add_loginname=='')||(add_tel=='')" class="ant-btn ant-btn-primary"><span>Submit</span></button>
+      </div>
+    </nz-drawer>
+</div>
