@@ -25,7 +25,7 @@ export class SignUpPage implements OnInit {
   signup = {
     name: '',//真实姓名
     school: '',//学校
-    username:'', //用户名
+    username: '', //用户名
     tel: '', //手机号
     major: '',//专业
     class: '', //班级(先手动输入，后面有需求再改成下拉框)
@@ -66,7 +66,7 @@ export class SignUpPage implements OnInit {
     else if (this.signup.userNo == '') {
       this.presentAlert('学号不能为空!');
     }
-    else if(this.signup.userNo>=2047483647){
+    else if (this.signup.userNo >= 2047483647) {
       this.presentAlert('学号或工号不能超过九位!');
     }
     else if (this.signup.password == '') {
@@ -106,7 +106,18 @@ export class SignUpPage implements OnInit {
           this.router.navigateByUrl('/login-in');
         }
         else {
-          this.presentAlert('注册失败！');
+          if (result.error == '该用户已存在') {
+            this.presentAlert('该用户名已存在！');
+          }
+          else if (result.error == '手机号已被使用') {
+            this.presentAlert('手机号已被使用!');
+          }
+          else if (result.data == '学号重复') {
+            this.presentAlert('该学号/工号已被使用!');
+          }
+          else {
+            this.presentAlert('注册失败!');
+          }
         }
       }).catch(async (error) => {
         this.presentAlert('未知错误！');

@@ -57,7 +57,7 @@
       </p>
     </ion-text>
 
-    <ion-input name="end_time" slot="start" placeholder="上课对象(2015级计算机类)" required maxlength="20"
+    <ion-input name="object" slot="start" placeholder="上课对象(2015级计算机类)" required maxlength="20"
       [(ngModel)]="signup.object" #object="ngModel" class="margintop fillet-boder"></ion-input>
     <ion-text class="ion-text-left" color="danger" *ngIf="(object.invalid && object.touched) || signup.submited">
       <p class="tips ion-padding-start" [hidden]="!object.errors?.required">
