@@ -198,7 +198,7 @@ INSERT INTO `Right` VALUES ('20', '删除课程', '删除课程', '6');
 DROP TABLE IF EXISTS `Role`;
 CREATE TABLE `Role` (
   `Roleid` bigint(20) NOT NULL AUTO_INCREMENT,
-  `Rolename` varchar(64) CHARACTER SET utf8mb4 NOT NULL ,
+  `Rolename` varchar(64) CHARACTER SET utf8mb4 NOT NULL COMMENT '教师、学生、管理员1 管理员2...',
   `Roledescribe` varchar(100) CHARACTER SET utf8mb4 NOT NULL,
   `Islock` tinyint(1) NOT NULL COMMENT '状态（禁用）0 禁用 1 可用',
   PRIMARY KEY (`Roleid`) USING BTREE,
@@ -319,7 +319,7 @@ CREATE TABLE `User` (
   `Loginname` varchar(255) CHARACTER SET utf8mb4 NOT NULL COMMENT '用户名登录使用',
   `tel` bigint(20) NOT NULL,
   `password` varchar(32) CHARACTER SET utf8mb4 NOT NULL,
-  `Roleid` tinyint(1) NOT NULL ,
+  `Roleid` tinyint(1) NOT NULL COMMENT '0 超级管理员 1 学生 2 教师 ',
   PRIMARY KEY (`Userid`) USING BTREE,
   KEY `code` (`Roleid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
@@ -328,7 +328,7 @@ CREATE TABLE `User` (
 -- Records of User
 -- ----------------------------
 INSERT INTO `User` VALUES ('1', 'admin', '15900000001','e10adc3949ba59abbe56e057f20f883e', '1');
-
+INSERT INTO `User` VALUES ('3', 'admin', '15900000001','e10adc3949ba59abbe56e057f20f883e', '1');
 
 
 DROP TABLE IF EXISTS `OPmenu`;
